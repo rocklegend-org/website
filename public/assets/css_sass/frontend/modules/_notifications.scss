@@ -1,0 +1,105 @@
+.notifications-container{
+	position: relative;
+	display: inline-block;
+	z-index: 1200;
+}
+
+.notification-box{
+	display: inline-block;
+	padding:3px 6px;
+	border:1px dotted #ddd;
+	//@include border-radius(6px);
+	font-size: 11px;
+	height: 34px;
+	position: relative;
+	top: -2px;
+
+	@include border-radius($radius);
+
+	@media only screen and(max-width: 640px){
+		height: 30px;
+		margin: 6px 0;
+	}
+}
+
+.notification-toggle{
+	@include rl-transition;
+
+	&:hover{
+		cursor: pointer;
+		color: $rl-green;
+	}
+}
+
+.notifications-list{
+	position: absolute;
+	display: none;
+
+	width: 300px;
+	max-height: 300px;
+
+	overflow-y: auto;
+
+	top: -9px;
+	left: 6px;
+
+	border:1px solid #aaa;
+
+	background-color: rgb(255,255,255);
+
+	text-align: left;
+
+	li{
+		font-size: 12px;
+
+		list-style:none;
+		padding: 5px 8px;
+
+		.left{
+			width: 60px;
+		}
+
+		.right{
+			width: 200px;
+		}
+
+		background-color: rgba(255,255,255,0.9);
+
+		&.active{
+			background-color: rgba(64,203,235,0.05);
+		}
+
+		@include rl-transition;
+
+		&:hover{
+			background-color: rgba(134,202,52,0.2);
+			cursor:pointer;
+		}
+
+		.meta{
+			font-size: 10px;
+			@include opacity(0.8);
+		}
+
+		a{
+			color: $rl-black;
+		}
+	}
+
+	li.title{
+		padding: 1px;
+		background-color: $rl-green;
+		color: #fff;
+		text-align: center;
+		&:hover{background-color: $rl-green}
+	}
+}
+
+/****/
+.notification{
+
+}
+
+.notification .message-received{
+
+}

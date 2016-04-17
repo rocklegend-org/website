@@ -1,0 +1,356 @@
+.discover-box{
+	position: relative;
+}
+
+.artist-box{
+	position: relative;
+	height: auto;
+	overflow: hidden;
+	padding-bottom: 1.666rem;
+
+	&:hover{
+		cursor: pointer;
+	}
+}
+
+	.artist-box .wrap{
+		position: relative;
+		width: 100%;
+	}
+
+	.artist-box .overlay{
+		@include full-size-absolute;
+
+		overflow: hidden;
+
+		background-color: rgba(134, 202, 52,0);
+		border: 0px solid #fff;
+
+		@include rl-transition(0.5s);
+		@include opacity(0);
+	}
+
+	.artist-box:hover .overlay,
+	.artist-box.active .overlay{
+		@include opacity(1);
+		border: 4px solid #fff;
+	}
+
+	.artist-box img{
+		@include rl-transition(0.5s);
+		@include opacity(1);
+	}
+
+	.artist-box:hover img{
+		@include opacity(0.87);
+	}
+
+	.artist-box.active img{
+		@include opacity(0.75);
+	}
+
+		.artist-name,
+		.song-name,
+		.social-buttons{
+			display: block;
+			
+			padding: 2px 12px;
+
+			position: absolute;
+			bottom: 0%; 
+			margin: 0 auto;
+			z-index: 10;
+
+			font-size: 11px;
+			text-align:center;
+			color: #ffffff;
+
+			background-color: rgba(44,44,44,0.8);
+
+			@include rl-transition;
+		}
+
+		.song-name,
+		.social-buttons{
+			right: 0;
+		}
+
+		.social-buttons{
+			text-align: right;
+			background-color: transparent;
+
+			iframe{
+				position: absolute;
+				right: 4px;
+			}
+
+			#___ytsubscribe_0{
+				position: absolute;
+				right: 7px;
+				@include opacity(0.8);
+			}
+
+			padding-bottom:10px;
+		}
+
+		.youtube-subscribe{
+			background-color: transparent;
+			@include opacity(0.8);			
+		}
+
+		.artist-box:hover .artist-name,
+		.artist-box.active .artist-name,
+		.artist-header .artist-name,
+		.discover-browser-data .artist-name,
+		.social-buttons{
+			bottom: 10%;
+			padding: 2px 14px;
+			font-size: 13px;
+			text-align: center;
+		}
+
+		.youtube-subscribe{
+			top: 10%;
+		}
+
+.artist-header{
+	position: relative;
+	overflow: hidden;
+}
+
+.artist-meta{
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.discover-browser-container{
+	min-height: 250px;
+}
+
+/* SONG LISTS */
+
+ul.song-list{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+ul.song-list > li{
+	margin-bottom: 6px;
+	height: auto;
+}
+
+ul.song-list > li > a{
+	display: block;
+	width: 100%;
+	padding: 2px 8px;
+	border-left: 3px solid $rl-green;
+	color: #2c2c2c;
+	@include rl-transition(0.5s);
+}
+
+ul.song-list.red > li > a{
+	border-left: 3px solid $rl-red;
+}
+
+ul.song-list.blue > li > a{
+	border-left: 3px solid $rl-blue;
+}
+
+ul.song-list.violet > li > a{
+	border-left: 3px solid $rl-violet;
+}
+
+ul.song-list > li > a:hover,
+ul.song-list > li.active > a{
+	border-left: 8px solid $rl-green;
+}
+
+ul.song-list.red > li > a:hover,
+ul.song-list.red > li.active > a{
+	border-left: 8px solid $rl-red;
+}
+
+ul.song-list.blue > li > a:hover,
+ul.song-list.blue > li.active > a{
+	border-left: 8px solid $rl-blue;
+}
+
+ul.song-list.violet > li > a:hover,
+ul.song-list.violet > li.active > a{
+	border-left: 8px solid $rl-violet;
+}
+
+ul.song-list ul.track-list{
+	display: none;
+	max-height: 0px;
+	list-style: none;
+	margin:0;
+	@include rl-transition(0.5s);
+	@include opacity(0);
+}
+
+ul.song-list > li.active ul.track-list{
+	display: block;
+	height: auto;
+	max-height:120px;
+	overflow-y: auto;
+	@include opacity(1);
+}
+
+ul.track-list li{
+	@include rl-transition(0.5s);
+	border-bottom: 1px dotted $rl-blue;
+	padding-bottom: 6px;
+	padding-top: 6px;
+}
+
+ul.track-list li .row{
+	width: 100%;
+}
+
+ul.track-list li.track:hover{
+	padding-left: 4px;
+	padding-right: 4px;
+	background-color: rgba(64, 203, 235, 0.2);
+	cursor: pointer;
+}
+
+ul.track-list.headline{
+	height: 24px !important;
+	overflow: hidden;
+}
+
+ul.track-list.headline li{
+	padding: 2px 4px;
+	background-color: $rl-green;
+	cursor: pointer;
+	color: #fff;
+}
+
+ul.song-list.red ul.track-list.headline li{
+	background-color: $rl-red;
+}
+
+ul.song-list.blue ul.track-list.headline li{
+	background-color: $rl-blue;
+}
+
+ul.song-list.violet ul.track-list.headline li{
+	background-color: $rl-violet;
+}
+
+ul.track-list.headline li .row{
+	height: 20px;
+}
+
+ul.track-list li .row{
+	height: 18px;
+}
+
+ul.track-list li a{
+	color: #2c2c2c;
+	padding: 0;
+	margin: 0;
+	font-weight: 400;
+}
+
+ul.track-list .track-name{
+	text-align: center;
+	margin-bottom: 4px;
+	font-weight: 500;
+}
+
+ul.track-list.headline .track-name{
+	font-weight: 400;
+}
+
+ul.track-list .score{
+	text-align: center;
+	font-size: 11px;
+}
+
+ul.track-list .score .small{
+	display: block;
+	font-size: 9px;
+	text-align:center;
+}
+
+ul.track-list .track-name .small{
+	font-weight: 400;
+	font-size: 9px;
+}
+
+/** ARTIST DATA **/
+.artist-data{
+	font-size: 13px;
+	font-weight: 300;
+}
+
+/**** NEW ***/
+
+.sort-by{
+	margin-top: 9px;
+}
+
+.sort-by a, 
+.sort-by label{
+	padding: 0 8px;
+	font-size: 11px;
+	margin-right: 0;
+}
+
+.sort-by label{
+	line-height: 24px;
+	color: #2c2c2c;
+	background-color: #fff;
+	font-weight: 800;
+
+	&:hover{
+		cursor: normal;
+	}
+}
+
+.artist-box-big{
+	margin-bottom: 25px;
+}
+
+.short-bio{
+	min-height: 60px;
+}
+
+.big-text{
+	font-size:18px;
+	font-weight: 200;
+
+	&.v-middle{
+		line-height: 12px;
+		font-size: 14px;
+	}
+
+	.song-title{
+		font-weight: 400;
+	}
+}
+
+.artist-box-big .song-title{
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.tracks{
+	a{
+		padding: 0px 8px;
+	}
+}
+
+/** ON HOME **/
+.home-tracks .song-title{
+	display: inline-block;
+	line-height: 12px;
+}
+
+.home-tracks .home-track-btn{
+	line-height: 12px;
+	width: 60px;
+}

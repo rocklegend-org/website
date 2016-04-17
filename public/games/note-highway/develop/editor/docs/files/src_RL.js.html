@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/RL.js - note-highway</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="note-highway"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.5.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/RL.Note.html">RL.Note</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/RL.AudioManager.html">RL.AudioManager</a></li>
+            
+                <li><a href="../modules/RL.HighwayManager.html">RL.HighwayManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.html">RL.InteractionManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.Editor.html">RL.InteractionManager.Editor</a></li>
+            
+                <li><a href="../modules/this.html">this</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/RL.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+var RL = {
+	States: {}, // holds the games states
+    sounds: {},
+
+	hittableNotes: [false,false,false,false,false,false],
+    pressedButtons: [false, false, false, false, false, false],
+    playAdded: false,
+
+    init: function()
+    {         
+
+        RL.editMode = RL.isEditMode();
+        RL.playerHeightOnePercent = RL.config.height/100;
+      
+        restart = false;
+        if(game != null){
+            game.destroy();
+            AudioManager.stop();
+            createjs.Sound.removeAllSounds();
+            RL.hittableNotes = [false,false,false,false,false,false];
+            RL.pressedButtons = [false,false,false,false,false,false];
+            $(&#x27;#main-canvas canvas&#x27;).remove();
+            $(&#x27;.counter-overlay .count&#x27;).hide().html(RL.config.countSeconds);
+            $(&#x27;.counter-overlay .info&#x27;).fadeIn();
+            game = null;
+            restart = true;
+        }
+
+        RL.config.pxPerMs = RL.config.pxPerSecond / 1000;
+        RL.negPxPerMs = -RL.config.pxPerMs;
+        RL.msOnScreen = RL.config.height / RL.config.pxPerMs;
+
+        EditorManager = new RL.EditorManager();
+        AudioManager = new RL.AudioManager();
+
+        HighwayManager = new RL.HighwayManager();
+        HighwayManager.aNotes = aNotes;
+
+        InteractionManager = new RL.InteractionManager();
+
+        if(RL.editMode){
+            EditorInteractionManager = new RL.InteractionManager.Editor();
+        }
+
+        ScoreManager = new RL.ScoreManager();
+
+        //
+        
+        var displayMode = Phaser.AUTO;
+
+        switch(RL.config.displayMode){
+            case &#x27;AUTO&#x27;:
+                displayMode = Phaser.AUTO;
+                break;
+            case &#x27;WEBGL&#x27;:
+                displayMode = Phaser.WEBGL;
+                break;
+            case &#x27;CANVAS&#x27;:
+                displayMode = Phaser.CANVAS;
+                break;
+        }
+
+         game = new Phaser.Game( 
+            this.config.width, 
+            this.config.height, 
+            displayMode, 
+            &#x27;main-canvas&#x27;,
+            null,
+            false, //transparent
+            true, //antialias
+            null
+        );
+
+        game.state.add(&#x27;Boot&#x27;, RL.States.Boot);
+        game.state.add(&#x27;Play&#x27;, RL.States.Play);
+        game.state.add(&#x27;Editor&#x27;, RL.States.Editor);
+
+        WebFontConfig = {
+            active: function() { game.time.events.add(Phaser.Timer.SECOND, RL.HighwayManager.createText, this); },
+            google: {
+                families: [&#x27;Roboto&#x27;]
+            }
+        };
+
+        game.state.start(&#x27;Boot&#x27;);
+    },
+
+	getPosXForLane: function(lane){
+		return RL.config.width / (RL.config.lanes+1) * lane;
+	},
+
+    getLaneForX: function(x, mouse){
+        for(var i = 0 ; i &lt;= RL.config.lanes; ++i){
+            var laneX= RL.config.width / (RL.config.lanes) * i - RL.config.buttonWidth/2;
+            var laneX = laneX + RL.config.noteWidth;
+            if(laneX &gt;= x){
+                return i;
+            }
+        }
+        return 6;
+    },
+
+    getTimeForY: function(y){
+        return (y - RL.config.noteHeightDifferenceToButton) / RL.negPxPerMs;
+    },
+
+    getPosXForLane: function(lane){
+        return RL.config.width / 6 * lane;
+    },
+
+    getXForLaneButton: function(lane){
+        return RL.config.width / 6 * lane - RL.config.noteWidth/2;
+    },
+
+    getYForTime: function(time){
+        return time * RL.negPxPerMs + RL.config.noteHeightDifferenceToButton;
+    },
+
+    getSpriteForLane: function(lane){
+        return game.cache.getImage(&#x27;note_lane&#x27;+lane);
+    },
+
+    addPlay: function()
+    {
+        $.post(&#x27;/play/add/&#x27;+track_id);
+    },
+
+/************
+
+*************/
+
+	sortNotesArray: function(){
+		for(var i = 1; i &lt; aNotes.length; i++){
+	        lane = aNotes[i];
+	        
+	        for(var n = 0; n &lt; lane.length; n++){
+	            lane[n].ms = lane[n].ms;
+	        }
+
+	        lane.sort(RL.dynamicSort(&quot;ms&quot;));
+	    }
+	},
+
+	keyCodeToIndex: function(keyCode){
+		var index = 0;
+
+        switch(keyCode){
+            case RL.config.buttonKeys[0]:
+                index = 0;
+                break;
+            case RL.config.buttonKeys[1]:
+                index = 1;
+                break;
+            case RL.config.buttonKeys[2]:
+                index = 2;
+                break;
+            case RL.config.buttonKeys[3]:
+                index = 3;
+                break;
+            case RL.config.buttonKeys[4]:
+                index = 4;
+                break;
+            case RL.config.buttonKeys[5]:
+                index = 5;
+                break;
+            case RL.config.buttonKeys[6]:
+                index = 6;
+                break;
+            default:
+                index = -1;
+                break;
+        }
+
+        return index;
+	},
+
+    isEditMode: function()
+    {
+        return (typeof(edit_mode) != &#x27;undefined&#x27; &amp;&amp; edit_mode) ? true : false;
+    },
+    dynamicSort: function(property) {
+        var sortOrder = 1;
+        if(property[0] === &quot;-&quot;) {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            var result = (a[property] &lt; b[property]) ? -1 : (a[property] &gt; b[property]) ? 1 : 0;
+            return result * sortOrder;
+        }
+    },
+
+    str_pad: function(input, pad_length, pad_string, pad_type){
+        var half = &#x27;&#x27;,
+            pad_to_go;
+
+        var str_pad_repeater = function (s, len) {
+            var collect = &#x27;&#x27;,
+                i;
+
+            while (collect.length &lt; len) {
+                collect += s;
+            }
+            collect = collect.substr(0, len);
+
+            return collect;
+        };
+
+        input += &#x27;&#x27;;
+        pad_string = pad_string !== undefined ? pad_string : &#x27; &#x27;;
+
+        if (pad_type !== &#x27;STR_PAD_LEFT&#x27; &amp;&amp; pad_type !== &#x27;STR_PAD_RIGHT&#x27; &amp;&amp; pad_type !== &#x27;STR_PAD_BOTH&#x27;) {
+            pad_type = &#x27;STR_PAD_RIGHT&#x27;;
+        }
+        if ((pad_to_go = pad_length - input.length) &gt; 0) {
+            if (pad_type === &#x27;STR_PAD_LEFT&#x27;) {
+                input = str_pad_repeater(pad_string, pad_to_go) + input;
+            } else if (pad_type === &#x27;STR_PAD_RIGHT&#x27;) {
+                input = input + str_pad_repeater(pad_string, pad_to_go);
+            } else if (pad_type === &#x27;STR_PAD_BOTH&#x27;) {
+                half = str_pad_repeater(pad_string, Math.ceil(pad_to_go / 2));
+                input = half + input + half;
+                input = input.substr(0, pad_length);
+            }
+        }
+
+        return input;
+    }
+/************
+
+************/
+};
+
+Array.prototype.AllValuesSame = function(){
+
+    if(this.length &gt; 0) {
+        for(var i = 1; i &lt; this.length; i++)
+        {
+            if(this[i] !== this[0])
+                return false;
+        }
+    } 
+    return true;
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

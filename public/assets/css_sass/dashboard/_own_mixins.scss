@@ -1,0 +1,15 @@
+@mixin no-shadow{
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+}
+
+@mixin black-shadow{
+	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;	
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;	
+    -ms-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;	
+    -o-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;	
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.50) inset;	
+}

@@ -1,0 +1,566 @@
+{
+    "project": {
+        "name": "note-highway",
+        "description": "the official rocklegend track player.",
+        "version": "0.5.1",
+        "url": ""
+    },
+    "files": {
+        "src/managers/RL.AudioManager.js": {
+            "name": "src/managers/RL.AudioManager.js",
+            "modules": {
+                "RL.AudioManager": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/managers/RL.EditorManager.js": {
+            "name": "src/managers/RL.EditorManager.js",
+            "modules": {
+                "this": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/managers/RL.HighwayManager.js": {
+            "name": "src/managers/RL.HighwayManager.js",
+            "modules": {
+                "RL.HighwayManager": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/managers/RL.InteractionManager.Editor.js": {
+            "name": "src/managers/RL.InteractionManager.Editor.js",
+            "modules": {
+                "RL.InteractionManager.Editor": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/managers/RL.InteractionManager.js": {
+            "name": "src/managers/RL.InteractionManager.js",
+            "modules": {
+                "RL.InteractionManager": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/objects/RL.Note.js": {
+            "name": "src/objects/RL.Note.js",
+            "modules": {},
+            "classes": {
+                "RL.Note": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/states/RL.States.Boot.js": {
+            "name": "src/states/RL.States.Boot.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/states/RL.States.Editor.js": {
+            "name": "src/states/RL.States.Editor.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/RL.js": {
+            "name": "src/RL.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/main.js": {
+            "name": "src/main.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "RL.AudioManager": {
+            "name": "RL.AudioManager",
+            "submodules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/managers/RL.AudioManager.js",
+            "line": 1,
+            "description": "This manages audio stuff.\nIt's to be used as a wrapper for any sound framework that might be used"
+        },
+        "this": {
+            "name": "this",
+            "submodules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 1,
+            "description": "This contains all needed functions\nfor the Rocklegend Track Editor"
+        },
+        "RL.HighwayManager": {
+            "name": "RL.HighwayManager",
+            "submodules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/managers/RL.HighwayManager.js",
+            "line": 1,
+            "description": "The HighwayManager is responsible for drawing stuff on the canvas\nIt also contains methods for hit detection"
+        },
+        "RL.InteractionManager.Editor": {
+            "name": "RL.InteractionManager.Editor",
+            "submodules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/managers/RL.InteractionManager.Editor.js",
+            "line": 1,
+            "description": "Interaction manager for editor functions"
+        },
+        "RL.InteractionManager": {
+            "name": "RL.InteractionManager",
+            "submodules": {},
+            "classes": {
+                "RL.Note": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/objects/RL.Note.js",
+            "line": 1,
+            "description": "Interaction manager for general rocklegend functions"
+        }
+    },
+    "classes": {
+        "RL.Note": {
+            "name": "RL.Note",
+            "shortname": "RL.Note",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "RL.InteractionManager",
+            "namespace": "",
+            "file": "src/objects/RL.Note.js",
+            "line": 1,
+            "description": "Represents a note object\nContains all data for the note, e.g. time, duration, lane etc.",
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 202,
+            "description": "addTap(lane, time)\nThis function gets called when editor is active and trackTaps is activated.\nIt adds an Note Object (see note.js) to the aNotes array with the current time",
+            "itemtype": "method",
+            "name": "addTap",
+            "params": [
+                {
+                    "name": "lane",
+                    "description": "The line on which the note should be added",
+                    "type": "Int"
+                },
+                {
+                    "name": "time",
+                    "description": "The current time",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Returns the generated note",
+                "type": "RL.Note"
+            },
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 276,
+            "description": "Handles the keyUp event for the this.",
+            "itemtype": "method",
+            "name": "finishTap",
+            "params": [
+                {
+                    "name": "lane",
+                    "description": "The lane",
+                    "type": "Int"
+                },
+                {
+                    "name": "duration",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "time",
+                    "description": "",
+                    "type": "Int"
+                }
+            ],
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 295,
+            "description": "Handles note selection.\n\nClicking on notes makes them selected.\nMultiselection by pressing shift key is possible",
+            "itemtype": "method",
+            "name": "onNoteDown",
+            "params": [
+                {
+                    "name": "note",
+                    "description": "The clicked note",
+                    "type": "RL.Note"
+                },
+                {
+                    "name": "e",
+                    "description": "The event object",
+                    "type": "Event"
+                }
+            ],
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 310,
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 317,
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 322,
+            "description": "otherwise, we remove it from the selected notes array \n\nwe don't want to reset everything because this way it's possible\nto easily correct a multi-selection",
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 350,
+            "description": "Resets the this.aSelectedNotes array to start a new selection",
+            "itemtype": "method",
+            "name": "resetSelectedNotes",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "The event object",
+                    "type": "Event"
+                }
+            ],
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 375,
+            "description": "This function resets this.selectedNote to false\nNeeded for dragging of notecontainer, so we know that the user has not currently\nselected a note für die mouseDown event",
+            "itemtype": "method",
+            "name": "onNoteUp",
+            "params": [
+                {
+                    "name": "note",
+                    "description": "The note",
+                    "type": "RL.Note"
+                },
+                {
+                    "name": "e",
+                    "description": "The event object",
+                    "type": "Event"
+                }
+            ],
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 408,
+            "description": "Updates the information shown next to the player about\nthe currently selected notes",
+            "itemtype": "method",
+            "name": "updateNoteInfo",
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 546,
+            "description": "Deletes notes from this.aSelectedNotes array from the aNotes array\nand calls their burst methods\n\nSorts aNotes array after each note deletion to ensure noteIndex data is correct\n\nTriggers this.resetSelectedNotes afterwards to start a new selection",
+            "itemtype": "method",
+            "name": "deleteNotes",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "The event object",
+                    "type": "Event"
+                }
+            ],
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 564,
+            "description": "so we can put another note here again",
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 586,
+            "description": "Sets the current frame of the dragged note to 1",
+            "itemtype": "method",
+            "name": "onNoteDragStart",
+            "params": [
+                {
+                    "name": "The",
+                    "description": "note",
+                    "type": "RL.Note"
+                },
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Event"
+                }
+            ],
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 605,
+            "description": "Updates the dragged note according to its new position",
+            "itemtype": "method",
+            "name": "onNoteDragStop",
+            "params": [
+                {
+                    "name": "note",
+                    "description": "",
+                    "type": "RL.Note"
+                },
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Event"
+                }
+            ],
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.EditorManager.js",
+            "line": 646,
+            "class": "RL.Note",
+            "module": "this"
+        },
+        {
+            "file": "src/managers/RL.HighwayManager.js",
+            "line": 244,
+            "description": "This function starts hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
+            "class": "RL.Note",
+            "module": "RL.HighwayManager"
+        },
+        {
+            "file": "src/managers/RL.HighwayManager.js",
+            "line": 292,
+            "description": "This function continues hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
+            "class": "RL.Note",
+            "module": "RL.HighwayManager"
+        },
+        {
+            "file": "src/managers/RL.HighwayManager.js",
+            "line": 323,
+            "description": "This function ends hit detection\n\n(int) lane - The string where hitdetection ends\nreturns (boolean) true|false",
+            "class": "RL.Note",
+            "module": "RL.HighwayManager"
+        },
+        {
+            "file": "src/managers/RL.InteractionManager.Editor.js",
+            "line": 142,
+            "class": "RL.Note",
+            "module": "RL.InteractionManager.Editor"
+        },
+        {
+            "file": "src/managers/RL.InteractionManager.js",
+            "line": 52,
+            "description": "function touchDownHandler(button, e){\n    RL.HighwayManager.aButtons[button.lane-1].frame = 1;\n\n    if(typeof(edit_mode) != 'undefined' && edit_mode && RL.config.trackTaps){\n    \tRL.managers.EditorManager.addTap(button.lane-1, RL.AudioManager.getPosition());\n    }else{\n    \tnoteControl.startHitDetection(button.lane-1, RL.AudioManager.getPosition());\n    }\n}\n\nfunction touchUpHandler(button, e){\n    RL.HighwayManager.aButtons[button.lane-1].frame = 0;\n\n    if(typeof(edit_mode) != 'undefined' && edit_mode && RL.config.trackTaps && e.timeUp - e.timeDown >= RL.config.longNoteThreshold){\n    \tRL.managers.EditorManager.finishTap(button.lane-1, e.timeUp-e.timeDown);\n    }\n}",
+            "class": "RL.Note",
+            "module": "RL.InteractionManager.Editor"
+        },
+        {
+            "file": "src/objects/RL.Note.js",
+            "line": 149,
+            "class": "RL.Note",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/objects/RL.Note.js",
+            "line": 176,
+            "description": "getTimeForY(y)\n\n(int) y = the y position in pixels",
+            "return": {
+                "description": "(float) time = the time in ms"
+            },
+            "class": "RL.Note",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/objects/RL.Note.js",
+            "line": 205,
+            "description": "getLaneForX(y)\n\n(int) x = the x position in pixels",
+            "return": {
+                "description": "(int) lane = the lane number"
+            },
+            "class": "RL.Note",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/states/RL.States.Boot.js",
+            "line": 1,
+            "description": "Defines the Boot State (initial state) of rocklegends play\nThis state loads the assets and then switches to the Run state",
+            "class": "",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/states/RL.States.Editor.js",
+            "line": 1,
+            "description": "Defines the Boot State (initial state) of rocklegends play\nThis state loads the assets and then switches to the Run state",
+            "class": "",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/states/RL.States.Editor.js",
+            "line": 17,
+            "description": "Creates the basic canvas for the note highway\ntriggers function calls for drawing the grid\ndrawing the hit buttons\ndrawing the note container\nand initializing the interaction handler\n\nit also starts the song and adds emitters and squeak sounds",
+            "author": "pne",
+            "class": "",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/states/RL.States.Editor.js",
+            "line": 146,
+            "class": "",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/RL.js",
+            "line": 128,
+            "class": "",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/RL.js",
+            "line": 229,
+            "class": "",
+            "module": "RL.InteractionManager"
+        },
+        {
+            "file": "src/main.js",
+            "line": 7,
+            "class": "",
+            "module": "RL.InteractionManager"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " src/managers/RL.EditorManager.js:310"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/managers/RL.EditorManager.js:317"
+        },
+        {
+            "message": "Missing item type\notherwise, we remove it from the selected notes array \n\nwe don't want to reset everything because this way it's possible\nto easily correct a multi-selection",
+            "line": " src/managers/RL.EditorManager.js:322"
+        },
+        {
+            "message": "Missing item type\nso we can put another note here again",
+            "line": " src/managers/RL.EditorManager.js:564"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/managers/RL.EditorManager.js:646"
+        },
+        {
+            "message": "Missing item type\nThis function starts hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
+            "line": " src/managers/RL.HighwayManager.js:244"
+        },
+        {
+            "message": "Missing item type\nThis function continues hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
+            "line": " src/managers/RL.HighwayManager.js:292"
+        },
+        {
+            "message": "Missing item type\nThis function ends hit detection\n\n(int) lane - The string where hitdetection ends\nreturns (boolean) true|false",
+            "line": " src/managers/RL.HighwayManager.js:323"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/managers/RL.InteractionManager.Editor.js:142"
+        },
+        {
+            "message": "Missing item type\nfunction touchDownHandler(button, e){\n    RL.HighwayManager.aButtons[button.lane-1].frame = 1;\n\n    if(typeof(edit_mode) != 'undefined' && edit_mode && RL.config.trackTaps){\n    \tRL.managers.EditorManager.addTap(button.lane-1, RL.AudioManager.getPosition());\n    }else{\n    \tnoteControl.startHitDetection(button.lane-1, RL.AudioManager.getPosition());\n    }\n}\n\nfunction touchUpHandler(button, e){\n    RL.HighwayManager.aButtons[button.lane-1].frame = 0;\n\n    if(typeof(edit_mode) != 'undefined' && edit_mode && RL.config.trackTaps && e.timeUp - e.timeDown >= RL.config.longNoteThreshold){\n    \tRL.managers.EditorManager.finishTap(button.lane-1, e.timeUp-e.timeDown);\n    }\n}",
+            "line": " src/managers/RL.InteractionManager.js:52"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/objects/RL.Note.js:149"
+        },
+        {
+            "message": "Missing item type\ngetTimeForY(y)\n\n(int) y = the y position in pixels",
+            "line": " src/objects/RL.Note.js:176"
+        },
+        {
+            "message": "Missing item type\ngetLaneForX(y)\n\n(int) x = the x position in pixels",
+            "line": " src/objects/RL.Note.js:205"
+        },
+        {
+            "message": "Missing item type\nDefines the Boot State (initial state) of rocklegends play\nThis state loads the assets and then switches to the Run state",
+            "line": " src/states/RL.States.Boot.js:1"
+        },
+        {
+            "message": "Missing item type\nDefines the Boot State (initial state) of rocklegends play\nThis state loads the assets and then switches to the Run state",
+            "line": " src/states/RL.States.Editor.js:1"
+        },
+        {
+            "message": "Missing item type\nCreates the basic canvas for the note highway\ntriggers function calls for drawing the grid\ndrawing the hit buttons\ndrawing the note container\nand initializing the interaction handler\n\nit also starts the song and adds emitters and squeak sounds",
+            "line": " src/states/RL.States.Editor.js:17"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/states/RL.States.Editor.js:146"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/RL.js:128"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/RL.js:229"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/main.js:7"
+        }
+    ]
+}

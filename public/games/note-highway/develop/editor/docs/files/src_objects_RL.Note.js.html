@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/objects/RL.Note.js - note-highway</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="note-highway"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.5.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/RL.Note.html">RL.Note</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/RL.AudioManager.html">RL.AudioManager</a></li>
+            
+                <li><a href="../modules/RL.HighwayManager.html">RL.HighwayManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.html">RL.InteractionManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.Editor.html">RL.InteractionManager.Editor</a></li>
+            
+                <li><a href="../modules/this.html">this</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/objects/RL.Note.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Represents a note object
+* Contains all data for the note, e.g. time, duration, lane etc.
+*
+* @class RL.Note
+* @constructor
+*/
+
+RL.Note = function(game, opts){
+	this.className = &#x27;RL.Note&#x27;;
+ 	this.game = game;
+
+ 	if(typeof(opts.y) == &#x27;undefined&#x27; || opts.y == null){
+ 		var y = RL.getYForTime(opts.time);
+ 	}else{
+ 		var y = opts.y;
+ 	}	
+
+	var x = RL.getXForLaneButton(opts.lane);
+	var lane = opts.lane;
+	var time = opts.time;
+	var duration = opts.duration;
+	var frame = opts.hopo ? 2 : 0;
+	var self = this;
+
+	var cb = typeof(opts.cb) != &#x27;undefined&#x27; ? opts.cb:false;
+	var hitcb = typeof(opts.hitcb) != &#x27;undefined&#x27; ? opts.hitcb:false;
+
+	Phaser.Sprite.call(this, this.game, x, y, &#x27;spritesheet&#x27;, 0);
+
+	this.showRect = typeof(opts.showRect) !== &#x27;undefined&#x27; ? opts.showRect : false;
+	this.hopo = typeof(opts.hopo) != &#x27;undefined&#x27; ? opts.hopo : false;
+	this.hit = false;
+	this.lane = lane;
+	this.time = parseFloat(time);
+	this.removed = false;
+	this.originalTime = parseFloat(time);
+	this.duration = typeof(duration) != &#x27;undefined&#x27; ? parseFloat(duration) : 0;
+	this.originalDuration = parseFloat(this.duration);
+	this.endTime = this.time + this.duration;
+
+	this.cb_fired = false;
+	this.hitcb_fired = false;
+	this.cb = cb;
+	this.hitcb = hitcb;
+
+	this.maxHitY = RL.config.buttonY+RL.config.buttonHeight;
+	this.minHitY = RL.config.buttonY-RL.config.noteHeight/1.5;
+	this.shortMaxHitY = this.maxHitY;
+
+	if(this.duration &gt;= RL.config.longNoteThreshold){
+		this.drawRect(this.showRect);
+	}
+
+	this.exists = false;
+
+	this.setDefaultTexture();
+
+	this.game.add.existing(this);
+}
+
+RL.Note.prototype = Object.create(Phaser.Sprite.prototype);
+RL.Note.prototype.constructor = RL.Note;
+
+RL.Note.prototype.create = function(){}
+
+RL.Note.prototype.drawRect = function(shorter){
+	if(typeof shorter === &#x27;undefined&#x27;) shorter = false;
+
+	var rectangleHeight = this.duration/1000 * RL.config.pxPerSecond + RL.config.noteHeight/2;
+
+	rectangleY =  this.y - rectangleHeight + RL.config.noteHeight/2;
+
+	if(typeof(this.rect) === &#x27;undefined&#x27;)
+	{
+		var rectangle = game.add.image(RL.getPosXForLane(this.lane) - 11,rectangleY,&#x27;spritesheet&#x27;,29+this.lane);
+
+		rectangle.scale.setTo(1, rectangleHeight/30); // divide through rect height
+
+		if(shorter === false)
+		{
+			rectangle.exists = false;
+			rectangle.alpha = 0.5;
+		}
+
+		noteContainer.add(rectangle);
+		noteContainer.sendToBack(rectangle);
+
+		this.rect = rectangle;
+	}
+	else
+	{
+		if(shorter)
+		{
+			this.rect.alpha = 1;
+			this.rect.scale.setTo(1, rectangleHeight/30);
+		}
+	}
+
+	this.rectHeight = rectangleHeight;
+	this.maxHitY = RL.config.buttonY+RL.config.noteHeight+10+rectangleHeight;
+	this.killMaxY = this.maxHitY + 50;
+}
+
+RL.Note.prototype.update = function(){
+	if(this.time &gt; AudioManager.currentTime + RL.msOnScreen || 
+		this.time &lt; AudioManager.currentTime - this.duration - 250 ||
+		!this.alive){
+		this.exists = false;
+
+		if(typeof this.rect !== &#x27;undefined&#x27;)
+		{
+			this.rect.exists = false;
+		}		
+	}else{
+		this.exists = true;
+
+		if(typeof this.rect !== &#x27;undefined&#x27;)
+		{
+			this.rect.exists = true;
+		}
+	}
+
+	if(this.input != null &amp;&amp; this.input.isDragged){
+		var pointerDiff = game.input.activePointer.y;
+
+		this.input.updateDrag(game.input.activePointer);
+
+		lane = this.setLaneForX(this.x) - 1;
+
+		time = RL.getTimeForY(this.y);
+
+		// if advanced editor is active and grid snapping is activated 
+		// the notes y position should snap to the grid
+		if(	EditorManager.beatsInitialized &amp;&amp;
+			EditorManager.grid_snap)
+		{
+			snap = EditorManager.secondsPerNote*1000;
+
+			time = time.roundTo(snap);
+		}
+
+		this.isSelected = true;
+		this.setDefaultTexture();
+
+		this.time = time;
+		this.y = RL.getYForTime(time);
+
+		/** MOVE CORRESPONDING SUSTAINED RECTANGLE! **/
+		if(typeof this.rect !== &#x27;undefined&#x27;){
+			this.rect.destroy();
+			this.rect = undefined;
+			this.drawRect(true);
+		}
+	}
+}
+
+RL.Note.prototype.kill = function(force){
+	force = typeof(force) != &#x27;undefined&#x27; ? force : false;
+
+	RL.hittableNotes[this.lane] = false;
+
+	if(force){
+		if(force &amp;&amp; typeof this.rect !== &#x27;undefined&#x27;) this.rect.destroy(true);
+	}
+
+	noteContainer.remove(this, true, true);
+}
+
+RL.Note.prototype.updateY = function(){
+	this.y = RL.getYForTime(this.time);
+	
+	if(typeof this.rect != &#x27;undefined&#x27;) this.drawRect();
+}
+
+/**
+ * getTimeForY(y)
+ *
+ * (int) y = the y position in pixels
+ *
+ * @return (float) time = the time in ms
+ */
+RL.Note.prototype.updateTime = function(){
+	var time = RL.getTimeForY(this.y);
+	this.time = time;
+	return time;
+}
+
+RL.Note.prototype.updateDuration = function(duration){
+	this.duration = parseFloat(duration);
+	this.originalDuration = this.duration;
+	this.endTime = this.time + this.duration;
+
+	this.maxHitY = RL.config.buttonY+RL.config.noteHeight;
+	this.minHitY = RL.config.buttonY-RL.config.noteHeight+20;
+	this.shortMaxHitY = this.maxHitY;
+
+	if(this.duration &gt;= RL.config.longNoteThreshold){
+		this.drawRect();
+	}else if(typeof this.rect != &#x27;undefined&#x27;){
+		this.rect.destroy();
+	}
+}
+
+/**
+ * getLaneForX(y)
+ *
+ * (int) x = the x position in pixels
+ *
+ * @return (int) lane = the lane number
+ */
+RL.Note.prototype.setLaneForX = function(x, mouse){
+   	if(typeof(mouse) == &#x27;undefined&#x27;) mouse = false;
+	//x += RL.config.noteWidth / 2;
+	for(var i = 0 ; i &lt;= RL.config.lanes; ++i){
+		var laneX= RL.config.width / (RL.config.lanes) * i - RL.config.buttonWidth/2;
+		if(!mouse){
+			if(laneX &gt;= x){
+				this.lane = i;
+				return i;
+			}
+		}else{
+			var laneX = laneX + RL.config.noteWidth;
+			if(laneX &gt;= x){
+				this.lane = i;
+				return i;
+			}
+		}
+	}
+
+	this.lane = 5;
+
+	return 6;
+}
+
+RL.Note.prototype.updateLane = function(lane){
+	for(var l = 0; l &lt; HighwayManager.aNotes.length; l++){
+		laneNotes = HighwayManager.aNotes[l];
+		for(var n = 0; n &lt; laneNotes.length; n++){
+			if(laneNotes[n] == this){
+				laneNotes.splice(n,1);
+			}
+		}
+	}
+
+	this.x = RL.getXForLaneButton(lane);
+	this.lane = lane;
+	this.loadTexture(&#x27;spritesheet&#x27;,5*this.lane-3);
+
+	if(typeof(this.rect) !== &#x27;undefined&#x27;){
+		this.drawRect();
+	}
+	HighwayManager.aNotes[this.lane].push(this);
+
+	return this;
+}
+
+RL.Note.prototype.setHOPO = function(on){
+	this.hopo = on ? true : false;
+
+	this.setDefaultTexture();
+}
+
+RL.Note.prototype.setDefaultTexture = function(){
+	if(!this.isSelected){
+		if(this.hopo){
+			this.loadTexture(&#x27;spritesheet&#x27;,5*this.lane-1);
+		}else{
+			this.loadTexture(&#x27;spritesheet&#x27;,5*this.lane-3);
+		}
+	}else{
+		this.loadTexture(&#x27;spritesheet&#x27;,5*this.lane-2);
+	}
+}
+
+RL.Note.prototype.initEditorFunctions = function(){
+	this.isSelected = false;
+	this.ticked = false;
+	
+	this.inputEnabled = true;
+	this.input.enabled = true;
+	this.input.enableDrag(	
+		false, 
+		true, 
+		true, 
+		255, 
+		0, 
+		new Phaser.Rectangle(
+			RL.config.noteWidth/2,
+			-900719925474,
+			RL.config.width-RL.config.noteWidth,
+			900719925474
+		)
+	);
+
+	this.input.useHandCursor = true;
+    this.input.allowHorizontalDrag = true;
+
+    this.input.enableSnap(	
+    	RL.config.width / (RL.config.lanes+1), 
+		0.1, 
+		true, 
+		false, 
+		-RL.config.noteHeight/2, 
+		0
+    );
+
+    this.input.pixelPerfectAlpha = 1;
+
+    game.physics.enable(this, Phaser.Physics.ARCADE);
+
+    this.events.onInputDown.add( EditorManager.onNoteDown );
+    this.events.onInputUp.add( EditorManager.onNoteUp );
+
+    this.events.onDragStart.add(EditorManager.onNoteDragStart);
+    this.events.onDragStop.add(EditorManager.onNoteDragStop);
+    this.onHold = EditorManager.onDragging;
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/states/RL.States.Boot.js - note-highway</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="note-highway"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.5.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/RL.Note.html">RL.Note</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/RL.AudioManager.html">RL.AudioManager</a></li>
+            
+                <li><a href="../modules/RL.HighwayManager.html">RL.HighwayManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.html">RL.InteractionManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.Editor.html">RL.InteractionManager.Editor</a></li>
+            
+                <li><a href="../modules/this.html">this</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/states/RL.States.Boot.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+* Defines the Boot State (initial state) of rocklegends play
+* This state loads the assets and then switches to the Run state
+*/
+RL.States.Boot = {
+    soundsToLoad: 1, // the amount of sounds loaded by soundjs
+    soundsLoaded: 0, // holds the current amount of loaded sounds by soundjs
+
+    preload: function()
+    {
+        HighwayManager.showLoadingScreen();
+
+        game.load.crossOrigin = &#x27;anonymous&#x27;;
+        game.load.baseURL = ASSETS_BASE_URL;
+
+        game.load.atlasJSONHash(&#x27;spritesheet&#x27;, &#x27;/assets/images/game/spritesheet-player.png?t=&#x27;+(new Date()).getTime(), &#x27;/assets/images/game/spritesheet-hash.json?t=&#x27;+(new Date()).getTime());
+
+        game.load.audio(&#x27;squeak&#x27;, [&#x27;/assets/sounds/game/squeak1.mp3&#x27;, &#x27;/assets/sounds/game/squeak1.ogg&#x27;]);
+        game.load.audio(&#x27;tick&#x27;, [&#x27;/assets/sounds/game/tick.mp3&#x27;, &#x27;/assets/sounds/game/tick.ogg&#x27;]);
+        
+        game.load.script(&#x27;webfont&#x27;, &#x27;/assets/js/plugins/webfont.js&#x27;);
+
+        createjs.Sound.registerPlugins([createjs.HTMLAudioPlugin, createjs.WebAudioPlugin, createjs.FlashPlugin]);
+        createjs.Sound.registerSound(game.load.baseURL+soundFiles[0], &quot;music&quot;);
+        createjs.Sound.addEventListener(&quot;fileload&quot;, createjs.proxy(this.loadedSound, this));
+    },
+
+    // this function waits for the createjs sounds to be loaded and then switches to the next state
+    update: function()
+    {
+        if(this.soundsToLoad &lt;= this.soundsLoaded)
+        {
+            $(&#x27;#main-canvas canvas&#x27;).css(&#x27;visibility&#x27;, &#x27;visible&#x27;);
+            
+            if(typeof(RL.music) == &#x27;undefined&#x27;){
+                RL.music = createjs.Sound.createInstance(&#x27;music&#x27;);
+            }else{
+                AudioManager.stop();
+            }
+            
+            RL.music.addEventListener(&quot;complete&quot;, createjs.proxy(ScoreManager.ended, this));
+
+            RL.sounds.squeaks = [game.add.sound(&#x27;squeak1&#x27;)];
+
+            $(document).on(&quot;keydown&quot;, function (e) {
+              {
+                if(e.which == 32 &amp;&amp; !$(&#x27;input,textarea&#x27;).is(&#x27;:focus&#x27;)){ e.preventDefault(); }
+              }
+            });
+
+            RL.sounds.ticks = [ false, game.add.sound(&#x27;tick&#x27;), game.add.sound(&#x27;tick&#x27;), game.add.sound(&#x27;tick&#x27;), game.add.sound(&#x27;tick&#x27;), game.add.sound(&#x27;tick&#x27;) ];
+            
+            game.state.start(&quot;Editor&quot;);
+        }
+    },
+
+    /* soundjs loadcheck*/
+    loadedSound: function()
+    {
+        this.soundsLoaded ++;
+    }
+}
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

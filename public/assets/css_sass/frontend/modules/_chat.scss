@@ -1,0 +1,130 @@
+$chat-height: 250px;
+$chat-width: 450px;
+$chat-padding-top: 10px;
+$chat-padding-sides: 0px;
+$chat-handle-height: 24px;
+$chat-toolbar-height: 45px;
+
+.realtime-chat-container{
+	overflow: hidden;
+
+	position: fixed;
+	bottom: - $chat-height - 25 + $chat-handle-height + $chat-toolbar-height;
+	right: 0;
+	z-index: $level-z7;
+
+	width: 200px;
+	height: $chat-height+$chat-handle-height - $chat-toolbar-height;
+
+	background-color: rgba(255,255,255,0.85);
+
+	padding: $chat-padding-top $chat-padding-sides;
+
+	@include rl-transition;
+
+	&.active{	
+		bottom: 0;
+		width: $chat-width;
+	}
+}
+
+.realtime-chat-container .handle{
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: $chat-handle-height;
+
+	line-height: $chat-handle-height;
+
+	background-color: $rl-green;
+
+	@include opacity(0.75);
+	@include rl-transition;
+	
+	color: #fff;
+	text-align:center;
+
+	&:hover{
+		cursor: pointer;
+		@include opacity(0.9);
+	}
+
+	.unread-container{
+		display: none;
+		padding: 0 8px;
+		background-color: $rl-black;
+
+		&.show{
+			display: block;
+		}
+	}
+
+	.close{
+		display: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		width: $chat-handle-height;
+		height: $chat-handle-height;
+
+		background-color: $rl-red;
+		@include rl-transition;
+
+		&:hover{
+			cursor:pointer;
+			@include opacity(0.8);
+		}
+	}
+}
+
+.realtime-chat-container .messages{
+	overflow: auto;
+
+	position: absolute;
+
+	padding: 5px;
+
+	height: $chat-height - $chat-toolbar-height - $chat-handle-height - ($chat-padding-top*2) - 5px;
+	bottom: $chat-toolbar-height+5px;
+
+	@include rl-transition;
+
+	img.profile{
+		width: 15px; 
+		height: 15px;
+	}
+
+	.message{
+		margin-bottom:5px;
+		font-weight: 300;
+		font-size: 12px;
+		line-height: 18px;
+
+		p{
+			display: inline;
+			margin: 0;
+		}
+	}
+}
+
+.realtime-chat-container .toolbar{
+	position: absolute;
+	bottom: 0;
+	width: 90%;
+	height: $chat-toolbar-height;
+
+	input[type="text"]{
+		width:240px;
+		float:left;
+	
+		margin-right: 5px;
+	}
+
+	input[type="submit"]{
+		height: 33px;
+		margin: 0;
+	}
+}

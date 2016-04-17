@@ -1,0 +1,136 @@
+.track-info-box
+{
+	position: relative;
+	margin-bottom: 10px !important;
+	border-left: 0px solid $rl-green;
+	color: #2c2c2c;
+
+	&.last{
+		margin-bottom: 0 !important; 		
+	}
+
+	&:hover{
+		cursor: pointer;
+
+		& .data{
+			background-color: rgba(0,0,0,0.7);
+			color: #fff;
+		}
+	}
+}
+
+.track-info-box	.artwork
+{
+	padding-right: 0;
+	padding-left: 0;
+	position: absolute;
+	z-index: 20;
+	width: 100%;
+}
+
+.track-info-box .data{
+	position: relative;
+	width: 101%;
+	z-index: 20;
+
+	line-height: 20px;
+	font-size: 12px;
+	font-weight: 400;
+
+	padding: 10px;
+
+	background-color: rgba(255,255,255,0.93);
+	color: $rl-black;
+
+	@include rl-transition;
+}
+
+.track-info-box .data .title{
+	font-weight: 600;
+	font-size: 13px;
+
+	padding-left: 7px;
+}
+
+.track-info-box .data .rank{
+	color: $rl-red;
+}
+
+.track-info-box .data .points{
+	font-weight: 800;
+	color: $rl-green;
+	float:right;
+}
+
+.track-info-box .data .artist{
+	.fa-microphone{
+		padding-left: 2px;
+		padding-right: 7px;
+	}
+}
+
+.track-info-box .data .username{
+	color: $rl-violet;
+	float:right;
+	font-weight: 600;
+}
+
+.info-box--bottom{
+	position: fixed;
+	height: 200px;
+	width: 300px;
+	z-index: 1000;
+	max-height: 0px;
+	overflow: hidden;
+
+	@include transform(rotate(0deg));
+	bottom: -200px;
+	left: -50px;
+
+	@include rl-transition;
+}
+
+.info-box--bottom.active{
+	bottom: -30px;
+	max-height: 200px;
+	left: 0px;
+	overflow: visible;
+	@include transform(rotate(10deg));
+}
+
+.info-box--bottom > div{
+	height: 100%;
+}
+
+.info-box .badge-info{
+	padding: 10px 15px;
+	color: #fff;
+	background-color: rgba(134,202,52,0.95);
+}
+
+.info-box .badge-info h5{
+	color: #fff;
+	font-weight: 600;
+}
+
+.info-box .close{
+	position: absolute;
+	right: 20px;
+	top: 15px;
+	
+	color: #BC1B3E;
+
+	@include transform(rotate(0deg));
+	@include rl-transition;
+
+	&:hover{
+		color: $rl-red;
+		cursor: pointer;
+		//@include transform(rotate(180deg));
+	}
+}
+
+.info-box .badge-info .badge-title{
+	font-weight: 500;
+	font-size: 16px;
+}

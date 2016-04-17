@@ -1,0 +1,156 @@
+* {
+	outline: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+a{
+	text-decoration:none;
+
+	&.label:hover{
+		font-weight: bold;
+	}
+}
+
+.clearfix{
+	zoom: 1;
+}
+.clearfix:before, .clearfix:after {
+	content: '\0020';
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+*, *:after, *:before {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.full-width{
+	width: 100%;
+}
+
+.display-table{
+	display: table;
+	width: 100%;
+}
+
+.vertical-middle{
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.vertical-bottom{
+	display: table-cell;
+	vertical-align: bottom;
+}
+
+.no-margin{
+	margin: 0 !important;
+}
+
+.hide{
+	display: none;
+}
+
+#indiegogo-teaser{
+	display: block;
+
+	width: 557px;
+	height: 250px;
+
+	position: absolute;
+	top: 100px;
+	left: 50%;
+	margin-left: -278px;
+
+	background-image:url(../../images/frontend/campaign-header-2.jpg);
+
+  	@include box-shadow(rgba(0,0,0,0.5) 0px 0px 4px inset);
+}
+
+.trenn{
+	width: 100%;
+	height: 50px;
+
+	body.home & {
+	 // height: 270px;
+	}
+
+	position: relative;
+
+	/*.home &{
+		@include opacity(1);
+		height: auto;
+		background-position: center -200px;
+	}*/
+
+	background-image: url(../../images/frontend/crowd.jpg);
+	background-size: cover;
+	background-position: center -520px;
+
+	margin-bottom:10px;
+
+	opacity: 0.75;
+
+	overflow:hidden;
+
+	video{
+		position: relative;
+		margin-top:-35%;
+	}
+
+	.overlay{
+		width:100%;
+		height: 100%;
+		position: absolute;
+		@include opacity(0.3);
+
+		body.home &{ 
+			background-color: #fff;
+		 	@include opacity(0.5);
+		}
+
+		body.discover &{ 
+			background-color: $rl-green;
+		}
+
+		/* reds */
+		body.tools &{
+			background-color: $rl-red;
+		}
+
+		/* violets */
+		body.forum &{
+			background-color: $rl-violet;
+		}
+		/* yellows */
+		body.conversation &{
+			background-color: $rl-yellow;
+		}
+
+		/* blues */
+		body.profile &{
+			background-color: $rl-blue;
+		}
+	}
+}
+
+.reveal-modal{
+	z-index: 2200 !important;
+}

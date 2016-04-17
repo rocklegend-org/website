@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+Homestead.yaml
+.env
+build-tools/node_modules
+public/assets/.sass-cache
+public/assets/node_modules
+public/.htpasswd
+composer.lock

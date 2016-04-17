@@ -1,0 +1,235 @@
+.emote{
+
+}
+
+.emote-kappa{
+	width: 25px;
+}
+
+.fb-login-button{
+	top: 6px;
+	margin-left: 3px;
+}
+
+.btn{
+	display: inline-block;
+
+	color: #fff;
+
+	text-align: center;
+
+	padding: 5px 8px;
+	margin: 4px 4px 0 0;
+
+	font-size: 13px;
+
+  	white-space:pre;
+
+  	@include border-radius($radius);
+	
+	&:hover, &.active, &.last:hover{
+		color: #fff;
+		cursor: pointer;
+		
+		@include opacity(0.5);
+	}
+
+  	&.last{
+  		margin: 4px 0 0 0;
+  	}
+
+	@include rl-transition;
+
+	&.disabled, &.disabled:hover{
+		@include opacity(0.3);
+	}
+
+	&.inactive{
+		@include opacity(0.5);
+
+		&:hover{
+			@include opacity(1);
+		}
+	}
+}
+
+#header-container{
+	.btn{
+		&:hover, &.active, &.last:hover{
+			color: #fff;
+
+			padding: 5px 8px 14px 8px;
+			margin-bottom: -14px;
+
+			cursor: pointer;
+		}
+	}
+}
+
+.btn.small{
+	margin: 0px;
+	padding: 1px 8px;
+
+	&:hover, &.active, &.last:hover{
+		color: #fff;
+
+		padding: 1px 10px;
+	}
+}
+
+.btn.full-width{
+	width: 95%;
+
+	&:hover{
+		width: 100%;
+	}
+}
+
+.ui-tooltip{
+	font-size: 12px;
+}
+
+button{
+	border: none;
+}
+
+input[type="button"], 
+input[type="submit"], 
+button{
+	display: inline-block;
+
+	background-color: $rl-black;
+	border: none;
+	color: #fff;
+
+	text-align: center;
+
+	padding: 5px 8px;
+	margin: 4px 4px 0 0;
+
+	font-size: 13px;
+	font-weight: 200;
+	font-family: 'Roboto', Arial, sans-serif;
+
+	&:hover, &.active, &.last:hover{
+		padding: 5px 8px 14px 8px;
+	}
+
+	@include transition-property(all);
+  	@include transition-duration(0.25s);
+  	@include transition-timing-function(linear);
+
+  	white-space:pre;
+}
+
+input[type="text"], 
+input[type="password"], 
+input[type="email"]{
+	height: auto;
+	font-size: 13px;
+	font-family: Roboto, Arial, sans-serif;
+	padding: 0.5em;
+}
+
+input[type="text"].tiny{
+	height: 18px !important;
+	width: 40px;
+	font-size: 12px;
+	display: inline-block;
+	border: 1px solid #bbbbbb;
+	text-align: center;
+}
+
+input[type="text"].input-h1{	
+	display:inline-block;
+	font-size: 18px;
+	font-weight:300;
+	padding: 4px 8px;
+	background-color: $rl-black;
+	color: #fff;
+	margin-bottom:0.7rem;
+	width: auto;
+	text-align:center;
+	font-weight: 200;
+}
+
+form.compressed .column,
+form.compressed .columns{
+	padding: 0 0.4rem;
+}
+
+form.compressed input[type="text"], 
+form.compressed input[type="password"]{
+	height: 26px;
+	font-size: 12px;
+	display: inline-block;
+	border: 1px solid #bbbbbb;
+	margin: 0 0 0.35rem 0;
+	padding: 0.2em 0.5em;
+
+	&[data-invalid]{
+		background-color: #d4284d;
+		color: #fff;
+	}
+}
+
+form.compressed [data-invalid]{
+	@include placeholder{
+		color: #fff;
+	}
+}
+
+form.compressed small.error,
+form.compressed [data-abide] .error small.error, 
+form.compressed [data-abide] span.error, 
+form.compressed [data-abide] small.error{
+	display: none !important;
+}
+
+.alert-box.inline.error{
+	display: inline-block;
+	padding: 2px 10px;
+	margin: 0;
+}
+
+.alert-box.inline.error a{
+	color: #fff;
+
+	&:hover{
+		text-decoration: underline;
+	}
+}
+
+select.tiny{
+	padding: 2px 10px;
+	height: 30px;
+	width: 60px;
+	font-size: 12px;
+	display: inline-block;
+	border: 1px solid #bbbbbb;
+	text-align: center;
+}
+
+input[type="checkbox"]{
+	margin: 0;
+}
+
+.ui-tooltip{
+	border: none;
+	background: none;
+	background-color: $rl-white;
+	color: $rl-black;
+	padding: 4px 8px;
+	@include box-shadow(0);
+	@include border-radius(4px);
+}
+
+table tr.highlight td{
+	background-color: $rl-blue;
+
+	font-weight: bold;
+
+	color: #fff;
+
+	a{color: #fff;}
+}

@@ -1,0 +1,66 @@
+* {
+	font-family:arial;
+}
+body{
+	background-color:#FFFFFF;
+	font-size:12px;
+	margin:5px;
+}
+input, textarea, select{
+	font-size:12px;
+}
+h2{
+	padding-top:20px;
+	padding-bottom:0px;
+}
+h3{
+  text-decoration:underline;
+  padding-top:20px;
+  padding-bottom:0px;
+}
+pre{
+	font-family:"courier new",courier;
+}
+.func {
+  font-weight:bold;
+}
+.sample {
+  padding-top:10px;
+  padding-bottom:5px;
+  font-family:"courier new",courier;
+  color:#000099;
+}
+a,a:link,a:visited,a:active{
+	color:#000000;
+}
+a:hover{
+	color:#666666;
+}
+
+/* SEQUENCER */
+
+.title{
+	background-color:#333333;
+	color:#ffffff;
+}
+.darkgrey{
+	background-color:#BBBBBB;
+}
+.mediumgrey{
+	background-color:#DADADA;
+}
+.lightgrey{
+	background-color:#EEEEEE;
+}
+/*
+div#mixlist{
+	height:480px;
+	overflow:scroll;
+}
+*/
+div#mixlist a{
+	font-family:"courier new",courier;
+}
+div#mixlist a.on{
+	color:#990000;
+}

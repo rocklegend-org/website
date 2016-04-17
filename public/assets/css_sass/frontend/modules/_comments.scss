@@ -1,0 +1,78 @@
+textarea[name="comment"]{
+	height: 40px;
+}
+
+.comment-single{
+	background-color: rgba(200,200,200,0.1);
+	padding: 10px;
+	margin: 10px 0px;
+}
+
+.comment-single .profile-image{
+	float: left;
+}
+
+.comment-single .profile-image img{
+	height: 32px;
+}
+
+.comment-single .profile-info{
+	margin-left: 38px;
+	padding-top: 2px;
+}
+
+.comment-single .comment-meta{
+	float:right;
+}
+
+.comment-single .comment-options{
+	font-size: 11px;
+}
+
+.comment-single .comment-options textarea{
+	margin-bottom: 4px;
+}
+
+///// pagination
+
+ul.comments-pagination{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	display: inline-block;
+}
+
+ul.comments-pagination li{
+	display: inline-block;
+	margin-right:4px;
+}
+
+ul.comments-pagination li a.active{
+	font-weight: 600;
+	text-decoration: underline;
+}
+
+
+
+.comment-replys{
+	border-left: 4px solid $rl-red;
+
+	.comment-single{
+		background-color: transparent;
+		margin: 5px 0px 5px 0px;
+		padding: 5px 0px 5px 10px;
+
+		.profile-image img{
+			height: 20px;
+		}
+
+		.profile-info{
+			margin-left: 25px;
+		}
+
+		p.comment{
+			margin-bottom: 0;
+		}
+	}
+}

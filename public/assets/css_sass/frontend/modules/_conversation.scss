@@ -1,0 +1,67 @@
+.messages-container{
+	position: relative;
+
+	height: 300px;
+	overflow: auto;
+
+	.message{
+		width: 70%;
+
+		&.indent{
+			float:right;
+		}
+
+		.head, .body{
+			@include border-radius(10px);
+			background-color: $rl-green;
+		}
+
+		&.indent{
+			.head, .body{
+				background-color: $rl-blue;				
+			}
+		}
+
+		.head{			
+			display: inline-block;
+
+			position: relative;
+			bottom: -20px;
+
+			padding-right:4px;
+			overflow: hidden;
+
+			a{ 
+				color: #fff; 
+				position: 
+				relative; 
+				top: 2px;
+			}
+			
+			img{ 
+				margin-left: 4px;
+				@include border-radius(10px); 
+			}
+		}
+
+		.body{
+			padding: 8px 18px;
+			padding-top: 12px;
+
+			h1,h2,h3,h4,h5,h6{
+				background-color: transparent;
+				color: $rl-black;
+				margin: 4px 0;
+				padding: 0;
+			}
+
+			small.meta{
+				font-size: 9px;
+				float: right;
+				@include opacity(0.5);
+			}
+
+			word-wrap: break-word;
+		}
+	}
+}

@@ -1,0 +1,56 @@
+.profile-follows{
+	max-height: 600px;
+	overflow:auto;
+}
+
+.profile .trenn{
+	margin-bottom:0;
+}
+
+table.profile-stats{
+	margin-bottom: 10px;
+	td{
+		line-height: 24px;
+		padding: 0;
+		color: #fff;
+		font-weight: 300;
+	}
+
+	.stats{
+		font-weight: 400;
+	}
+}
+
+.profile .song-list.blue{
+	max-height: 250px;
+	overflow: auto;
+}
+
+// badges
+.badge-single{
+	padding: 10px;
+	background-color: #efefef;
+	margin: 0 0 10px 0;
+
+	&.bg-green.fixed-height{
+		@include opacity(0.4); 
+	}
+
+	h3{ margin: 0; width: 90%; }
+	&.bg-green h3{ background-color: $rl-black !important; }
+	.left{
+		width: 80px;
+		text-align: center;
+		margin-right: 10px;
+		table{ height: 100%; }
+	}
+	.r{
+		margin-left: 80px;
+		width: auto;
+	}
+
+	&.fixed-height{
+		height: 135px;
+		table{ height: auto; }
+	}
+}

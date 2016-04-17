@@ -1,0 +1,11 @@
+@import "global";
+@import "own_mixins";
+@import "admin";
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th{
+	vertical-align: middle;
+}
+
+@import "../frontend/variables";
+@import "../frontend/modules/comments"

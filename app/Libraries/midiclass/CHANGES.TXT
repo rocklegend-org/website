@@ -1,0 +1,1 @@
+- updated midi_duration.class.php

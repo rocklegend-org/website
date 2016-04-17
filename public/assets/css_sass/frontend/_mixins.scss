@@ -1,0 +1,35 @@
+@mixin hide-text{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {
+        @content;
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+        @content;
+    }
+
+    &::-moz-placeholder {  /* Firefox 19+ */
+        @content;
+    }
+
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+@mixin rl-transition($duration: 0.25s, $easing: linear, $property: all){
+    @include transition-property($property);
+    @include transition-duration($duration);
+    @include transition-timing-function($easing);
+}
+
+@mixin full-size-absolute{
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+}

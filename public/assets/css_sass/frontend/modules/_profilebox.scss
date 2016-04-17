@@ -1,0 +1,52 @@
+.profile-box{
+
+	.info{
+		height: 34px;
+	}
+
+	input[type="text"], input[type="password"]{
+		height: 34px;
+	}
+
+	.btn {
+		&.facebook {
+
+			background-color: desaturate($facebook-blue, 20%);
+
+			&:hover {
+
+				background-color: $facebook-blue;
+			}
+		}
+
+		&.twitter {
+
+			background-color: darken(desaturate($twitter-blue, 20%), 10%);
+
+			&:hover {
+
+				background-color: $twitter-blue;
+			}
+		}
+
+		&.github {
+
+		}
+	}
+
+	.profile-image{
+		position: relative;
+		overflow: hidden;
+		padding-left: 0;
+
+		img{
+			position: absolute;
+			display: none;
+		}
+
+		div{
+			width: 100%;
+
+		}
+	}
+}

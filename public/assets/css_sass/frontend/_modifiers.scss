@@ -1,0 +1,39 @@
+/* HOVER VARIANTS */
+
+.hover-cursor:hover{
+	cursor:pointer;
+}
+
+/* COLORS */
+
+.bg-transparent{ background-color: transparent !important; }
+.bg-blue{ background-color: $rl-blue !important; }
+.bg-red{ background-color: $rl-red !important; }
+.bg-green{ background-color: $rl-green !important; }
+.bg-violet{ background-color: $rl-violet !important; }
+.bg-yellow{ background-color: $rl-yellow !important; }
+.bg-black{ background-color: $rl-black !important; }
+.bg-orange{ background-color: $rl-orange !important; }
+.bg-fb-blue{ background-color: $fb-blue !important; }
+.bg-white{ background-color: #fff !important; }
+
+.t-white{ color: #fff !important; }
+.t-blue{ color: #00bae4 !important; }
+.t-red{ color: #d4284d !important; }
+.t-green{ color: #86d800 !important; }
+.t-violet{ color: #8127fd !important; }
+.t-yellow{ color: #d5c600 !important; }
+.t-black{ color: #2c2c2c !important; }
+
+.decoration-blue{ border-left: 4px solid $rl-blue; }
+.decoration-green{ border-left: 4px solid $rl-green; }
+.decoration-red{ border-left: 4px solid $rl-red; }
+.decoration-violet{ border-left: 4px solid $rl-violet; }
+.decoration-yellow{ border-left: 4px solid $rl-yellow; }
+.decoration-black{ border-left: 4px solid $rl-black; }
+
+.decoration-big{ border-left-width: 10px !important; }
+.decoration-small{ border-left-width: 2px !important; }
+
+.margin-bottom{ margin-bottom: 4px !important; }
+.no-margin-right{ margin-right: 0px !important; }

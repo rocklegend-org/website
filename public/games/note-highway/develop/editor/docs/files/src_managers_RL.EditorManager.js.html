@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/managers/RL.EditorManager.js - note-highway</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="note-highway"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.5.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/RL.Note.html">RL.Note</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/RL.AudioManager.html">RL.AudioManager</a></li>
+            
+                <li><a href="../modules/RL.HighwayManager.html">RL.HighwayManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.html">RL.InteractionManager</a></li>
+            
+                <li><a href="../modules/RL.InteractionManager.Editor.html">RL.InteractionManager.Editor</a></li>
+            
+                <li><a href="../modules/this.html">this</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/managers/RL.EditorManager.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * This contains all needed functions
+ * for the Rocklegend Track Editor
+ *
+ * @module this
+ */
+
+RL.EditorManager = function(){
+return {
+	aTaps: [[],[],[],[],[],[]],
+	aMsTapped: [[],[],[],[],[],[]],
+	aSelectedNotes: [],
+	aPreviousSelection: [],
+	aCopiedNotes: [],
+	selectedNote: false,
+	positionSlider : false,
+	playbackRateSlider: false,
+	pxPerSecondSlider: false,
+	auto_save: RL.config.auto_save, // in seconds
+	auto_save_interval: RL.config.auto_save_interval, // in seconds
+	auto_save_js_interval: null,
+
+	notesChanged: 0,
+
+	playTicks: false,
+
+	advancedMode: false,
+
+	beatsInitialized: false,
+	beatLineContainer: false,
+	aBeatLines: 0,
+	beatLinesHeight: 0,
+
+	beatLineTextContainer: false,
+
+	timeSignature: [4,4],
+	secondsPerMeasure: 0,
+	gridSecondsPerNote: 0,
+
+	grid: 0.25,
+	grid_snap: false,
+	grid_snap_sustained: false,
+
+	dragging: false,
+
+	newLine: function(){
+		newTime = AudioManager.getPosition() + this.secondsPerNote;
+		
+		if(newTime &lt; 0) newTime = 0;
+
+		AudioManager.setPosition(newTime);
+	},
+
+	init: function(){
+		this.beatLineContainer = game.add.group(game, game.world, &quot;beatLineContainer&quot;, true, false);
+		this.beatLineContainer.z = 100;
+
+		this.beatLineTextContainer = game.add.group(game, game.world, &quot;beatLineTextContainer&quot;, true, false);
+		this.beatLineTextContainer.z = 50;
+
+		// auto_save
+		if(this.auto_save){
+			this.toggleAutoSave();
+		}
+
+		tval = this.auto_save_interval + &#x27; seconds&#x27;;
+		if(this.auto_save_interval &gt;= 60){
+			tval = parseFloat(this.auto_save_interval/60).toFixed(1)+&#x27; minutes&#x27;;
+		}
+		jQuery(&#x27;#auto-save-interval&#x27;).html(tval);
+
+		if(typeof(RL.config.fetchNotes) != &#x27;undefined&#x27; &amp;&amp; RL.config.fetchNotes){
+			this.getNotesForTrack();
+		}
+
+		EditorInteractionManager.init();	
+	},
+
+	deleteBeatLines: function()
+	{
+		this.beatLineContainer.removeAll();
+		this.beatLineTextContainer.removeAll();
+		this.aBeatLines = 0;
+	},
+
+	drawBeatLines: function(force){
+		var grid = this.grid;
+		var pxPerSecond = RL.config.pxPerSecond;
+		var neededLines = AudioManager.duration/1000 / grid;
+
+
+		var line = new Phaser.Graphics(game, 0, 0);
+
+		// reset beatlines and draw them from scratch
+		if(force || this.aBeatLines &lt; neededLines){
+			this.deleteBeatLines();
+
+			for(var i = this.aBeatLines; i &lt;= neededLines; i+=grid){
+				y = -Math.round(i*pxPerSecond);
+
+				line.lineStyle(1, 0XFFFFFF, i % 1 == 0 ? 1 : 0.35);
+				line.moveTo(0, y);
+				line.lineTo(RL.config.width, y);
+
+				line.time = parseFloat(i);
+
+				this.aBeatLines++;
+
+				time = parseFloat(i).toFixed(3);
+				timeText = time;
+
+				if(time &gt;= 60){
+					seconds = i;
+					minutes = parseInt(seconds / 60);
+					seconds = parseFloat(seconds - (minutes*60)).toFixed(3);
+					timeText = minutes+&#x27;:&#x27;+seconds;
+				}
+
+				text = game.add.text(4, y-12, timeText, {
+					fill: &#x27;#ffffff&#x27;,
+					fontSize: 10,
+					font: &#x27;Roboto&#x27;
+				}, this.beatLineTextContainer);
+
+				text.alpha = i % 1 == 0 ? 1 : 0.35;
+				text.exists = false;
+				text.time = time*1000;
+
+				text.update = function(){
+					if(this.time &gt; AudioManager.currentTime + RL.msOnScreen ||
+	                    this.time &lt; AudioManager.currentTime - 250)
+	                {
+	                    this.exists = false;
+	                }
+	                else
+	                {
+	                    this.exists = true;
+	                }
+				}
+			}			
+
+			this.beatLineContainer.add(line);
+			this.beatLinesHeight = Math.round(i*pxPerSecond);
+			this.beatLinesTime = i;
+		}
+
+		
+
+		/*this.beatLineContainer.forEach(function(e){
+			if(typeof(e) != &#x27;undefined&#x27;){
+				// if y !== false, we have to move this object to y
+				y = false;
+				switch(e.type){
+					case 3: // graphics
+					 	currentY = e.currentPath.shape.points[1];
+						pos = currentY + this.beatLineContainer.y;
+						if(pos &gt;= RL.config.height){
+							y = currentY - this.beatLinesHeight;
+						}else if(pos &lt; RL.config.height - this.beatLinesHeight){
+							y = currentY + this.beatLinesHeight;
+						}
+
+						if(y !== false){
+							e.destroy();
+
+							time = parseFloat(y / -RL.config.pxPerSecond).toFixed(1);
+
+							var line = new Phaser.Graphics(game, 0, 0);
+							line.lineStyle(1, 0XFFFFFF, time % 1 == 0 ? 1 : 0.35);
+							
+							line.moveTo(0,y);
+							line.lineTo(RL.config.width, y);
+
+							this.beatLineContainer.add(line);
+						}
+					break;
+					case 4: // text
+						if(e.y+12 + this.beatLineContainer.y &gt;= RL.config.height){
+							y = e.y + 12 - this.beatLinesHeight;
+						}else if(e.y+12 + this.beatLineContainer.y &lt; RL.config.height - this.beatLinesHeight){
+							y = e.y + 12 + this.beatLinesHeight;
+						}
+
+						if(y !== false){	
+							time = parseFloat(y/ -RL.config.pxPerSecond).toFixed(3);
+							e.destroy();					    	
+
+							text = game.add.text(4,y-12, time, {}, this.beatLineContainer);
+
+							text.fill = &#x27;#ffffff&#x27;;
+							text.alpha = parseFloat(time).toFixed(1) % 1 == 0 ? 1 : 0.35;
+							text.fontSize = 10;
+							text.font = &#x27;Roboto&#x27;;
+							text.z = 100;
+						}
+					break;
+				}
+			}
+		}, this);*/
+	},
+
+	/**
+	 * addTap(lane, time)
+	 * This function gets called when editor is active and trackTaps is activated.
+	 * It adds an Note Object (see note.js) to the aNotes array with the current time
+	 *
+	 * @method addTap
+	 * @param {Int} lane The line on which the note should be added
+	 * @param {Int} time The current time
+	 * @return {RL.Note} Returns the generated note
+	 */
+	 addTap: function(lane, time, hopo){
+		if(	this.beatsInitialized &amp;&amp; 
+			this.grid_snap){
+			time = this.calculateBPMTime(time);
+		}
+			
+		// make sure that no other note exists at this time on this lane
+		if(jQuery.inArray(time, this.aMsTapped[lane]) &lt;= -1){
+			var note = new RL.Note(game, {
+				time: time,
+				lane: lane,
+				hopo: hopo
+			});
+
+			note.exists = true;
+
+			noteContainer.add(note);
+
+			HighwayManager.aNotes[lane].push(note);
+
+			note.initEditorFunctions();
+
+			return note;
+		}
+	},
+
+	calculateBPMTime: function(t){
+		snap = this.secondsPerBeat * ( this.timeSignature[0] / this.grid_snap_bottom ) * 1000;
+		return t.roundTo(snap);
+	},
+
+	holdTap: function(lane, duration, time, hopo){
+		aNotes = HighwayManager.aNotes[lane];
+
+		if(	this.beatsInitialized &amp;&amp; 
+			this.grid_snap){
+			time = this.calculateBPMTime(time);
+		}
+		
+		if(duration &gt; RL.config.longNoteThreshold){
+			noteIndex = aNotes.length-1;
+
+			time = HighwayManager.aNotes[lane][noteIndex].time;
+			HighwayManager.aNotes[lane][noteIndex].kill(true);
+			HighwayManager.aNotes[lane].splice(noteIndex, 1);
+
+			var note = new RL.Note(game, {
+				time: time,
+				lane: lane,
+				duration: duration,
+				hopo: hopo,
+				showRect: true
+			});
+
+			note.exists = true;
+
+			noteContainer.add(note);
+
+			HighwayManager.aNotes[lane].push(note);
+
+			note.initEditorFunctions();
+		}
+	},
+
+	/**
+	* Handles the keyUp event for the this.
+	*
+	* @method finishTap
+	* @param {Int} lane The lane
+	* @param {Int} duration
+	* @param {Int} time
+	*
+	*/
+	finishTap: function(lane, duration, time){
+		aNotes = HighwayManager.aNotes[lane];
+		noteIndex = aNotes.length-1;
+		
+		if(typeof(HighwayManager.aNotes[lane][noteIndex].rect) != &#x27;undefined&#x27;)
+		{
+			HighwayManager.aNotes[lane][noteIndex].rect.alpha = 0.5;
+		}
+	},
+
+	/**
+	* Handles note selection.
+	*
+	* Clicking on notes makes them selected.
+	* Multiselection by pressing shift key is possible
+	*
+	* @method onNoteDown
+	* @param {RL.Note} note The clicked note
+	* @param {Event} e The event object
+	*/
+	onNoteDown: function(note, e, multiSelection){
+		var multiSelection = typeof(multiSelection) != &#x27;undefined&#x27; ? multiSelection : false;
+
+		EditorManager.selectedNote = true;
+
+		/** check if shiftkey is pressed **/
+		if(game.input.keyboard.event != null){
+			var shiftKey = game.input.keyboard.event.shiftKey;
+		}else{
+			shiftKey = false;
+		}
+
+		/** if shiftkey is not pressed we start a new selection **/
+		if(!multiSelection &amp;&amp; !shiftKey &amp;&amp; !note.isSelected){
+			EditorManager.resetSelectedNotes();
+		}
+
+		/** if the pressed note is not selected, we select it.
+		 *  otherwise, we remove it from the selected notes array 
+		 *  
+		 *  we don&#x27;t want to reset everything because this way it&#x27;s possible
+		 *  to easily correct a multi-selection
+		 */
+		if(!note.isSelected){
+			note.isSelected = true;
+			note.setDefaultTexture();
+
+			EditorManager.aSelectedNotes.push(note);
+		}else{
+
+			for(var i = 0; i &lt; EditorManager.aSelectedNotes.length; i++){
+				if(EditorManager.aSelectedNotes[i] == note){
+					note.isSelected = false;
+
+					EditorManager.aSelectedNotes.splice(i,1);
+				}
+			}
+			note.setDefaultTexture();
+
+		}
+
+		EditorManager.updateNoteInfo();
+		EditorManager.aPreviousSelection = EditorManager.aSelectedNotes.slice();
+	},
+
+	/**
+	* Resets the this.aSelectedNotes array to start a new selection
+	*
+	* @method resetSelectedNotes
+	* @param {Event} e The event object
+	*/
+	resetSelectedNotes: function(e){
+		for(var i = 0; i &lt; this.aSelectedNotes.length; i++){
+			this.aSelectedNotes[i].isSelected = false;
+			this.aSelectedNotes[i].setDefaultTexture();
+		}
+
+		this.aSelectedNotes = [];
+
+		EditorManager.updateNoteInfo();
+	},
+
+	activatePreviousSelection: function(e){
+		EditorManager.resetSelectedNotes();
+
+		for(var i = 0; i &lt; EditorManager.aPreviousSelection.length; i++){
+			EditorManager.onNoteDown(EditorManager.aPreviousSelection[i], null, true);
+		}
+	},
+
+	/**
+	* This function resets this.selectedNote to false
+	* Needed for dragging of notecontainer, so we know that the user has not currently
+	* selected a note für die mouseDown event
+	*
+	* @method onNoteUp
+	* @param {RL.Note} note The note
+	* @param {Event} e The event object
+	**/
+	onNoteUp: function(note, e){
+		var duration = e.timeUp - e.timeDown;
+		if(duration &gt;= 200){
+			// empty selected notes array
+			EditorManager.aSelectedNotes = [];
+
+			// populate selected notes array with notes which have the &quot;selected&quot; frame
+			// hacky but it works
+			for(var i = 0; i &lt; HighwayManager.aNotes.length; i++){
+				var laneNotes = HighwayManager.aNotes[i];
+				for(var n = 0; n &lt; laneNotes.length; n++){
+					if(laneNotes[n].isSelected){
+						laneNotes[n].isSelected = false;
+						EditorManager.onNoteDown(laneNotes[n], e, true);
+					}
+				}
+			}
+		}
+		else
+		{
+			note.setDefaultTexture();
+		}
+	},
+
+	/** 
+	* Updates the information shown next to the player about
+	* the currently selected notes 
+	*
+	* @method updateNoteInfo
+	*/
+	updateNoteInfo: function()
+	{
+		selectedNotes = EditorManager.aSelectedNotes;
+
+		durations = [];
+		times = [];
+		lanes = [];
+		hopos = [];
+
+		durationDifferent = false;
+		timeDifferent = false;
+		laneDifferent = false;
+		hoposDifferent = false;
+		nonFalse = 0;
+
+		for(var i = 0; i &lt; selectedNotes.length; i++){
+			durations.push(selectedNotes[i].duration);
+			times.push(selectedNotes[i].time);
+			lanes.push(selectedNotes[i].lane);
+			hopos.push(selectedNotes[i].hopo);
+			if(selectedNotes[i]){
+				nonFalse++;
+			}
+		}
+
+		if(!durations.AllValuesSame()){
+			durationDifferent = true;
+		}
+		
+		if(!times.AllValuesSame()){
+			timeDifferent = true;
+		}
+		
+		if(!lanes.AllValuesSame()){
+			laneDifferent = true;
+		}
+		
+		if(!hopos.AllValuesSame()){
+			hoposDifferent = true;
+		}
+
+		$(&#x27;.var-sel-count&#x27;).text(nonFalse);
+
+		if(selectedNotes.length &lt;= 0){
+
+			$(&#x27;#sel-note-time&#x27;).attr(&#x27;readonly&#x27;,true).val(&quot;-&quot;);
+			$(&#x27;#sel-note-duration&#x27;).attr(&#x27;readonly&#x27;,true).val(&quot;-&quot;);
+			$(&#x27;#sel-note-lane&#x27;).attr(&#x27;readonly&#x27;,true).val(&quot;-&quot;);
+			$(&#x27;#sel-note-hopo&#x27;).attr(&#x27;readonly&#x27;,true).prop(&#x27;checked&#x27;, false);
+
+			$(&#x27;#copy-selected, #paste-copied&#x27;).hide();
+
+		}else{
+			$(&#x27;#copy-selected&#x27;).show();
+
+			$(&#x27;#sel-note-time&#x27;).attr(&#x27;readonly&#x27;,false).val(timeDifferent ? &#x27;&#x27; : selectedNotes[0].time);
+			$(&#x27;#sel-note-duration&#x27;).attr(&#x27;readonly&#x27;,false).val(durationDifferent ? &#x27;&#x27; : selectedNotes[0].duration);
+			$(&#x27;#sel-note-lane&#x27;).attr(&#x27;readonly&#x27;,false).val(laneDifferent ? &#x27;&#x27; : selectedNotes[0].lane);
+
+			if(hoposDifferent){
+				$(&#x27;#sel-note-hopo&#x27;).attr(&#x27;readonly&#x27;,false).prop(&#x27;checked&#x27;,false);	
+			}else{
+				if(selectedNotes[0].hopo){
+					$(&#x27;#sel-note-hopo&#x27;).attr(&#x27;readonly&#x27;,false).prop(&#x27;checked&#x27;, true);
+				}else{
+					$(&#x27;#sel-note-hopo&#x27;).attr(&#x27;readonly&#x27;,false).prop(&#x27;checked&#x27;, false);
+				}
+			}
+
+		}
+	},
+
+	copyNotes: function(e){
+		EditorManager.aCopyNotes = [];
+
+		for(var n = 0; n &lt; EditorManager.aSelectedNotes.length; n++)
+		{
+			if(EditorManager.aSelectedNotes[n]){
+				EditorManager.aCopyNotes.push(
+					EditorManager.aSelectedNotes[n]
+				);
+			}
+		}
+
+		$(&#x27;#copy-info&#x27;).html(EditorManager.aCopyNotes.length+&#x27; notes copied&#x27;);
+		$(&#x27;#paste-copied&#x27;).show();
+	},
+
+	pasteNotes: function(e){
+		var currentPlaybackPosition = AudioManager.getPosition();
+
+		EditorManager.resetSelectedNotes();
+
+		minTime = false;
+		for(var n = 0; n &lt; EditorManager.aCopyNotes.length; n++)
+		{
+			if(minTime === false || EditorManager.aCopyNotes[n].time &lt; minTime){
+				minTime = EditorManager.aCopyNotes[n].time;
+			}
+		}
+
+		for(var n = 0; n &lt; EditorManager.aCopyNotes.length; n++)
+		{
+
+			var newTime = EditorManager.aCopyNotes[n].time - minTime + currentPlaybackPosition;
+
+			var note = new RL.Note(game, {
+				time: newTime,
+				lane: EditorManager.aCopyNotes[n].lane,
+				duration: EditorManager.aCopyNotes[n].duration,
+				hopo: EditorManager.aCopyNotes[n].hopo
+			});
+
+			note.exists = true;
+
+			noteContainer.add(note);
+
+			HighwayManager.aNotes[EditorManager.aCopyNotes[n].lane].push(note);
+
+			note.initEditorFunctions();
+
+			EditorManager.onNoteDown(note, null, true);
+		}
+		
+		// save previous selection
+		EditorManager.aPreviousSelection = EditorManager.aSelectedNotes.slice();
+
+		EditorManager.aCopyNotes = [];
+
+		$(&#x27;#copy-info&#x27;).html(&#x27;no notes copied&#x27;);
+	},
+
+	/**
+	* Deletes notes from this.aSelectedNotes array from the aNotes array
+	* and calls their burst methods
+	*
+	* Sorts aNotes array after each note deletion to ensure noteIndex data is correct
+	*
+	* Triggers this.resetSelectedNotes afterwards to start a new selection
+	*
+	* @method deleteNotes
+	* @param {Event} e The event object
+	**/
+	deleteNotes: function(e){
+		if(e.event.target.sourceElement != &#x27;input&#x27;){
+			for(var i = 0; i &lt; EditorManager.aSelectedNotes.length; i++){
+				var note = EditorManager.aSelectedNotes[i];
+
+				var lane = EditorManager.aSelectedNotes[i].lane;
+
+				/** Delete note from used ms array 
+				 *  so we can put another note here again 
+				 **/
+				 if(typeof(note.time) != &#x27;undefined&#x27;){
+					time = note.time;
+					var index = EditorManager.aMsTapped[lane].indexOf(time);
+					ele = EditorManager.aMsTapped[lane].splice(index, 1);
+				 }
+
+				 note = HighwayManager.aNotes[lane].splice(
+				 			HighwayManager.aNotes[lane].indexOf(note),
+				 			1
+				 		);
+				 note = note[0];
+
+				 note.kill(true);
+				}
+
+				EditorManager.resetSelectedNotes();
+			}
+		},
+
+	/**
+	* Sets the current frame of the dragged note to 1
+	*
+	* @method onNoteDragStart
+	* @param {RL.Note} The note
+	* @param {Event} e
+	**/
+	onNoteDragStart: function(note, e){
+		note.originalLane = note.lane;
+		note.rlDrag = true;
+		EditorManager.dragging = true;
+
+		for(var i = 0; i &lt; EditorManager.aSelectedNotes.length; i++){
+			if(EditorManager.aSelectedNotes[i] &amp;&amp; !EditorManager.aSelectedNotes[i].input.isDragged){
+				EditorManager.aSelectedNotes[i].input.startDrag(game.input.activePointer);
+			}
+		}
+	},
+
+	/**
+	* Updates the dragged note according to its new position
+	*
+	* @method onNoteDragStop
+	* @param {RL.Note} note
+	* @param {Event} e
+	**/
+	onNoteDragStop: function(note, e){
+		var notesArray = HighwayManager.aNotes;
+		var editor = this;
+		EditorManager.dragging = false;
+		
+		// extract note from its currently set lane
+		noteObject = notesArray[note.originalLane].splice(
+						notesArray[note.originalLane].indexOf(note), 1
+					);
+		noteObject = noteObject[0];
+
+		// get lane for the notes new x position
+		lane = noteObject.setLaneForX(note.x) - 1;
+
+		// insert the note on its new corresponding lane array
+		noteIndex = notesArray[noteObject.lane].push(noteObject) - 1;
+		note = noteObject;
+
+		// calculate new time for current y position
+		time = RL.getTimeForY(note.y);
+
+		// if advanced editor is active and grid snapping is activated 
+		// the notes y position should snap to the grid
+		if(	EditorManager.beatsInitialized &amp;&amp;
+			EditorManager.grid_snap)
+		{
+			snap = EditorManager.secondsPerNote*1000;
+
+			time = time.roundTo(snap);
+		}
+
+		note.time = time;
+		note.y = RL.getYForTime(time);
+
+		/** MOVE CORRESPONDING SUSTAINED RECTANGLE! **/
+		if(typeof note.rect !== &#x27;undefined&#x27;){
+			note.drawRect();
+		}
+	},
+
+	moveAllByMs: function(ms)
+	{
+		for(var lane = 1; lane &lt; HighwayManager.aNotes.length; lane++){
+			laneNotes = HighwayManager.aNotes[lane];
+
+			for(var i = 0; i &lt; laneNotes.length; i++){
+				n = laneNotes[i];
+				n.time = parseFloat(n.time) + parseFloat(ms);
+				n.y = RL.getYForTime(parseFloat(n.time));
+				n.drawRect();
+
+				EditorManager.notesChanged++;
+			}
+		}
+	},
+
+	save: function(){
+		EditorManager.finish(null, true, true);
+	},
+
+	finish: function(e, auto_save, manual){
+		if(typeof(auto_save) === &#x27;undefined&#x27;) auto_save = false;
+		if(typeof(manual) === &#x27;undefined&#x27;) manual = false;
+
+		var sendNotes = [];
+		var noteCount = 0;
+
+		notes = $.map(HighwayManager.aNotes, function(value, index){
+			return [value];
+		});
+
+		for(var l = 0; l &lt; notes.length; l++){
+			aIndex = sendNotes.push([]) - 1;
+			lane = notes[l];
+
+			for(var i = 0; i &lt; lane.length; i++){
+				sendNotes[aIndex].push({
+					time: lane[i].time,
+					duration: lane[i].duration,
+					//cb: lane[i].cb,
+					//hitcb: lane[i].hitcb,
+					hopo: lane[i].hopo
+				});
+
+				length = sendNotes[aIndex].length-1;
+			}
+
+			noteCount += sendNotes[aIndex].length;
+		}
+		
+		if(noteCount &lt; 5){
+			if(!auto_save || manual)
+				jQuery(&#x27;#modal-errorMinimumNotes&#x27;).foundation(&#x27;reveal&#x27;, &#x27;open&#x27;);
+		}else{
+			var notes = JSON.stringify(sendNotes);
+			if($(&#x27;select[name=&quot;status&quot;] option:selected&#x27;).val() == &#x27;2&#x27;){
+				$(&#x27;select[name=&quot;status&quot;]&#x27;).attr(&#x27;disabled&#x27;, true);
+			}
+			jQuery.post(
+				&#x27;/create/editor/&#x27;+song_slug+&#x27;/&#x27;+$(&#x27;select[name=&quot;difficulty&quot;]&#x27;).val()+(track_id ? &#x27;/&#x27;+track_id : &#x27;&#x27;), 
+				{ 
+					name: $(&#x27;#track-name&#x27;).val(), 
+					status: $(&#x27;select[name=&quot;status&quot;]&#x27;).val(),
+					difficulty: $(&#x27;select[name=&quot;difficulty&quot;]&#x27;).val(),
+					notes: notes, 
+					lanes: $(&#x27;select[name=&quot;lanes&quot;]&#x27;).val(),
+					song_id: song_id, 
+					track_id: track_id, 
+					px_per_second: RL.config.pxPerSecond, 
+					auto_save: auto_save,
+					_token: csrf
+				},
+				function(data){
+					if(typeof(data.error) != &#x27;undefined&#x27;){
+						alert(&#x27;An error occured! We didn\&#x27;t save the track. We added debug data to a box on the bottom of the page. Please copy and post it to a thread in the forums. We also disable autosave if it\’s currently active.&#x27;);
+
+						$(&#x27;#error-debug textarea&#x27;).html(&#x27;Track ID: &#x27;+track_id+&#x27;\r\n&#x27;+notes);
+
+						$(&#x27;#error-debug&#x27;).fadeIn();
+
+						if(auto_save){
+							EditorManager.toggleAutoSave();
+						}
+
+					}else{
+						if(!auto_save){
+							location.href = &#x27;/create/review/&#x27;+song_slug+&#x27;/&#x27;+data.track_id;
+						}else if(!track_id){
+							document.location.hash = data.track_id;
+							track_id = data.track_id;
+						}
+
+						$(&#x27;.stats-notecount&#x27;).html(data.note_count);
+						$(&#x27;select[name=&quot;status&quot;] option[value=&quot;&#x27;+data.status+&#x27;&quot;]&#x27;).attr(&#x27;selected&#x27;, true);
+					}
+				}
+				);
+
+			var date = new Date();
+			var time = RL.str_pad(date.getHours(),2,&#x27;0&#x27;,&#x27;STR_PAD_LEFT&#x27;)+&#x27;:&#x27;+RL.str_pad(date.getMinutes(), 2, &#x27;0&#x27;, &#x27;STR_PAD_LEFT&#x27;)+&#x27;:&#x27;+RL.str_pad(date.getSeconds(),2,&#x27;0&#x27;,&#x27;STR_PAD_LEFT&#x27;);
+			
+			if(auto_save &amp;&amp; !manual){
+				jQuery(&#x27;#auto-save-info&#x27;).html(&#x27;&lt;b&gt;Last Auto-Save:&lt;/b&gt; &#x27;+time).show();
+
+				setTimeout(function(){
+					jQuery(&#x27;#auto-save-info&#x27;).hide();
+				}, 3000);
+			}else if(manual){
+				jQuery(&#x27;#manual-save-info&#x27;).html(&#x27;&lt;b&gt;Last Manual-Save:&lt;/b&gt; &#x27;+time).show();
+
+				setTimeout(function(){
+				jQuery(&#x27;#manual-save-info&#x27;).hide();
+				}, 3000);
+			}
+		}
+	},
+
+	toggleTracking: function(){
+		RL.config.trackTaps ? RL.config.trackTaps = false : RL.config.trackTaps = true;
+		document.getElementById(&#x27;trackingCB&#x27;).checked = (RL.config.trackTaps) ? &quot;checked&quot; : &quot;&quot;;
+	},
+
+	getNotesForTrack: function(){
+		jQuery.post(&#x27;/tools/getTrackById/&#x27;+track_id, 
+			{ _token: csrf },
+			function(data){
+				HighwayManager.aNotes = data;
+				HighwayManager.drawNotes();
+			}
+		);
+	},
+
+	toggleAutoSave: function(e, reset){
+		if(typeof(reset) == &#x27;undefined&#x27;) reset = false;
+
+		if(!reset){
+			if(EditorManager.auto_save_js_interval != null){
+				clearInterval(EditorManager.auto_save_js_interval);
+				EditorManager.auto_save_js_interval = null;
+				jQuery(&#x27;#auto-save-container&#x27;).fadeOut();
+			}else{
+				EditorManager.auto_save_js_interval = setInterval(function(){
+					EditorManager.finish(null, true);
+				}, EditorManager.auto_save_interval*1000);
+				jQuery(&#x27;#auto-save-container&#x27;).fadeIn();
+			}
+		}else{
+			EditorManager.auto_save_js_interval = null;
+			EditorManager.auto_save_js_interval = setInterval(function(){
+				EditorManager.finish(null, true);
+			}, EditorManager.auto_save_interval*1000);
+		}
+	},
+
+	print: function(o){
+	    var str=&#x27;&#x27;;
+
+	    for(var p in o){
+	        if(typeof o[p] == &#x27;string&#x27;){
+	            str+= p + &#x27;: &#x27; + o[p]+&#x27;;&#x27;;
+	        }else{
+	            str+= p + &#x27;: {&#x27; + EditorManager.print(o[p]) + &#x27;}&#x27;;
+	        }
+	    }
+
+	    return str;
+	}
+}
+};
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
