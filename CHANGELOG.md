@@ -3,13 +3,13 @@
 
 #v0.9.5 | 2016-04-16
 
-* fixed issue when opening a tack page from a player score which can't be decompressed
+* fixed issue when opening a track page from a player score which can't be decompressed
 * bump (C) year
 * added GPLv3 LICENSE
 
 #v0.9.4 | 2015-09-13
 
-* changed score manipulation detect
+* changed score manipulation detection
 
 #v0.9.3 | 2015-07-17
 
