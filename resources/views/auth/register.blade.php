@@ -21,7 +21,7 @@ register | rocklegend
 	@endif
 
 	{!! Form::open(array('route' => 'login.process', 'id' => 'form-login', 'data-abide')) !!}
-		{{ Form::hidden('login', '1') }}
+		{!! Form::hidden('login', '1') !!}
 		<div class="row">
 			<div class="medium-12 columns">
 				{!!	Form::labelWithInput(
