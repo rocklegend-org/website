@@ -25,12 +25,6 @@ return array(
 			'class' => 'bg-red',
 			'icon' => 'fa-cogs',
 			'activeCheck' => array('create*', 'tools*') 
-		),
-		'New forum is online!' => array(
-			'url' => 'http://forum.rocklegend.org',
-			'class' => 'bg-violet',
-			'icon' => 'fa-comments',
-			'activeCheck' => array('forum*')
 		)
 	)
 	
