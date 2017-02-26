@@ -5,33 +5,33 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "5.1.*",
+      "php": ">=5.5.9",
+      "laravel/framework": "5.1.*",
 
-        "laravelcollective/html": "5.1.*",
-        "laravelcollective/annotations": "5.*",
+      "laravelcollective/html": "5.1.*",
+      "laravelcollective/annotations": "5.*",
 
-        "cartalyst/sentry": "dev-feature/laravel-5",
-        "ircmaxell/password-compat": "*",
+      "cartalyst/sentry": "dev-feature/laravel-5",
+      "ircmaxell/password-compat": "*",
 
-        "michelf/php-markdown": "1.*",
-        "orchestra/imagine": "~3.0",
-        "predis/predis":"*",
-        
-        "intervention/image": "2.*",
-        "intervention/imagecache": "*",
-        "jenssegers/agent": "*",
+      "michelf/php-markdown": "1.*",
+      "orchestra/imagine": "~3.0",
+      "predis/predis":"*",
 
-        "roumen/sitemap": "2.5.*",
+      "intervention/image": "2.*",
+      "intervention/imagecache": "*",
+      "jenssegers/agent": "*",
 
-        "cmgmyr/messenger": "~2.0",
-        "jenssegers/date": "3.*",
-        "laravel/socialite": "^2.0",
+      "roumen/sitemap": "2.5.*",
 
-        "omnipay/omnipay": "~2.0",
-        "filp/whoops": "~1.0",
+      "cmgmyr/messenger": "~2.0",
+      "jenssegers/date": "3.*",
+      "laravel/socialite": "^2.0",
 
-         "doctrine/dbal": "~2.3"
+      "omnipay/omnipay": "~2.0",
+      "filp/whoops": "~1.0",
+
+      "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

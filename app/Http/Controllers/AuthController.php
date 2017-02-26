@@ -42,19 +42,18 @@ class AuthController extends BaseController {
 	public function postLogin(LoginFormRequest $request)
 	{
 		$credentials = array(
-		    'username' => Input::get('username'),
-            'password' => Input::get('password'),
+		  'username' => Input::get('username'),
+      'password' => Input::get('password'),
 		);
 
 		try {
+	    if (Sentry::authenticate($credentials, false)) {
+	    	$user = Sentry::getUser();
 
-		    if (Sentry::authenticate($credentials, false)) {
-		    	$user = Sentry::getUser();
+	    	Session::flash('success', Lang::get('auth.logged_in'));
 
-		    	Session::flash('success', Lang::get('auth.logged_in'));
-
-		    	return Redirect::intended('/'); 	
-		    }
+	    	return Redirect::intended('/');
+	    }
 		}
 		catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
 		    //$m = $this->handleThrottle(Input::get('username')) ?: 'wrong_password';
@@ -63,7 +62,7 @@ class AuthController extends BaseController {
 		catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
 
 		    $m = 'user_not_found';
-		}			
+		}
 		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
 
 		    $m = 'user_not_activated';
@@ -108,7 +107,7 @@ class AuthController extends BaseController {
 
 		if(is_null($user)){
 			return Redirect::route('password.forgotten')
-						->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));				
+						->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
 		}else{
 			$resetCode = Sentry::findUserById($user->id)->getResetPasswordCode();
 
@@ -227,7 +226,7 @@ class AuthController extends BaseController {
 
 				$user->provider = 'facebook';
 				$user->save();
-			
+
 				return Redirect::to('profile/settings');
 			}
 
@@ -367,7 +366,7 @@ class AuthController extends BaseController {
 					    if(Input::has('code')){
 					    	SignupCode::useCodeForUserId($user->id, Input::get('code'));
 					    }
-					    
+
 						// Find the group using the group id
 						$memberGroup = Sentry::findGroupByName('Player');
 
