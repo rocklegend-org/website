@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model'  => Rocklegend\User::class,
+        'model'  => User::class,
         'key'    => '',
         'secret' => '',
     ],
