@@ -11,8 +11,6 @@ class SetupSentry extends Migration {
 	 */
 	public function up()
 	{
-		Artisan::call('migrate', array('--package'=>'cartalyst/sentry'));
-
 		Schema::table('users', function($table) {
 			$table->string('username')->after('email');
 			$table->unique('username');

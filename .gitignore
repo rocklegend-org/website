@@ -7,3 +7,4 @@ public/assets/.sass-cache
 public/assets/node_modules
 public/.htpasswd
 composer.lock
+/resources/views/vendor

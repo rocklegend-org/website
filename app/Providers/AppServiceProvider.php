@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Publish the migrations
+        $this->publishes([
+            realpath(__DIR__.'/vendor/catalyst/sentry/src/migrations/') => $this->app->databasePath().'/migrations',
+        ]);
     }
 
     /**
