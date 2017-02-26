@@ -29,7 +29,9 @@
         "laravel/socialite": "^2.0",
 
         "omnipay/omnipay": "~2.0",
-        "filp/whoops": "~1.0"
+        "filp/whoops": "~1.0",
+
+         "doctrine/dbal": "~2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

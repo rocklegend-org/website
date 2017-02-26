@@ -1,6 +1,8 @@
 <?php
 
-class BadgeSeeder extends Seeder {
+use Illuminate\Database\Seeder;
+
+class BadgeSeeder extends DatabaseSeeder {
 
     public function run()
     {
@@ -34,7 +36,7 @@ class BadgeSeeder extends Seeder {
     }
 }
 
-class ResetBadgeSeeder extends Seeder {
+class ResetBadgeSeeder extends DatabaseSeeder {
 
 	public function run()
 	{

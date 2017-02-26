@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Seeder;
+
 class ResetSettingsSeeder extends Seeder {
 
 	public function run()
