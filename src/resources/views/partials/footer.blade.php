@@ -21,5 +21,12 @@
 	<div class="hide-for-small medium-3 columns text-right version-info">
 		<a href="{{route('imprint')}}">imprint</a> | <a href="{{route('tos')}}">terms of service</a> | <a href="{{route('discover.songlist')}}">songlist</a> | <a href="/badges">badges</a>
 	</div>
-
+	
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script>
+		(adsbygoogle = window.adsbygoogle || []).push({
+				google_ad_client: "ca-pub-8678025779428864",
+				enable_page_level_ads: true
+		});
+	</script>
 </footer>
