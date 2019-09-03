@@ -1,9 +1,12 @@
-/vendor
-/node_modules
+vendor
+node_modules
 Homestead.yaml
 .env
 build-tools/node_modules
 public/assets/.sass-cache
 public/assets/node_modules
 public/.htpasswd
+docker/.mysql-data
 composer.lock
+src/resources/views/vendor
+composer.phar
