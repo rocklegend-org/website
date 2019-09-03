@@ -1,6 +1,15 @@
 # Change Log
 <div class="clear"></div>
 
+
+#v0.9.6 | 2019-09-04
+
+* added base docker files
+* removed obsolete vanilla forum code
+* fixes issue with counting in dashboard
+* fixes route issues
+* fixes compatibility issues
+
 #v0.9.5 | 2016-04-16
 
 * fixed issue when opening a track page from a player score which can't be decompressed
