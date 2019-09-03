@@ -17,7 +17,7 @@
 	<b>Artists:</b> {{count($artists)}}<br />
 	<b>Albums:</b> {{count($albums)}}<br />
 	<b>Tracks:</b> {{count($tracks)}}<br />
-	<b>Scores:</b> {{count($scores)}}<br />
+	<b>Scores:</b> {{$scoreCount}}<br />
 	<b>Scores by:</b> {{count($scoresByUsers)}} Users<br />
 	<b>Comments:</b> {{count($comments)}}<br />
 

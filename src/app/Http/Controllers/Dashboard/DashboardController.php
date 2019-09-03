@@ -37,7 +37,7 @@ class DashboardController extends BaseController {
 		$songs = Song::all();
 		$artists=Artist::all();
 		$album = Album::all();
-		$scores = Score::all();
+		$scoreCount = Score::count();
 		$users = User::all();
 		$tracks = Track::all();
 		$scoresByUsers = Score::groupBy('user_id')->get();
@@ -47,7 +47,7 @@ class DashboardController extends BaseController {
 			->with('songs',$songs)
 			->with('artists',$artists)
 			->with('albums',$album)
-			->with('scores', $scores)
+			->with('scoreCount', $scoreCount)
 			->with('users',$users)
 			->with('scoresByUsers', $scoresByUsers)
 			->with('comments', $comments)
