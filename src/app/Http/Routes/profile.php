@@ -30,6 +30,3 @@ Route::get('conversations/availableRecipients', array('uses' => 'ConversationCon
 // notifications
 Route::post('notifications/dismiss', array('uses' => 'ProfileController@dismissNotification'));
 Route::get('notifications.html', array('uses' => 'ProfileController@getNotificationHtml'));
-
-// for vanilla forums
-Route::get('profile/authenticate.json', array('uses' => 'ProfileController@authenticateJSON', 'as' => 'forum.authenticate'));
