@@ -20,18 +20,18 @@ composer install
 php artisan migrate
 php artisan db:seed
 cd build-tools
-npm i
 cd ../public/assets
-npm i
+yarn
 cd ../games/note-highway/develop/player
-npm i
+yarn
 cd ../editor
-npm i
+yarn
 cd ../../../build-tools
-grunt hub
+yarn
+yarn watch
 ```
 
-### Why on earth do I need to ```npm i``` FOUR times ?
+### Why on earth do I need to ```yarn``` FOUR times ?
 Due to the way the project grew and the fact that I learned many things on the go while developing it, I started with a completely splitted structure for assets, the player and the editor - I never had time to clean this mess up. the ```grunt hub``` command was the only thing which I invested some time in because it sucked a lot that I had to ```grunt watch``` each of these parts separately.
 
 ### Contributing

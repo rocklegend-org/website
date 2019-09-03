@@ -1,0 +1,40 @@
+version: "3.2"
+services:
+  php:
+    build: './docker/php/'
+    networks:
+      - backend
+    volumes:
+      - ./src:/var/www/html/
+  nginx:
+    image: 'bitnami/nginx:latest'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/var/www/html/
+      - ./docker/nginx/rocklegend.nginx.conf:/opt/bitnami/nginx/conf/server_blocks/yourapp.conf
+  mysql:
+    image: mysql:5.6.40
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=rocklegend
+    volumes:
+      - ./docker/mysql-data/:/var/lib/mysql
+  redis:
+    image: redis:5.0.5-alpine3.10 
+    networks:
+      - backend
+networks:
+  frontend:
+  backend:
