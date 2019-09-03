@@ -1,54 +1,69 @@
-SetEnv APP_ENVIRONMENT development
+SetEnv APP_ENVIRONMENT production
 
 Options -Indexes
 
 AddType audio/mp3 .mp3
 AddType audio/ogg .ogg
 
-SetEnvIf Origin "^http(s)?://(.+\.)?(localhost|cdn\.rocklegend\.org|rocklegend\.org|facebook.com)(:[0-9]+)?$" origin_is=$0 
+SetEnvIf Origin "^http(s)?://(.+\.)?(localhost|cdn\.rocklegend\.org|rocklegend\.org|facebook.com)(:[0-9]+)?$" origin_is=$0
 Header always set Access-Control-Allow-Origin %{origin_is}e env=origin_is
 
 <IfModule mod_rewrite.c>
-	<IfModule mod_negotiation.c>
-    	Options -MultiViews
+   RewriteEngine On
+   RewriteCond %{HTTPS} !=on
+   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+   Header always set Strict-Transport-Security "max-age=16070400; includeSubDomains"
+   Header always set X-Frame-Options "SAMEORIGIN"
+   Header always set X-Xss-Protection "1; mode=block"
+   Header always set X-Content-Type-Options "nosniff"
+
+   Header always set Content-Security-Policy "default-src https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https:  data:;"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+        <IfModule mod_negotiation.c>
+        Options -MultiViews
     </IfModule>
 
     RewriteEngine On
-   
+
    # force HTTPS
    #RewriteCond %{HTTPS} !=on
    #RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-   
+
    # remove the server signature
    #ServerSignature Off
-   
+
    # enable HSTS
    #Header always set Strict-Transport-Security "max-age=16070400; includeSubDomains"
-   
+
    # always enable the XSS filter of the browser
    #Header always set X-Xss-Protection "1; mode=block"
-   
+
    # prevent mimetype sniffing
    #Header always set X-Content-Type-Options "nosniff"
-   
+
    # prevent framing
    #Header always set X-Frame-Options "SAMEORIGIN"
-   
+
    # CSP, use with care and whitelist external linked domains
    #Header always set Content-Security-Policy "default-src 'self' 'unsafe-inline'"
 
     # Redirect Trailing Slashes...
-	#RewriteRule ^(.*)/$ /$1 [L,R=301]
+        #RewriteRule ^(.*)/$ /$1 [L,R=301]
     RewriteRule ^(documentation) - [L,R=301]
 
-	# Handle Front Controller...
+        # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
 
 <IfModule mod_deflate.c>
- 
+
   # Force deflate for mangled headers developer.yahoo.com/blogs/ydn/posts/2010/12/pushing-beyond-gzipping/
   <IfModule mod_setenvif.c>
     <IfModule mod_headers.c>
@@ -56,7 +71,7 @@ Header always set Access-Control-Allow-Origin %{origin_is}e env=origin_is
       RequestHeader append Accept-Encoding "gzip,deflate" env=HAVE_Accept-Encoding
     </IfModule>
   </IfModule>
- 
+
   # Compress all output labeled with one of the following MIME-types
   <IfModule mod_filter.c>
     AddOutputFilterByType DEFLATE application/atom+xml \
@@ -76,5 +91,5 @@ Header always set Access-Control-Allow-Origin %{origin_is}e env=origin_is
                                   text/x-component \
                                   text/xml
   </IfModule>
- 
+
 </IfModule>
