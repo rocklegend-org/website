@@ -58,10 +58,10 @@ class DashboardController extends BaseController {
 	/**
 	 * Flushes the cache
 	 *
-	 * @Get("dashboard/flush-cache", as="flush-cashe")
+	 * @Get("dashboard/flush-cache", as="flush.cache")
 	 *
 	 */
-	public function flushCashe()
+	public function flushCache()
 	{
 		\Cache::flush();
 

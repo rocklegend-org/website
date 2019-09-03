@@ -58,7 +58,7 @@ class SongController extends BaseController {
 	/**
 	 * Print the player
 	 *
-	 * @Get("play/{artist}/{song}/{track}/{user?}", as="game-play")
+	 * @Get("play/{artist}/{song}/{track}/{user?}", as="game.play")
 	 *
 	 * @todo make the notes id a function parameter
 	 * @author pne
