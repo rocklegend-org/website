@@ -1,7 +1,7 @@
 <footer class="row">
 
 	<div class="hide-for-small medium-3 columns version-info">
-		<a href="{{ URL::route('changelog') }}"><b>v0.9.5</b> | last update: 16.04.2016</a>
+		<a href="{{ URL::route('changelog') }}"><b>v0.9.6</b> | last update: 04.09.2019</a>
     <iframe
       src="https://ghbtns.com/github-btn.html?user=rocklegend-org&repo=website&type=star&count=true"
       frameborder="0"
@@ -21,7 +21,7 @@
 	<div class="hide-for-small medium-3 columns text-right version-info">
 		<a href="{{route('imprint')}}">imprint</a> | <a href="{{route('tos')}}">terms of service</a> | <a href="{{route('discover.songlist')}}">songlist</a> | <a href="/badges">badges</a>
 	</div>
-	
+
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script>
 		(adsbygoogle = window.adsbygoogle || []).push({
