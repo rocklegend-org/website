@@ -1,6 +1,13 @@
 # Change Log
 <div class="clear"></div>
 
+#v0.9.7 | 2019-09-04
+
+* removed facebook login functionality
+* fixed error display during registration
+* updated laravel 5.1 -> 5.2
+	* refactored custom form field
+	* refactored middleware
 
 #v0.9.6 | 2019-09-04
 
