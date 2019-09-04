@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
     <style type="text/css">
         *{
             font-family: 'Source Sans Pro';
@@ -51,8 +51,8 @@
 <body>
     <div class="topbar"></div>
     <div class="center">
-        <a href="http://rocklegend.org">
-            <img src="http://rocklegend.org/assets/images/frontend/logo.png" height="80">
+        <a href="/">
+            <img src="/assets/images/frontend/logo.png" height="80">
         </a>
         <p><strong>Maintenance!</strong><br />
             We're currently performing an update!<br />
