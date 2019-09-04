@@ -17,8 +17,6 @@ class DashboardController extends BaseController {
 	{
 		$this->middleware('auth', array('except' => array('login', 'processLogin')));
 		$this->middleware('perm');
-
-		$this->middleware('csrf', array('on' => 'post'));
 	}
 
 	public function login()

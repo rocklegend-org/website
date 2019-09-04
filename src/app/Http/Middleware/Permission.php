@@ -23,7 +23,7 @@ class Permission {
 
             $ctrl = explode('@', $action);
             $ctrl = $ctrl[0];
-var_dump($ctrl, $action);
+
             if (!Sentry::getUser()->hasAnyAccess(array($action, $ctrl)))
                 \App::abort(403, 'Not allowed: ' . $action);
         }

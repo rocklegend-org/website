@@ -14,7 +14,5 @@ class BaseController extends LaravelBaseController {
 
         // Check if the user has the permissions
 		$this->middleware('perm', array('except' => array('login', 'process.login')));
-
-        $this->middleware('csrf', array('on' => 'post'));
     }
 }
