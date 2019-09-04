@@ -45,8 +45,6 @@
 
 			<div style="line-height:12px;">
 				@foreach($hotTracks as $track)
-					<?php $track = Track::find($track['track_id']); ?>
-
 					<a href="{{route('game.play',
 									array(
 										'track' => $track->id,
