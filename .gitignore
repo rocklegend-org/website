@@ -10,3 +10,4 @@ docker/.mysql-data
 composer.lock
 src/resources/views/vendor
 composer.phar
+storage/debugbar

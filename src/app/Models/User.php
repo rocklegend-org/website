@@ -87,6 +87,12 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 	public function setting($settingName, $settingValue = null)
 	{
+		$cacheKey = $this->cacheKey($settingName);
+
+		if (is_null($settingValue) && Cache::has($cacheKey)) {
+			return Cache::get($cacheKey);
+		}
+
 		$setting = Setting::where('name', $settingName)
 					->first();
 
@@ -115,12 +121,14 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 				return $value;
 			}else{
 				if($setting->constrained){
-					return AllowedSettingValue::where('id',$user_setting->allowed_setting_value_id)->first()->item_value;
+					return AllowedSettingValue::where('id',$user_setting->allowed_setting_value_id)->select('item_value')->first()->item_value;
 				}else{
 					return $user_setting->unconstrained_value;
 				}
 			}
 		}else{
+			Cache::forget($this->cacheKey($settingName));
+
 			if(is_null($user_setting) || $user_setting == false)
 			{
 				$user_setting = new UserSetting();
@@ -138,6 +146,30 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 			return $settingValue;
 		}
+	}
+
+	public function cacheKey($suffix)
+	{
+		return 'user.'.$this->id.'.'.$suffix;
+	}
+
+	public function settingsMap()
+	{
+		$settings = Setting::select('name')->get();
+
+		$map = array();
+
+		foreach($settings as $setting) {
+			$map[$setting->name] = Cache::remember(
+				$this->cacheKey($setting->name),
+				10,
+				function() use ($setting) {
+					return $this->setting($setting->name);
+				}
+			);
+		}
+
+		return $map;
 	}
 
 	public function getFollowLink()
@@ -159,6 +191,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		if(is_null(Sentry::getUser())){
 			return (object) array('id'=>false);
 		}
+
 		return $query->where('id', Sentry::getUser()->id)
 				->first();
 	}

@@ -4,7 +4,11 @@
 #v0.9.8 | 2019-09-04
 
 * adds patreon button
+* adds debugbar for dev
+* improve home loading perf
+* improves settings querying performance
 * fixed difficulty selection when trying to create new track for song
+* fixes requiring password when changing settings
 
 #v0.9.7 | 2019-09-04
 

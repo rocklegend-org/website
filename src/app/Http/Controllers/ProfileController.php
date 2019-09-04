@@ -80,13 +80,15 @@ class ProfileController extends BaseController {
 		}
 	}
 
-	public function settings()
+	public function settings(Illuminate\Http\Request $request)
 	{
 		if(Request::isMethod('get')){
 			return View::make('profile.settings')
-						->with('user', User::where('id',Sentry::getUser()->id)->first());
+						->with('user', User::current());
 		}else{
-			$validator = Validator::make(array(), array());
+			$validator = Validator::make($request->all(), [
+				'password_confirm' => 'required_with:password,|same:password'
+			]);
 
 			if(!$validator->fails()){
 				$user = User::where('id', Sentry::getUser()->id)->first();
@@ -125,7 +127,8 @@ class ProfileController extends BaseController {
 				return Redirect::route('profile.settings');
 			}else{
 				return Redirect::route('profile.settings')
-								->withErrors($validator);
+								->withErrors($validator)
+								->withInput();
 			}
 		}
 	}

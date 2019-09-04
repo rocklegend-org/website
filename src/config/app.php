@@ -153,6 +153,7 @@ return [
         /*
          * Package Service Providers
          */
+        Barryvdh\Debugbar\ServiceProvider::class,
         Cartalyst\Sentry\SentryServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,

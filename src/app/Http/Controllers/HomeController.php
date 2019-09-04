@@ -15,6 +15,7 @@ class HomeController extends BaseController {
 		$lastHighscores = Highscore::latest(5);
 
 		$newestTracks = Track::where('status', 2)
+							->select('id', 'song_id', 'user_id', 'difficulty')
 							->where('difficulty','>',0)
 							->orderBy('updated_at', 'DESC')
 							->with('song')

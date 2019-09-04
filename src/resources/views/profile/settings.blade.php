@@ -46,14 +46,13 @@ Settings | rocklegend
 			</div>
 			<div class="row">
 				<div class="medium-6 columns">
-					{!! 	Form::labelWithInput(
+					{!! Form::labelWithInput(
 							'password', 
 							'strings.profile.password', 
 							'', 
 							$errors, 
 							'password', 
 							array(
-								'required',
 								'pattern' => 'password'
 							),
 							array(
@@ -69,15 +68,15 @@ Settings | rocklegend
 			</div>
 			<div class="row">
 				<div class="medium-6 columns">
-					{!! 	Form::labelWithInput(
+					{!! Form::labelWithInput(
 							'password_confirm',
 							'strings.profile.password_confirm',
 							'',
 							$errors,
 							'password',
 							array(
-								'required',
-								'equalto' => 'password'
+								'equalto' => 'password',
+								'pattern' => 'password'
 							),
 							array(
 								'key' => 'same',
@@ -90,14 +89,6 @@ Settings | rocklegend
 					!!}
 				</div>
 			</div>
-			@if($user->provider == null)
-				<div class="row">
-					<div class="medium-6 columns">
-						<label for="fb-connect">Connect with facebook</label>
-						<fb:login-button max_rows="1" size="medium" show_faces="false" auto_logout_link="false" onlogin="facebookLogin()"></fb:login-button> 
-					</div>
-				</div>
-			@endif
 			
 			<h2>Keyboard</h2>
 			<label for="play_mode">Default Play Mode:</label>

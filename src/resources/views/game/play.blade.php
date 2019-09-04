@@ -67,7 +67,7 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 				</div>
 
 				<h3 class="bg-black t-white">
-					<b>Quick Restart:</b> Press <b>{{ chr($user->setting('quick_restart')) }}</b> twice<br />
+					<b>Quick Restart:</b> Press <b>{{ chr($settings['quick_restart']) }}</b> twice<br />
 				</h3>
 
 				<h4 class="bg-white t-black">
@@ -100,7 +100,7 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 					<div class="button-overlay">
 						@for($i = 1; $i <= 5; $i++)
 							<span class="button-{{$i}}">
-								{{chr($user->setting('key_lane'.$i))}}
+								{{chr($settings['key_lane'.$i])}}
 							</span>
 						@endfor
 					</div>
@@ -117,8 +117,8 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 							<span class="song-name--info-overlay">{{$song->title}}</span>
 							by
 							<span class="artist-name--info-overlay">{{ $artist->name }}</span><br />-<br />
-							Press [SPACE] or click here <br />to start the countdown!<br /><br /><b><span class="var-mode">{{$user->setting('play_mode')}}</span> mode</b><br />
-							<i id="change-playmode" class="btn t-white bg-black">&nbsp;&nbsp;&nbsp;change to <span class="var-mode-alt">{{$user->setting('play_mode') == 'tap' ? 'strum' : 'tap'}}</span>&nbsp;&nbsp;&nbsp;</i></p>
+							Press [SPACE] or click here <br />to start the countdown!<br /><br /><b><span class="var-mode">{{$settings['play_mode']}}</span> mode</b><br />
+							<i id="change-playmode" class="btn t-white bg-black">&nbsp;&nbsp;&nbsp;change to <span class="var-mode-alt">{{$settings['play_mode'] == 'tap' ? 'strum' : 'tap'}}</span>&nbsp;&nbsp;&nbsp;</i></p>
 						<p class="count">3</p>
 					</div>
 					<div class="score-overlay">
@@ -158,11 +158,11 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 									</span></small></td>
 									<td style="width: 50%;">
 										<div id="slider--max-sparkles"></div>
-										<input type="hidden" value="{{$user->setting('player_burst_count')}}" name="player_burst_count" />
+										<input type="hidden" value="{{$settings['player_burst_count']}}" name="player_burst_count" />
 									</td>
 									<td>
 										<span id="slider-value--max-sparkles">
-											{{ $user->setting('player_burst_count') }}
+											{{ $settings['player_burst_count'] }}
 										</span>
 									</td>
 								</tr>
@@ -173,7 +173,7 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 										<i class="fa fa-info fa-stack-1x t-black"></i>
 									</span></small></td>
 									<td style="width: 50%;">
-										<input type="checkbox" value="1" name="player_enable_cheering" {{$user->setting('player_enable_cheering') == 1 ? 'checked' : ''}} />
+										<input type="checkbox" value="1" name="player_enable_cheering" {{$settings['player_enable_cheering'] == 1 ? 'checked' : ''}} />
 									</td>
 									<td>&nbsp;</td>
 								</tr>
@@ -185,11 +185,11 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 									</span></small></td>
 									<td style="width: 50%;">
 										<div id="slider--cheering-volume"></div>
-										<input type="hidden" value="{{$user->setting('player_cheering_volume')}}" name="player_cheering_volume" />
+										<input type="hidden" value="{{$settings['player_cheering_volume']}}" name="player_cheering_volume" />
 									</td>
 									<td>
 										<span id="slider-value--cheering-volume">
-											{{ $user->setting('player_cheering_volume') }}
+											{{ $settings['player_cheering_volume'] }}
 										</span>
 									</td>
 								</tr>
@@ -201,9 +201,9 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 									</span></small></td>
 									<td style="width: 50%;">
 										<select name="player_display_mode">
-											<option value="CANVAS" {{ $user->setting('player_display_mode') == 'CANVAS' ? 'selected' : '' }}>CANVAS</option>
-											<option value="WEBGL" {{ $user->setting('player_display_mode') == 'WEBGL' ? 'selected' : '' }}>WebGL</option>
-											<option value="AUTO" {{ $user->setting('player_display_mode') == 'AUTO' ? 'selected' : '' }}>Autodetect</option>
+											<option value="CANVAS" {{ $settings['player_display_mode'] == 'CANVAS' ? 'selected' : '' }}>CANVAS</option>
+											<option value="WEBGL" {{ $settings['player_display_mode'] == 'WEBGL' ? 'selected' : '' }}>WebGL</option>
+											<option value="AUTO" {{ $settings['player_display_mode'] == 'AUTO' ? 'selected' : '' }}>Autodetect</option>
 										</select>
 									</td>
 									<td>&nbsp;</td>
@@ -284,7 +284,7 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 				buttonKeys: [
 					false,
 				@for($i = 1; $i <= 5; $i++)
-			        {{ $user->setting('key_lane'.$i) }},
+			        {{ $settings['key_lane'.$i] }},
 				@endfor
 					13,
 					16
@@ -292,19 +292,19 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 				buttonKeysAlt: [
 					false,
 				@for($i = 1; $i <= 5; $i++)
-			        {{ $user->setting('key_alt_lane'.$i) }},
+			        {{ $settings['key_alt_lane'.$i] }},
 				@endfor
 					13,
 					16
 				],
-				restartKey: {{$user->setting('quick_restart')}},
+				restartKey: {{$settings['quick_restart']}},
 				pxPerSecond: {{ $track->px_per_second }},
-				mode: '{{ $user->setting('play_mode') }}',
-				maxNotes: {{ $user->setting('player_max_notes') }},
-				burstCount: {{ $user->setting('player_burst_count') }},
-				enableCheering: {{ $user->setting('player_enable_cheering')}},
-				cheeringVolume: {{ $user->setting('player_cheering_volume')}},
-    			displayMode: '{{$user->setting('player_display_mode')}}'
+				mode: '{{ $settings['play_mode'] }}',
+				maxNotes: {{ $settings['player_max_notes'] }},
+				burstCount: {{ $settings['player_burst_count'] }},
+				enableCheering: {{ $settings['player_enable_cheering']}},
+				cheeringVolume: {{ $settings['player_cheering_volume']}},
+    			displayMode: '{{$settings['player_display_mode']}}'
 			}
 
 			var testMode = {{ $test ? 1 : 0 }};
