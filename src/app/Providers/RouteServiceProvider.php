@@ -26,24 +26,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-
-        // $router->filter('auth', function()
-        // {
-        //     if(isset($_SERVER['HTTP_USER_AGENT']) && strstr($_SERVER['HTTP_USER_AGENT'],'facebookexternalhit')){
-        //       //it's probably Facebook's bot
-        //     }else {
-        //         if (!Sentry::check()) {
-
-        //             return Redirect::guest('login');
-        //         }
-        //     }
-        // });
-
-        // $router->filter('guest', function()
-        // {
-        //     if (Sentry::check()) return Redirect::to('/');
-        // });
-
         parent::boot($router);
     }
 
