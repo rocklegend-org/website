@@ -8,8 +8,7 @@ class ProfileController extends BaseController {
 		
 		if(strpos(Route::currentRouteAction(), 'show') <= -1)
 		{
-			$this->beforeFilter('auth', array('except' => array('login', 'login')));
-			$this->beforeFilter('tools', array('except' => array('login', 'login')));
+			$this->middleware('auth', array('except' => array('login', 'login')));
 		}
 	}
 

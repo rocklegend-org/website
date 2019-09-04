@@ -1,7 +1,6 @@
 @if (!is_null(Sentry::getUser()))
 <?php 
 	$notifications = User::current()->notifications()->where('active',1)->groupBy('group_id')->take(10)->orderBy('created_at', 'DESC')->get();
-
 ?>
 <div class="notifications-container">
 	<span class="notification-box">

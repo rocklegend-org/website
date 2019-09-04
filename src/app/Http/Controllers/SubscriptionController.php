@@ -6,7 +6,7 @@ class SubscriptionController extends BaseController {
 	{	
 		parent::__construct();
 
-		$this->beforeFilter('auth', array('except' => array('login', 'login')));
+		$this->middleware('auth', array('except' => array('login', 'login')));
 	}
 
 	public function index()

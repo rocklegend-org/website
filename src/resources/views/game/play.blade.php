@@ -5,7 +5,7 @@
 <meta property="og:site_name" content="rocklegend" />
 <meta property="og:description" content="Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) now! Do you have what it takes to be a rocklegend?" />
 <meta property="og:image" content="{{$song->artist->getThumbnail(1200,800)}}" />
-<!-- {{url()}}/assets/images/frontend/logo.png -->
+<!-- {{url('')}}/assets/images/frontend/logo.png -->
 <meta property="og:type" content="music.song"/>
 <meta property="og:url" content="{{ route('game.play', array('artist' => $song->artist->slug, 'song' => $song->slug, 'track' => $track->id)) }}" />
 @stop
@@ -273,7 +273,7 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 		    var logo_url = "{{ asset('assets/images/frontend/logo-big-with-bg.png') }}";
 		    var thumbnail_url = "{{$song->artist->getThumbnail(1200,800)}}";
 
-			var ASSETS_BASE_URL = '{{url()}}';
+			var ASSETS_BASE_URL = '{{url("")}}';
 			var aNotes = null;
 
 			var notes_count = {{ $track->getCount() }};

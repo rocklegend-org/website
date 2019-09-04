@@ -179,7 +179,7 @@ Create a Track for {{ $song->title }} by {{ $song->artist->name }} | rocklegend
 	    var soundFiles = {!! json_encode($soundFiles) !!};
 	    var song_slug = "{{ $song->slug }}";
 
-		var ASSETS_BASE_URL = '{{url()}}';
+		var ASSETS_BASE_URL = '{{url("")}}';
 		var aNotes = {!! !is_null($track) ? json_encode($track->getNotesAsArray()) : '[[],[],[],[],[],[]]' !!};
 
 		// migration code
@@ -278,9 +278,9 @@ Create a Track for {{ $song->title }} by {{ $song->artist->name }} | rocklegend
 		@if(User::current()->official_tracker || Sentry::getUser()->inGroup(Sentry::findGroupByName('Admin')))
 		<h2 class="bg-blue">Download</h2>
 		<br />
-		<a href="{{url().$soundFiles[0]}}" target="_blank">{{$song->title}} - MP3</a>
+		<a href="{{url('').$soundFiles[0]}}" target="_blank">{{$song->title}} - MP3</a>
 		<br />
-		<a href="{{url().$soundFiles[1]}}" target="_blank">{{$song->title}} - OGG</a>
+		<a href="{{url('').$soundFiles[1]}}" target="_blank">{{$song->title}} - OGG</a>
 		@endif
 	</div>
 	<div class="clear">

@@ -10,11 +10,11 @@ class BaseController extends LaravelBaseController {
 
 	public function __construct()
     {
-		$this->beforeFilter('auth', array('except' => array('login', 'process.login')));
+		$this->middleware('auth', array('except' => array('login', 'process.login')));
 
         // Check if the user has the permissions
-		$this->beforeFilter('perm', array('except' => array('login', 'process.login')));
+		$this->middleware('perm', array('except' => array('login', 'process.login')));
 
-        $this->beforeFilter('csrf', array('on' => 'post'));
+        $this->middleware('csrf', array('on' => 'post'));
     }
 }

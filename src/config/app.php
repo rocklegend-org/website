@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -114,13 +115,11 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Routing\ControllerServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -148,6 +147,7 @@ return [
          */
         Rocklegend\Providers\AppServiceProvider::class,
         Rocklegend\Providers\EventServiceProvider::class,
+        Rocklegend\Providers\FormServiceProvider::class,
         Rocklegend\Providers\RouteServiceProvider::class,
 
         /*
@@ -159,12 +159,6 @@ return [
         Roumen\Sitemap\SitemapServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
-
-        /**
-         * Custom Service Providers
-         */
-
-        Rocklegend\Libraries\Extensions\FoundationForm\FoundationFormServiceProvider::class,
 
     ],
 
@@ -224,7 +218,6 @@ return [
         'Agent'     => Jenssegers\Agent\Facades\Agent::class,
         'Date'      => Jenssegers\Date\Date::class,
         
-        'Form'      => Rocklegend\Libraries\Extensions\FoundationForm\FoundationFormFacade::class,
     ],
 
 ];

@@ -73,7 +73,7 @@ register | rocklegend
 	@endif
 
 	<p>rocklegend is currently in <b class="t-green">public beta</b>!</p>
-	<p>Sign up here to try what we're working on, and make sure to check our updates on our <a href="http://facebook.com/rocklegendgame" target="_blank">facebook page</a> or <a href="https://twitter.com/share?text={{urlencode('Get your early access code for #thisisrocklegend at')}}&url={{urlencode(url())}}" target="_blank" data-lang="en">twitter account</a>!</p>
+	<p>Sign up here to try what we're working on, and make sure to check our updates on our <a href="http://facebook.com/rocklegendgame" target="_blank">facebook page</a> or <a href="https://twitter.com/share?text={{urlencode('Get your early access code for #thisisrocklegend at')}}&url={{urlencode(url(''))}}" target="_blank" data-lang="en">twitter account</a>!</p>
 	
 	{!! Form::open(array('route' => 'register', 'id' => 'form-register', 'data-abide')) !!}
 		{!! Form::hidden('register', '1') !!}

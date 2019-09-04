@@ -203,7 +203,8 @@ class Track extends Eloquent {
 
 	public function getPlayCount()
 	{
-		return $this->scores->count();
+		$meta = Track::withCount('scores')->where('id', $this->id)->first();
+		return $meta['scores_count'];
 	}
 
 	public function getPlayCountHistory($format = false)

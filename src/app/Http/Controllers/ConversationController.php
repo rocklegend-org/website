@@ -7,8 +7,7 @@ class ConversationController extends BaseController {
 	{
 		parent::__construct();
 
-		$this->beforeFilter('auth', array('except' => array('login', 'login')));
-		$this->beforeFilter('tools', array('except' => array('login', 'login')));
+		$this->middleware('auth', array('except' => array('login', 'login')));
 	}
 
 	public function index()
