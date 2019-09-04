@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Database\Eloquent\Builder;
+
 use Cmgmyr\Messenger\Models\Thread as MessengerConversation;
 
 class Conversation extends MessengerConversation {
-
 	public function messages()
 	{
 		return $this->hasMany('Message', 'thread_id');
@@ -13,7 +14,7 @@ class Conversation extends MessengerConversation {
 		return $this->hasMany('Participant', 'thread_id');
 	}
 
-	public function scopeForUser($query, $user = null)
+	public function scopeForUser(Builder $query, $user = null)
 	{
 		$user = $user ?: Sentry::getUser()->id;
 
