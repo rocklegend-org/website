@@ -24,7 +24,7 @@
 
       "roumen/sitemap": "2.5.*",
 
-      "cmgmyr/messenger": "~2.0",
+      "cmgmyr/messenger": "2.16.2",
       "jenssegers/date": "3.*",
       "laravel/socialite": "^2.0",
 

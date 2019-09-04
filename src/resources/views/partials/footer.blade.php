@@ -12,13 +12,13 @@
     ></iframe>
 	</div>
 
-	<div class="small-12 medium-6 main-column columns text-center">
+	<div class="small-12 medium-5 main-column columns text-center">
 		created with <i class="fa fa-heart t-red"></i> in austria
 		<br />
 		&copy; 2014 - {{date('Y')}} _ <a href="{{ URL::route('home') }}">rocklegend.org</a>
 	</div>
 
-	<div class="hide-for-small medium-3 columns text-right version-info">
-		<a href="{{route('imprint')}}">imprint</a> | <a href="{{route('tos')}}">terms of service</a> | <a href="{{route('discover.songlist')}}">songlist</a> | <a href="/badges">badges</a>
+	<div class="hide-for-small medium-4 columns text-right version-info">
+		<a href="https://paypal.me/patrickneschkudla?locale.x=en_US" target="_blank">donate!</a> | <a href="{{route('imprint')}}">imprint</a> | <a href="{{route('tos')}}">terms of service</a> | <a href="{{route('discover.songlist')}}">songlist</a> | <a href="/badges">badges</a>
 	</div>
 </footer>
