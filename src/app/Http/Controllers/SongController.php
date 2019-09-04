@@ -128,6 +128,7 @@ class SongController extends BaseController {
 						->with('comments', $this->comments($track->id, 1))
 						->with('test', $test)//$test === true ? true : false)
 						->with('user', $this->isBot ? '' : User::current())
+						->with('settings', $this->isBot ? array() : User::current()->settingsMap())
 						->with('debug', $debug)
 						->with('player', true)
 						->with('isFacebook', $this->isBot);
