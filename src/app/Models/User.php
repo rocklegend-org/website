@@ -256,9 +256,9 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	public function getAvatarUrl()
 	{
 		if(File::exists(public_path().'/media/avatars/'.$this->id.'.png')){
-			return url().'/media/avatars/'.$this->id.'.png';
+			return url("").'/media/avatars/'.$this->id.'.png';
 		}else{
-			return url().'/assets/images/frontend/default-avatar.png';
+			return url("").'/assets/images/frontend/default-avatar.png';
 		}
 	}
 

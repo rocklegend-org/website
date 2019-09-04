@@ -26,37 +26,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $router->filter('perm', function()
-        {
-            if (Sentry::check()) {
-
-                $action = \Route::getCurrentRoute()->getAction();
-                $action = $action['controller'];
-                $ctrl = explode('@', $action);
-                $ctrl = $ctrl[0];
-
-                if (!Sentry::getUser()->hasAnyAccess(array($action, $ctrl)))
-                    \App::abort(403, 'Not allowed: ' . $action);
-            }
-        });
-
-        $router->filter('auth', function()
-        {
-            if(isset($_SERVER['HTTP_USER_AGENT']) && strstr($_SERVER['HTTP_USER_AGENT'],'facebookexternalhit')){
-              //it's probably Facebook's bot
-            }else {
-                if (!Sentry::check()) {
-
-                    return Redirect::guest('login');
-                }
-            }
-        });
-
-        $router->filter('guest', function()
-        {
-            if (Sentry::check()) return Redirect::to('/');
-        });
-
         parent::boot($router);
     }
 

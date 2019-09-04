@@ -14,16 +14,14 @@ use View,
 class DashboardController extends BaseController {
 
 	public function __construct()
-    {
-		$this->beforeFilter('auth', array('except' => array('login', 'processLogin')));
+	{
+		$this->middleware('auth', array('except' => array('login', 'processLogin')));
+		$this->middleware('perm');
 
-        // Check if the user has the permissions
-		$this->beforeFilter('perm');
+		$this->middleware('csrf', array('on' => 'post'));
+	}
 
-        $this->beforeFilter('csrf', array('on' => 'post'));
-    }
-
-    public function login()
+	public function login()
 	{
 		return View::make('dashboard.login', array('bodyClass' => 'sign-in-bg'));
 	}

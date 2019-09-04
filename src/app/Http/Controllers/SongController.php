@@ -26,8 +26,7 @@ class SongController extends BaseController {
 			}
 
 		}else {
-			$this->beforeFilter('auth', array('except' => array('login', 'login')));
-			$this->beforeFilter('tools', array('except' => array('login', 'login')));
+			$this->middleware('auth', array('except' => array('login', 'login')));
 		}
 	}
 
@@ -77,7 +76,6 @@ class SongController extends BaseController {
 						->first();
 
 		if($track){
-
 			$soundFiles = $song->getSoundFiles();
 
 			$debug = App::environment() == 'development';

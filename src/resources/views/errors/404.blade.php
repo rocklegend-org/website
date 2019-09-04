@@ -61,7 +61,7 @@
 		<p><strong>404</strong><br />
 			We're sorry, the page you're looking for doesn't exist :(
 		</p>
-		<p class="thin"><a href="javascript:history.back();">go back</a> or <a href="{{url()}}">go to rocklegend.org</a></p>
+		<p class="thin"><a href="javascript:history.back();">go back</a> or <a href="{{url('')}}">go to rocklegend.org</a></p>
 	</div>
 </body>
 </html>
