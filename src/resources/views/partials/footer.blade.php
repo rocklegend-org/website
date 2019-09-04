@@ -19,6 +19,6 @@
 	</div>
 
 	<div class="hide-for-small medium-4 columns text-right version-info">
-		<a href="https://paypal.me/patrickneschkudla?locale.x=en_US" target="_blank">donate!</a> | <a href="{{route('imprint')}}">imprint</a> | <a href="{{route('tos')}}">terms of service</a> | <a href="{{route('discover.songlist')}}">songlist</a> | <a href="/badges">badges</a>
+		<a href="https://www.patreon.com/bePatron?u=3916023" target="_blank">donate</a> | <a href="{{route('imprint')}}">imprint</a> | <a href="{{route('tos')}}">terms of service</a> | <a href="{{route('discover.songlist')}}">songlist</a> | <a href="/badges">badges</a>
 	</div>
 </footer>

@@ -227,17 +227,9 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 			</div>
 		</div>
 
-		<div class="small-12 medium-4 columns" style="padding-top:100px;padding-left:10px;">
-			{{--<script type="text/javascript">
-			    google_ad_client = "ca-pub-8678025779428864";
-			    google_ad_slot = "8005849941";
-			    google_ad_width = 300;
-			    google_ad_height = 250;
-			</script>
-			<!-- rocklegend - game - right -->
-			<script type="text/javascript"
-			src="//pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>--}}
+		<div class="small-12 medium-4 columns" style="padding-top:200px;padding-left:10px;">
+			<h1 class="bg-blue">Like this?</h1>
+			<p><a href="https://www.patreon.com/bePatron?u=3916023" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></p>
 		</div>
 
 		<div class="scoreBox right">

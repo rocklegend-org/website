@@ -18,17 +18,21 @@
 		<iframe width="49%" height="auto" src="https://www.youtube.com/embed/UQsMIHo8E8U" frameborder="0" allowfullscreen style="display: inline-block;"></iframe>
 		<iframe width="49%" height="auto" src="https://www.youtube.com/embed/veWSp0WxHgo" frameborder="0" allowfullscreen style="display: inline-block;"></iframe>
 		<p>After quiet some time of silence, I'm trying to get back to update and implement new <b class="t-blue">features, enhancements and bugfixes</b>.<br />
-		<br />I can't promise anything, due to family life with higher priority, but I'm eager to fiddle around with some new ideas in the coming weeks and months.<br />
-		   You can check out our newest progress and give us instant feedback via our <a href="https://facebook.com/rocklegendgame" target="_blank">facebook page</a> about the things you see.<br />
 		</p>
 
-		<h2>We want feedback!</h2>
+		<h2 class="bg-green">Support this project!</h2>
+		<p>If you want to support this project, please consider becoming a patreon. This will help with server costs, and feeding the kids while I work on new things!<br />
+		On some tiers, you may also <b class="t-green">request new songs and tracks to be added!</b><br /><br />
+		<a href="https://www.patreon.com/bePatron?u=3916023" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+		</p>
+
+		<h2>Get in touch!</h2>
 		<p>
-			Tell us what you like, what you miss,<br />and what doesn't work for you via our <a href="https://facebook.com/rocklegendgame" target="_blank" title="facebook">facebook page</a>!<br>
-			</p>
+			Tell me what you like, what you miss,<br />and what doesn't work for you via rocklegends <a href="https://facebook.com/rocklegendgame" target="_blank" title="facebook">facebook page</a>!<br>
+		</p>
 
 		<p>
-			Cheers and <i>thank you for joining me!</i>,<br>
+			Cheers and <i>thank you for joining!</i>,<br>
 			Patrick
 		</p>
 </div>

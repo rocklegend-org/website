@@ -1,8 +1,9 @@
 # Change Log
 <div class="clear"></div>
 
-#v0.9.8 | 2019-xx-xx
+#v0.9.8 | 2019-09-04
 
+* adds patreon button
 * fixed difficulty selection when trying to create new track for song
 
 #v0.9.7 | 2019-09-04
