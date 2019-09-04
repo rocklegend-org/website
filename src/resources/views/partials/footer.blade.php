@@ -2,14 +2,9 @@
 
 	<div class="hide-for-small medium-3 columns version-info">
 		<a href="{{ URL::route('changelog') }}"><b>v0.9.9</b> | last update: 05.09.2019</a>
-    <iframe
-      src="https://ghbtns.com/github-btn.html?user=rocklegend-org&repo=website&type=star&count=true"
-      frameborder="0"
-      scrolling="0"
-      width="170px"
-      height="20px"
-      style="margin-left: -2px;"
-    ></iframe>
+		<a href="https://reddit.com/r/rocklegendorg" target="_blank">
+				<img alt="Subreddit subscribers" src="https://img.shields.io/reddit/subreddit-subscribers/rocklegendorg?style=social" />
+			</a>
 	</div>
 
 	<div class="small-12 medium-5 main-column columns text-center">
