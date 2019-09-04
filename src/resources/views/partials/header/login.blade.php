@@ -44,8 +44,7 @@
 						</div>&nbsp;&nbsp;
 					@endif
 					<span class="hide forgot-password-link"><a href="{{ route('password.forgotten') }}">Did you forget your password?</a> &nbsp;|&nbsp;</span>
-					<a href="{{ route('login') }}">Register</a>&nbsp;or&nbsp;
-					<a href="{{ route('login.facebook') }}">login with facebook</a>
+					<a href="{{ route('login') }}">Register</a><br />and become a rocklegend.
 				</div>
 			</div>
 		{!! Form::close() !!}
@@ -53,13 +52,10 @@
 	</div>
 
 	<div class="row show-for-small-only">
-		<div class="small-8 columns">
+		<div class="small-12 columns">
 			<a href="{{ route('login') }}" class="{{ Request::is('login*') ? 'active' : ''}}">
 				<i class="fa fa-sign-in"></i> login | register
 			</a><br />and become a rocklegend.
-		</div>
-		<div class="small-4 columns">
-			<fb:login-button max_rows="1" class="fb-login-button" size="medium" show_faces="false" auto_logout_link="false" onlogin="facebookLogin()"></fb:login-button> 
 		</div>
 	</div>
 </div>			

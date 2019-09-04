@@ -66,7 +66,7 @@ register | rocklegend
 
 	<h2 class="bg-green first">Create a new rocklegend!</h2>
 
-	@if($errors->count() > 0 && Input::old('register') != "")
+	@if($errors->count() > 0)
 		<div class="alert-box error">
 			{{ $errors->first() }}
 		</div>
@@ -77,104 +77,84 @@ register | rocklegend
 	
 	{!! Form::open(array('route' => 'register', 'id' => 'form-register', 'data-abide')) !!}
 		{!! Form::hidden('register', '1') !!}
-		{!! Form::hidden('provider', $provider) !!}
 
-		@if($provider == 'form')
-			<div class="row">
-				<div class="medium-6 columns">
-					{!!	Form::labelWithInput(
-							'username', 
-							'strings.profile.username', 
-							Input::old('username'), 
-							$errors, 
-							'text', 
-							array('required','maxlength' => 20), 
-							array(
-								'key' => 'max.string',
-								'values' => array(
-					  				'max' => 20,
-					  				'attribute' => Lang::get('strings.profile.username')
-					  			)
-							)
-						) 
-					!!}
-				</div>
-
-				<div class="medium-6 columns">
-					{!!	Form::labelWithInput(
-							'email', 
-							'strings.email', 
-							Input::old('email'), 
-							$errors, 
-							'email', 
-							array('required','email'), 
-							'email'
-						) 
-					!!}
-				</div>
-			</div>
-			<div class="row">
-				<div class="medium-6 columns">
-					{!! 	Form::labelWithInput(
-							'password', 
-							'strings.profile.password', 
-							'', 
-							$errors, 
-							'password', 
-							array(
-								'required',
-								'pattern' => 'password'
-							),
-							array(
-								'key' => 'min.string',
-								'values' => array(
-					  				'min' => 5,
-					  				'attribute' => Lang::get('strings.profile.password')
-					  			)
-							)
-						)
-					!!}
-				</div>
-				<div class="medium-6 columns">
-					{!! 	Form::labelWithInput(
-							'password_confirm',
-							'strings.profile.password_confirm',
-							'',
-							$errors,
-							'password',
-							array(
-								'required',
-								'equalto' => 'password'
-							),
-							array(
-								'key' => 'same',
-								'values' => array(
-									'attribute' => Lang::get('strings.profile.password_confirm'),
-									'other'	=> Lang::get('strings.profile.password')
+		<div class="row">
+			<div class="medium-6 columns">
+				{!!	Form::labelWithInput(
+						'username', 
+						'strings.profile.username', 
+						Input::old('username'), 
+						$errors, 
+						'text', 
+						array('required','maxlength' => 20), 
+						array(
+							'key' => 'max.string',
+							'values' => array(
+									'max' => 20,
+									'attribute' => Lang::get('strings.profile.username')
 								)
+						)
+					) 
+				!!}
+			</div>
+
+			<div class="medium-6 columns">
+				{!!	Form::labelWithInput(
+						'email', 
+						'strings.email', 
+						Input::old('email'), 
+						$errors, 
+						'email', 
+						array('required','email'), 
+						'email'
+					) 
+				!!}
+			</div>
+		</div>
+		<div class="row">
+			<div class="medium-6 columns">
+				{!! 	Form::labelWithInput(
+						'password', 
+						'strings.profile.password', 
+						'', 
+						$errors, 
+						'password', 
+						array(
+							'required',
+							'pattern' => 'password'
+						),
+						array(
+							'key' => 'min.string',
+							'values' => array(
+									'min' => 5,
+									'attribute' => Lang::get('strings.profile.password')
+								)
+						)
+					)
+				!!}
+			</div>
+			<div class="medium-6 columns">
+				{!! 	Form::labelWithInput(
+						'password_confirm',
+						'strings.profile.password_confirm',
+						'',
+						$errors,
+						'password',
+						array(
+							'required',
+							'equalto' => 'password'
+						),
+						array(
+							'key' => 'same',
+							'values' => array(
+								'attribute' => Lang::get('strings.profile.password_confirm'),
+								'other'	=> Lang::get('strings.profile.password')
 							)
 						)
-					!!}
-				</div>
+					)
+				!!}
 			</div>
-		@else
-			<p>Hey <b class="t-red">{{ $name }}</b>! Just tell us what your username should be and you're ready to rock!</p>
-			<div class="row">
-				<div class="medium-12 columns">
-					{!!	Form::labelWithInput(
-							'username', 
-							'strings.profile.username', 
-							Input::old('username'), 
-							$errors, 
-							'text', 
-							array('required'), 
-							'required'
-						) 
-					!!}
-			<p><b class="t-red">If you already have an existing rocklegend account:</b><br />Login with your username and password, go to "My Settings" and click on the facebook login button there!</p>
-				</div>
-			</div>
-		@endif
+		</div>
 		<div class="row">
 			<div class="medium-12 columns">
 				<p><a href="#" class="ajax" id="signup-code-toggle">Click here</a> if you've got a special signup code.</p> 

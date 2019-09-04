@@ -159,7 +159,6 @@ return [
         Roumen\Sitemap\SitemapServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
-
     ],
 
     /*
@@ -217,6 +216,7 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Agent'     => Jenssegers\Agent\Facades\Agent::class,
         'Date'      => Jenssegers\Date\Date::class,
+        'Clockwork' => Clockwork\Support\Laravel\Facade::class,
         
     ],
 

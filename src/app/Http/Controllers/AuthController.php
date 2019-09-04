@@ -15,10 +15,7 @@ class AuthController extends BaseController {
 			return Redirect::to('/');
 		}
 
-		Session::set('provider', 'form');
-
-		return View::make('auth/register')
-			->with('provider', 'form');
+		return View::make('auth/register');
 	}
 
 	/**
@@ -178,84 +175,17 @@ class AuthController extends BaseController {
 		}
 	}
 
-	/**
-	 * Redirect to facebook login
-	 *
-	 * @Get("login/facebook", as="login.facebook")
-	 */
-	public function facebook()
-	{
-		return Socialite::driver('facebook')->redirect();
-	}
-
 
 	/**
-	 * Login with facebook
-	 *
-	 * @Get("login/facebook/process", as="login.facebook.process")
-	 */
-	public function handleFacebookCallback()
-	{
-		$user = Socialite::driver('facebook')->user();
-
-		$token = $user->token;
-
-		$user_facebook = UserFacebook::where('facebook_id', $user->id)->first();
-
-		if(is_null($user_facebook))
-		{
-			// if the user is currently logged in, connect this facebook account with his rocklegend account
-			if(!is_null(Sentry::getUser())){
-				$user = User::where('id', Sentry::getUser()->id)->first();
-
-				$provider_user = new UserFacebook;
-
-				$provider_user->facebook_id = $user->getId();
-				$provider_user->email = $user->getEmail();
-				$provider_user->name = $user->getName();
-				$provider_user->first_name = $user->first_name;
-				$provider_user->last_name = $user->last_name;
-				$provider_user->link = $user->link;
-				$provider_user->gender = isset($user->gender) ? $user->gender : 'n/a';
-				$provider_user->locale = isset($user->locale) ? $user->locale : 'n/a';
-				$provider_user->timezone = isset($user->timezone) ? $user->timezone : 'n/a';
-				$provider_user->verified = isset($user->verified) ? $user->verified : 'n/a';
-
-				$provider_user->user_id = $user->id;
-				$provider_user->save();
-
-				$user->provider = 'facebook';
-				$user->save();
-
-				return Redirect::to('profile/settings');
-			}
-
-			// user logs in first time -> let him register his account
-			Session::put('provider', 'facebook');
-			Session::put('facebook_user', $user);
-
-			return Redirect::to('register');
-	    }
-	    else
-	    {
-	    	// log in existing user
-			$this->loginUserById($user_facebook->user_id);
-	    }
-
-		return Redirect::intended('/');
-	}
-
-	/**
-	 * Show / Handle Registration via Facebook & Form
+	 * Show / Handle Registration via Form
 	 *
 	 * @Any("register", as="register")
 	 */
 	public function register()
-	{
-		$provider = Session::get('provider');
+	{		
+		$errors = new Illuminate\Support\MessageBag();
 
-		if(Input::get('provider') == 'form'){
-
+		if(Request::method() === 'POST'){
 			try{
 				// check if user provided a code and if the code is valid
 				if(Input::has('code') && !SignupCode::valid(Input::get('code'))){
@@ -297,112 +227,14 @@ class AuthController extends BaseController {
 			catch(Exception $e){
 				$m = $e->getMessage();
 			}
-		}
 
-		if(is_null($provider))
-		{
-			return Redirect::to('login');
-		}
-
-		if($provider == 'facebook')
-		{
-			$user = (array) Session::get('facebook_user');
-
-			$provider_user = new UserFacebook;
-			$provider_id = $user['id'];
-			$provider_user->facebook_id = $user['id'];
-			$provider_user->email = isset($user['email']) ? $user['email'] : (isset($user['user']['email']) ? $user['user']['email'] : '');
-			$provider_user->name = $user['name'];
-			$provider_user->first_name = $user['user']['first_name'];
-			$provider_user->last_name = $user['user']['last_name'];
-			$provider_user->link = $user['user']['link'];
-			$provider_user->gender = $user['user']['gender'];
-			$provider_user->locale = $user['user']['locale'];
-			$provider_user->timezone = $user['user']['timezone'];
-			$provider_user->verified = $user['user']['verified'];
-
-			$has_user = $provider_user->email != '' ? User::where('email', $provider_user->email)->first() : false;
-
-			if($has_user){
-				$provider_user->user_id = $has_user->id;
-				$provider_user->save();
-
-				$has_user->provider = 'facebook';
-				$has_user->save();
-
-				if($this->loginUserById($has_user->id) === TRUE){
-					return Redirect::intended('/');
-				}
+			if (isset($m)) {
+				$errors->add($m, Lang::get('auth.' . $m));
 			}
-		}
-
-		if (Input::has('username'))
-		{
-			$user = (array) Session::get('facebook_user');
-
-			$provider_user->fill($user);
-
-			try
-			{
-				// check if user provided a code and if the code is valid
-				if(Input::has('code') && !SignupCode::valid(Input::get('code'))){
-					$m = 'invalid_code';
-				}else{
-					if(User::where('email', $provider_user->email)->count() >=1)
-					{
-						$m = 'user_exists';
-					}
-					else
-					{
-						// Create the user
-						$user = Sentry::createUser(array(
-							'password' => 'legendrock5_'.$provider_id.'_'.time(),
-							'username' => Input::get('username'),
-							'email' => $provider_user->email,
-							'provider' => $provider,
-							'activated' => 1,
-						));
-
-					    if(Input::has('code')){
-					    	SignupCode::useCodeForUserId($user->id, Input::get('code'));
-					    }
-
-						// Find the group using the group id
-						$memberGroup = Sentry::findGroupByName('Player');
-
-						// Assign the group to the user
-						$user->addGroup($memberGroup);
-
-						$provider_user->user_id = $user->id;
-				    	$provider_user->save();
-
-				    	if($this->loginUserById($user->id) === TRUE)
-				    	{
-				    		return Redirect::intended('/');
-				    	}
-				    }
-				}
-			}
-			catch (Cartalyst\Sentry\Users\UserExistsException $e)
-			{
-			    $m = 'user_exists';
-			}
-			catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
-			{
-				$m = 'internal_error_301';
-			}
-			catch(Exception $e){
-				$m = $e->getMessage();
-			}
-
-			return Redirect::route('register')
-							->withErrors(array($m => Lang::get('auth.' . $m)))
-							->withInput();
 		}
 
 		return View::make('auth/register')
-			->with('provider', $provider)
-			->with('name', $provider != 'form' ? $provider_user->first_name : '');
+			->withErrors($errors);
 	}
 
 	/* HELPER */
