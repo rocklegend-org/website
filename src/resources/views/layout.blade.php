@@ -34,13 +34,6 @@
 		{{-- fonts --}}
 		<link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css' />
 		<link href='//fonts.googleapis.com/css?family=Roboto:400,300italic,300,100,500,400italic,500italic,700' rel='stylesheet' type='text/css' />
-		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-		<script>
-			(adsbygoogle = window.adsbygoogle || []).push({
-				google_ad_client: "ca-pub-8678025779428864",
-				enable_page_level_ads: true
-			});
-		</script>
 	</head>
 	<body class="{{ strtolower(preg_replace('/controller@[A-Za-z]*/i', '', Route::currentRouteAction())) }} {{isset($player) ? 'player' : ''}}">
 		<div id="fb-root"></div>
