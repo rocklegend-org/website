@@ -58,7 +58,7 @@
             We're currently performing an update!<br />
             Check back soon to find out what's new!
         </p>
-        <p class="thin"><a href="{{url()}}">try again</a></p>
+        <p class="thin"><a href="{{url('')}}">try again</a></p>
     </div>
 </body>
 </html>
