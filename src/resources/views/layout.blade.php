@@ -11,6 +11,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<meta name="robots" content="index,follow" />
 		<meta name="revisit-after" content="3 days" />
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="keywords" lang="en" content="online music game, jamlegend, rhythm game, rocklegend, find new bands, bored at school" />
 
 		@section('facebook_meta')
