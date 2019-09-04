@@ -54,12 +54,19 @@
 				$('select[name="difficulty_id"]').hide();
 				$('#form-new-track input[type="submit"]').hide();
 				$('#form-new-track').prop('disabled', true);
-				$.post('{{route('track.missingDifficulties')}}', {song_id: $('select[name="song_id"] option:selected').val()}, 
-					function(html){
+				$.ajax({
+					type: 'post',
+					url: '{{route('track.missingDifficulties')}}',
+					data: { song_id: $('select[name="song_id"] option:selected').val()}, 
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+					},
+					success: function(html){
 						$('select[name="difficulty_id"]').html(html).show();
 						$('#form-new-track input[type="submit"]').show();
 						$('#form-new-track').prop('disabled', false);
-					});
+					}
+				});
 			});
 		});
 	</script>
