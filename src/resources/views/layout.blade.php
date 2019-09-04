@@ -92,7 +92,7 @@
 
 				<div class="small-10 medium-6 columns profile-box" data-equalizer-watch>
 					<div class="row">
-					@if (is_null(Sentry::getUser()))
+					@if (!Sentry::check())
 						@include('partials.header.login')
 					@else
 						@include('partials.header.user')

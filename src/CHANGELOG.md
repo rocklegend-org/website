@@ -1,6 +1,12 @@
 # Change Log
 <div class="clear"></div>
 
+#v0.9.9 | 2019-09-05
+
+* general page performance improvements
+* updated laravel 5.2 -> 5.3
+* removed unnecessary packages
+
 #v0.9.8 | 2019-09-04
 
 * adds patreon button

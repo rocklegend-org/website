@@ -18,7 +18,7 @@ class HomeController extends BaseController {
 							->select('id', 'song_id', 'user_id', 'difficulty')
 							->where('difficulty','>',0)
 							->orderBy('updated_at', 'DESC')
-							->with('song')
+							->with('song', 'song.artist', 'user')
 							->take(5)
 							->get();
 
@@ -29,13 +29,14 @@ class HomeController extends BaseController {
 							->where(DB::raw('YEAR(highscores.created_at)'), DB::raw('YEAR(NOW())'))
 							->groupBy('highscores.track_id')
 							->orderBy('total','DESC')
+							->with('track.user', 'track.song', 'track.song.artist')
 							->take(3)
 							->get();
 
 		return View::make('home')
 			->with('lastScores', $lastHighscores)
 			->with('newestTracks', $newestTracks)
-			->with('hotTracks', $hotTracks);
+			->with('hotTracks', $hotTracks->map(function($score) { return $score->track; }));
 	}
 
 	/**
