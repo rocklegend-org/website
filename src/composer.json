@@ -31,7 +31,8 @@
       "omnipay/omnipay": "~2.0",
       "filp/whoops": "~1.0",
 
-      "doctrine/dbal": "^2.5"
+      "doctrine/dbal": "^2.5",
+        "barryvdh/laravel-debugbar": "~2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
