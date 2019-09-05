@@ -18,8 +18,8 @@
 	<b>Albums:</b> {{count($albums)}}<br />
 	<b>Tracks:</b> {{count($tracks)}}<br />
 	<b>Scores:</b> {{$scoreCount}}<br />
-	<b>Scores by:</b> {{count($scoresByUsers)}} Users<br />
-	<b>Comments:</b> {{count($comments)}}<br />
+	<b>Scores by:</b> {{$scoresByUsers}} Users<br />
+	<b>Comments:</b> {{$comments}}<br />
 
 	<hr />
 	<div class="heading-sec">
@@ -68,9 +68,11 @@
 				@endforeach
 			</div>
 
+			@if(!is_null($comment->track))
 			<div class="comment-options">
 				<a href="{{ route('game.play', array('artist' => $comment->track->song->artist->slug, 'song' => $comment->track->song->slug, 'track' => $comment->track_id)) }}" target="_blank">go to track</a>
 			</div>
+			@endif
 		</div>
 	@endforeach
 	</div>

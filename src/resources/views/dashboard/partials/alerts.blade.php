@@ -1,5 +1,5 @@
 
-@if ($errors->has())
+@if ($errors->any())
 	@if ($errors->count() > 1)
 		<div class="alert alert-block alert-danger">
 			<ul>

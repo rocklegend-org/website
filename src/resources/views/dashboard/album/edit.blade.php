@@ -3,12 +3,13 @@
 @section('content')
 
 	<div class="heading-sec">
-		<h1>Edit Album</h1>
+		<h1>Edit Album - {{ $album->title }}</h1>
 	</div>
 
-	{{ Form::open(array('id' => 'create-user-form', 'action' => array('Dashboard\\AlbumController@update', $user->id ))) }}
-	{{ Form::label('name').": ".Form::text('name') }}<br />
-	{{ Form::submit('Save'); }}
-	{{ Form::close() }}
+	{!! Form::open(array('url' => Url::route('dashboard.album.update', array('id' => $album->id)), 'method' => 'patch' )) !!}
+		{!! $form !!}
+		<div class="clearfix"></div>
+		{!! Form::submit('Update', array('class' => 'buttonFinish')) !!}
+	{!! Form::close() !!}
 
 @stop

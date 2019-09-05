@@ -10,9 +10,6 @@ use Controller,
 	URL,
 	Input;
 
-/**
- * @Resource("dashboard/artist")
- */
 class ArtistController extends BaseController {
 
 	public function index()
@@ -77,7 +74,13 @@ class ArtistController extends BaseController {
      */
     public function destroy($id)
     {    	    	
-    	$artist = Artist::find($id);
+			$artist = Artist::find($id);
+			
+			if (is_null($artist)) {
+				Session::flash('error', Lang::get('dashboard.artist.delete.error'));
+				return Redirect::route('dashboard.artist.index');
+			}
+		
     	$artist->delete();
 
     	Session::flash('message', Lang::get('dashboard.artist.delete.success'));

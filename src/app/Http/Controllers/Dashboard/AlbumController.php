@@ -6,11 +6,10 @@ use Controller,
 	Album,
 	Session,
 	Lang,
+	Input,
+	URL, 
 	Redirect;
 
-/**
- * @Resource("dashboard/album")
- */
 class AlbumController extends BaseController {
 
 	public function index()
@@ -29,19 +28,40 @@ class AlbumController extends BaseController {
 		return $view;
 	}
 
-    /**
-     * deletes the given album
-     * 
-     * @todo show correct error message
-     * @author pne
-     * @return boolean
-     */
-    public function destroy($id)
-    {    	    	
-    	$album = Album::find($id);
-    	$album->delete();
+	public function edit($id)
+	{
+		$album = Album::find($id);
 
-    	Session::flash('message', Lang::get('dashboard.album.delete.success'));
-    	return Redirect::route('dashboard.album.index');
-   	}
+		$form = View::make('dashboard.album.form')
+			->with('album', $album);
+
+		return View::make('dashboard.album.edit')
+			->with('album', $album)
+			->with('action', 'edit')
+			->with('formUrl', URL::route('dashboard.album.update', array('id' => $album->id)))
+			->with('form', $form);
+	}
+
+	public function update($id)
+	{
+		$album = Album::find($id);
+		$album->update(Input::all());
+
+		return Redirect::route('dashboard.album.edit', array('id' => $album->id));
+	}
+
+  public function destroy($id)
+	{    	    	
+		$album = Album::find($id);
+			
+		if (is_null($album)) {
+			Session::flash('error', Lang::get('dashboard.album.delete.error'));
+			return Redirect::route('dashboard.album.index');
+		}
+		
+		$album->delete();
+
+		Session::flash('message', Lang::get('dashboard.album.delete.success'));
+		return Redirect::route('dashboard.album.index');
+	}
 }

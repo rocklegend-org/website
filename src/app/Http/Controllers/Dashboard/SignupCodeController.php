@@ -15,10 +15,6 @@ use Controller,
 	Mail;
 use Illuminate\Database\QueryException;
 
-
-/**
- * @Resource("dashboard/signup-code")
- */
 class SignupCodeController extends BaseController {
 	
 	/**

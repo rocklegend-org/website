@@ -9,7 +9,8 @@ use View,
 	User,
 	Invite,
 	Track,
-	TrackComment;
+	TrackComment,
+	DB;
 
 class DashboardController extends BaseController {
 
@@ -36,8 +37,9 @@ class DashboardController extends BaseController {
 		$scoreCount = Score::count();
 		$users = User::all();
 		$tracks = Track::all();
-		$scoresByUsers = Score::groupBy('user_id')->get();
-		$comments = TrackComment::all();
+		$scoresByUsers = Score::count(DB::raw('DISTINCT user_id'));
+		$comments = TrackComment::count();
+		$latestComments = TrackComment::orderBy('created_at', 'desc')->with('user', 'track', 'track.song', 'track.song.artist')->take(15)->get();
 
 		return View::make('dashboard.index')
 			->with('songs',$songs)
@@ -47,7 +49,7 @@ class DashboardController extends BaseController {
 			->with('users',$users)
 			->with('scoresByUsers', $scoresByUsers)
 			->with('comments', $comments)
-			->with('latestComments', TrackComment::orderBy('created_at', 'desc')->take(15)->get())
+			->with('latestComments', $latestComments)
 			->with('tracks',$tracks);
 	}
 

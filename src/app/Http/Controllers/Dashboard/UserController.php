@@ -13,9 +13,6 @@ use Controller,
 	\Badge;
 use Illuminate\Database\QueryException;
 
-/**
- * @Resource("dashboard/user")
- */
 class UserController extends BaseController {
 
 	public function index()

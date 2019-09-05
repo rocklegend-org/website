@@ -26,7 +26,6 @@ use Controller,
 
 /**
  * This class handles the dashboard functionalities for song actions
- * @Resource("dashboard/song")
  *
  */
 class SongController extends BaseController {

@@ -23,7 +23,7 @@
 		@foreach ($albums as $album)
 			<tr>
 				<td>#{{ $album->id }}</td>
-				<td>{{ $album->name }}</td>
+				<td>{{ $album->title }}</td>
 				<td>
 					<a href="{{ URL::action('Dashboard\\ArtistController@show', array('id' => $album->artist_id)) }}">
 						{{ $album->artist->name }}

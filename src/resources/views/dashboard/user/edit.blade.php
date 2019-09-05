@@ -33,7 +33,7 @@
 				<div class="form-group">
 					{!! Form::label('password', 'Password', array('class' => 'col-md-3 control-label')) !!}
 					<div class="col-md-9">
-						{!! Form::password('password', '', array('class' => 'form-control') ) !!}<br />
+						{!! Form::password('password', array('class' => 'form-control') ) !!}<br />
 					</div>
 				</div>
 

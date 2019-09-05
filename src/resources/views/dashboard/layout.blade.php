@@ -40,7 +40,7 @@
 			<div class="header-alert">
 				<ul>
 					@if( Sentry::check() )
-					<li><a href="{{ URL::action('Dashboard\\UserController@show', array('id' => Sentry::getUser()->id)) }}" title=""><i class="fa fa-user"></i>{{ Sentry::getUser()->username }}</a></li>
+					<li><a href="{{ URL::route('dashboard.user.show', array('id' => Sentry::getUser()->id)) }}" title=""><i class="fa fa-user"></i>{{ Sentry::getUser()->username }}</a></li>
 					@endif
 					<li><a href="{{ URL::route('logout') }}" title=""><i class="fa fa-power-off"></i>Logout</a></li>
 				</ul>
@@ -54,19 +54,19 @@
 					<a href="{{URL::route('dashboard')}}" title="Home" ><i class="fa fa-trophy"></i>Home</a>
 				</li>
 				<li>
-					<a href="{{ URL::action('Dashboard\\SongController@index') }}" title="Songs" ><i class="fa fa-music"></i>Songs</a>
+					<a href="{{ URL::route('dashboard.song.index') }}" title="Songs" ><i class="fa fa-music"></i>Songs</a>
 				</li>
 				<li>
-					<a href="{{ URL::action('Dashboard\\ArtistController@index') }}" title="Artists" ><i class="fa fa-male"></i>Artists</a>
+					<a href="{{ URL::route('dashboard.artist.index') }}" title="Artists" ><i class="fa fa-male"></i>Artists</a>
 				</li>
 				<li>
-					<a href="{{ URL::action('Dashboard\\AlbumController@index') }}" title="Artists" ><i class="fa fa-list-alt"></i>Albums</a>
+					<a href="{{ URL::route('dashboard.album.index') }}" title="Albums" ><i class="fa fa-list-alt"></i>Albums</a>
 				</li>
 				<li>
-					<a href="{{ URL::action('Dashboard\\UserController@index') }}" title="Users" ><i class="fa fa-users"></i><!--<span><i>20+</i></span>-->Users</a>
+					<a href="{{ URL::route('dashboard.user.index') }}" title="Users" ><i class="fa fa-users"></i><!--<span><i>20+</i></span>-->Users</a>
 				</li>
 				<li>
-					<a href="{{ URL::action('Dashboard\\SignupCodeController@index') }}" title="Signup Codes" ><i class="fa fa-key"></i><!--<span><i>20+</i></span>-->Codes</a>
+					<a href="{{ URL::route('dashboard.signupcodes') }}" title="Signup Codes" ><i class="fa fa-key"></i><!--<span><i>20+</i></span>-->Codes</a>
 				</li>
 			</ul>
 		</div>
