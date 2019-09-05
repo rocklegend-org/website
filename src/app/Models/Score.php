@@ -45,9 +45,7 @@ class Score extends Eloquent {
 	public function uniqueScores()
 	{
 		$res = Score::where('track_id', $this->track_id)
-				->groupBy('user_id')
-				->count();
-
+				->count(DB::raw('DISTINCT user_id'));
 		return $res;
 	}
 
