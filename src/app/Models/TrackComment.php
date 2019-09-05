@@ -4,7 +4,7 @@ class TrackComment extends Eloquent {
 
 	protected $table = 'tracks_comments';
 
-    protected $softDelete = false;
+  protected $softDelete = false;
 
 	public function track()
 	{

@@ -138,6 +138,13 @@
 				<div class="clear"></div>
 			</div>
 		</div>
+		
+		@if(Config::get('realtime::enabled') && !is_null(Sentry::getUser()))
+-			@if(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS']  != 'on')
+-			@include('chat.base')
+-			@endif
+-		@endif
+		
 		{{-- javascripts --}}
 		<script>
 			{{-- google analytics --}}
@@ -167,6 +174,13 @@
 
 		{!! HTML::script('assets/js-min/rl.min.js') !!}
 
+		@if(Session::has('jumpTo'))
+			<script type="text/javascript">
+				$(function(){
+					rl.jumpTo('{{ Session::get('jumpTo') }}');
+				});
+			</script>
+		@endif
 		@yield('footer-scripts')
 		<div class="clear"></div>
 	</body>

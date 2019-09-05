@@ -18,9 +18,6 @@ use Controller,
 	MidiParser,
 	Helper\RLString;
 
-/**
- * @Resource("dashboard/track")
- */
 class TrackController extends BaseController {
 
 	/**

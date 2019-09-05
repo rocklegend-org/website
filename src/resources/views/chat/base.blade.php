@@ -20,6 +20,7 @@
 	<div class="toolbar row">
 		<form action="{{ url('/chat/send-message') }}" method="post" class="ws chat-message">
 			<div class="small-12 columns">
+				{{ csrf_field() }}
 				<input type="hidden" value="{{User::current()->id}}" name="user_id" />
 				<input type="text" value="" placeholder="Your message..." name="chat-message" />
 				<input type="submit" class="bg-green" value="Send" />

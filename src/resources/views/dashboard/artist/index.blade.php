@@ -34,7 +34,7 @@
 					</a>
 				</td>
 				<td>
-					<a href="{{ URL::action('Dashboard\\ArtistController@edit', array('id' => $artist->id)) }}" class="btn blue m-sml-btn">
+					<a href="{{ URL::route('dashboard.artist.edit', array('id' => $artist->id)) }}" class="btn blue m-sml-btn">
 						<i class="fa fa-edit"></i> Edit
 					</a>
 					{!! Form::open(array('route' => array('dashboard.artist.destroy', $artist->id), 'method' => 'DELETE')) !!}
