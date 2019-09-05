@@ -1,9 +1,11 @@
+<?php $user = User::current(); ?>
+
 <div class="small-12 medium-10 columns text-right" data-equalizer-watch>
 	<div class="display-table" data-equalizer-watch>
 		<div class="info hide-for-small small-12 columns text-right">
-			<a href="{{route('profile', array('username' => strtolower(User::current()->username)))}}" title="Your Profile" class="no-tooltip">
+			<a href="{{route('profile', array('username' => strtolower($user->username)))}}" title="Your Profile" class="no-tooltip">
 				<span class="username">
-					{{ Sentry::getUser()->username}}
+					{{ $user->username}}
 				</span>
 			</a>
 		</div>
@@ -28,8 +30,8 @@
 	</div>
 </div>
 <div class="medium-2 column profile-image hide-for-small" data-equalizer-watch>
-	<a href="{{route('profile', array('username' => strtolower(User::current()->username)))}}" title="Your Profile" class="no-tooltip">
-		<div data-equalizer-watch data-image="{{ User::where('id', Sentry::getUser()->id)->first()->getAvatarUrl() }}">
+	<a href="{{route('profile', array('username' => strtolower($user->username)))}}" title="Your Profile" class="no-tooltip">
+		<div data-equalizer-watch data-image="{{ $user->getAvatarUrl() }}">
 		</div>
 	</a>
 </div>

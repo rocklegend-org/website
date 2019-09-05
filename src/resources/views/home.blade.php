@@ -28,7 +28,10 @@
 
 		<h2>Get in touch!</h2>
 		<p>
-			Tell me what you like, what you miss,<br />and what doesn't work for you via rocklegends <a href="https://facebook.com/rocklegendgame" target="_blank" title="facebook">facebook page</a>!<br>
+			Tell me what you like, what you miss,<br />and what doesn't work for you via rocklegends <a href="https://facebook.com/rocklegendgame" target="_blank" title="facebook">facebook page</a> or on the
+			official subreddit: <a href="https://reddit.com/r/rocklegendorg" target="_blank">
+				<img alt="Subreddit subscribers" src="https://img.shields.io/reddit/subreddit-subscribers/rocklegendorg?style=social" />
+			</a>
 		</p>
 
 		<p>
@@ -45,8 +48,6 @@
 
 			<div style="line-height:12px;">
 				@foreach($hotTracks as $track)
-					<?php $track = Track::find($track['track_id']); ?>
-
 					<a href="{{route('game.play',
 									array(
 										'track' => $track->id,

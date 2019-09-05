@@ -43,7 +43,7 @@ class Conversation extends MessengerConversation {
 		//->where('users.id', '!=', $user)
 		->where('participants.thread_id', $this->id)
 		->select('username as name')
-		->lists('users.name');
+		->pluck('users.name');
 
 		return implode(', ', $participantNames);
 	}

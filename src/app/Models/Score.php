@@ -46,9 +46,9 @@ class Score extends Eloquent {
 	{
 		$res = Score::where('track_id', $this->track_id)
 				->groupBy('user_id')
-				->get();
+				->count();
 
-		return count($res);
+		return $res;
 	}
 
 	public static function latest($count = 100)

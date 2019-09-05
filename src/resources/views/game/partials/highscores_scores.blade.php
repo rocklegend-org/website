@@ -31,7 +31,7 @@
 				->orderBy('score', 'DESC');
 
 
-	$allScores = $scores->lists('user_id');
+	$allScores = $scores->pluck('user_id');
 
 	$user_score = clone $scores;
 	$user_score = $user_score->where('user_id', User::current()->id)->get();
@@ -39,7 +39,7 @@
 	$highscores = $scores->take($maxResults)
 				->get();
 
-	$user_rank = array_search(User::current()->id, $allScores);
+	$user_rank = array_search(User::current()->id, (array) $allScores);
 
 	if($user_rank !== false){
 		$user_rank +=1;
