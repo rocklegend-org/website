@@ -47,6 +47,9 @@ class AuthController extends BaseController {
 	    if (Sentry::authenticate($credentials, false)) {
 	    	$user = Sentry::getUser();
 
+				// cache user settings for later access
+				User::current()->settingsMap();
+
 	    	Session::flash('success', Lang::get('auth.logged_in'));
 
 	    	return Redirect::intended('/');

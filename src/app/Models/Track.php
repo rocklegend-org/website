@@ -55,15 +55,17 @@ class Track extends Eloquent {
 		return route('game.play', array('artist' => $this->song->artist->slug, 'song' => $this->song->slug, 'track' => $this->id, 'user' => $user_id));
 	}
 
-	public function getUserScore($asObject = false, $user_id = false)
+	public function getUserScore($asObject = false, $user_id = false, $fields = ['score'])
 	{
 		if(Sentry::getUser() !== null){
 			if($user_id){			
 				$score = $this->highscores()
+							->select($fields)
 							->where('user_id', $user_id)
 							->first();
 			}else{
 				$score =  $this->highscores()
+							->select($fields)
 							->where('user_id', User::current()->id)
 							->first();
 			}
@@ -81,12 +83,14 @@ class Track extends Eloquent {
 	{
 		if($timespan){
 			$score = $this->highscores()
+						->select('score', 'user_id')
 						->with('user')
 						->date($timespan)
 						->orderBy('score', 'desc')
 						->first();
 		}else{
 			$score = $this->highscores()
+						->select('score', 'user_id')
 						->with('user')
 						->where('track_id',$this->id)
 						->orderBy('score', 'desc')

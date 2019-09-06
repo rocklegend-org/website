@@ -101,7 +101,7 @@ class SongController extends BaseController {
 
 			if($user)
 			{
-				$friendScore = $user !== 0 ? $track->getUserScore(true,$user) : 0;
+				$friendScore = $user !== 0 ? $track->getUserScore(true,$user, ['score', 'tracked_score', 'user_id']) : 0;
 				if($friendScore && isset($friendScore->tracked_score)){
 					$data = lzw_decompress($friendScore->tracked_score);
 				}
