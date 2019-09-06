@@ -47,6 +47,7 @@ return [
     'connections' => [
 
         'mysql' => [
+            'engine'    => 'InnoDB',
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
             'database'  => env('DB_DATABASE', 'rocklegend-local'),
