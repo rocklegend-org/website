@@ -15,12 +15,18 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        $this->call(ResetSeeder::class);
+
+        if (!env('APP_ENV', 'production')) {
+            $this->call(ResetSeeder::class);
+        }
+
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(BadgeSeeder::class);
         $this->call(SettingSeeder::class);
+
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         Model::reguard();
     }
 }

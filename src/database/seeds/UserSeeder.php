@@ -14,7 +14,7 @@ class UserSeeder extends Seeder {
 
             $role = Sentinel::findRoleBySlug($username);
             $user = User::where('username', $username)->first();
-            var_dump($user);
+
             if (is_null($user)) {
                 $password = $username.'rl';
 

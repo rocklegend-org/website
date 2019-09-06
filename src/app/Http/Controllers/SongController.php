@@ -240,8 +240,9 @@ class SongController extends BaseController {
 		$score->play_mode = Input::get('mode');
 		$score->extendedSave();
 
-		$bandsBadge = Badge::checkGroup('playedBands', User::current()->id, true);
-		$songsBadge = Badge::checkGroup('playedSongs', User::current()->id, true);
+		$user = User::current();
+		$bandsBadge = Badge::checkGroup('playedBands', $user, true);
+		$songsBadge = Badge::checkGroup('playedSongs', $user, true);
 
 		$wonBadge = false;
 		foreach($bandsBadge as $name => $badge){
