@@ -4,6 +4,7 @@
 
 * updated laravel 5.3 -> 5.4
 * migrated from cartalyst/sentry -> cartalyst/sentinel
+	* updated roles and permissions scheme
 * adds missing bowerfile (before i can get around to kick bower)
 * fixed error when trying to save profile info
 * fixed error display in some password reset conditions
