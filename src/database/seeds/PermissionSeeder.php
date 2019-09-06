@@ -51,29 +51,25 @@ class PermissionSeeder extends Seeder {
 
         Eloquent::unguard();
 
-        $groups = array();
+        $roles = array();
 
         foreach ($permissions as $name => $perm) {
+            $role = Sentinel::findRoleByName($name);
 
-            try {
-
-                $group = Sentry::getGroupProvider()->findByName($name);
-                $group->permissions = $perm;
-                $group->save();
-
-            } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
-
-                $group = Sentry::getGroupProvider()->create(array(
-
+            if (is_null($role)) {
+                $role = Sentinel::getRoleRepository()->createModel()->create([
                     'name'          => $name,
-                    'permissions'   => $perm,
-                ));
+                    'slug'          => ucfirst($name)
+                ]);
             }
+        
+            $role->permissions = $perm;
+            $role->save();
 
-            $groups[$name] = $group;
+            $roles[$name] = $role;
         }
 
-        $this->command->info('Groups and permissions seeded.');
+        $this->command->info('Roles and permissions seeded.');
     }
 
 }

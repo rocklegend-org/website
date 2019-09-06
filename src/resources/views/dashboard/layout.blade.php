@@ -39,8 +39,8 @@
 
 			<div class="header-alert">
 				<ul>
-					@if( Sentry::check() )
-					<li><a href="{{ URL::route('dashboard.user.show', array('id' => Sentry::getUser()->id)) }}" title=""><i class="fa fa-user"></i>{{ Sentry::getUser()->username }}</a></li>
+					@if( Sentinel::check() )
+					<li><a href="{{ URL::route('dashboard.user.show', array('id' => Sentinel::getUser()->id)) }}" title=""><i class="fa fa-user"></i>{{ Sentinel::getUser()->username }}</a></li>
 					@endif
 					<li><a href="{{ URL::route('logout') }}" title=""><i class="fa fa-power-off"></i>Logout</a></li>
 				</ul>

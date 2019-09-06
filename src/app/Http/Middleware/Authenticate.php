@@ -3,7 +3,7 @@
 namespace Rocklegend\Http\Middleware;
 
 use Closure;
-use Cartalyst\Sentry\Facades\Laravel\Sentry;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class Authenticate
 {
@@ -16,7 +16,7 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if (!Sentry::check()) {
+        if (!Sentinel::check()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {

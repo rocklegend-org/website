@@ -57,7 +57,7 @@ class Track extends Eloquent {
 
 	public function getUserScore($asObject = false, $user_id = false, $fields = ['score'])
 	{
-		if(Sentry::getUser() !== null){
+		if(Sentinel::getUser() !== null){
 			if($user_id){			
 				$score = $this->highscores()
 							->select($fields)

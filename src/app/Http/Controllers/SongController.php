@@ -11,14 +11,14 @@ class SongController extends BaseController {
 		$agent = '';
 		if(isset($_SERVER['HTTP_USER_AGENT']) && (strstr($_SERVER['HTTP_USER_AGENT'],'facebookexternalhit') || stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') || stristr($_SERVER['HTTP_USER_AGENT'], 'bot'))){
 		  //it's probably Facebook's or googles bot
-
+			// @todo kick this stuff
 			try{
-				$user = Sentry::authenticate(array(
+				$user = Sentinel::authenticate(array(
 					'username' => 'adsenseBotEntry',
 					'password' => 'adsenseBotEntry#!P4ssw0rd'
 				));
 
-				Sentry::login($user);
+				Sentinel::login($user);
 			}
 			catch(Exception $e)
 			{
@@ -141,7 +141,8 @@ class SongController extends BaseController {
 	{
 		$track_obj = Track::where('id', $track)->first();
 
-		if(User::current()->official_tracker == 1 || $track_obj->user_id == Sentry::getUser()->id || Sentry::getUser()->inGroup(Sentry::findGroupByName('Admin'))){
+		$user = Sentinel::getUser();
+		if($user->official_tracker == 1 || $track_obj->user_id == $user->id || $user->inRole('admin')){
 			$artist = $track_obj->song->artist->slug;
 			$song = $track_obj->song->slug;
 

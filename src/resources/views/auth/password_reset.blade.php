@@ -24,6 +24,7 @@ reset your password | rocklegend
 
 	{!! Form::open(array('route' => 'password.reset.process', 'id' => 'form-password-reset', 'data-abide')) !!}
 		<input type="hidden" value="{{$code}}" name="code" />
+		<input type="hidden" value="{{$id}}" name="id" />
 		<div class="row">
 			<div class="medium-6 columns">
 				{!! 	Form::labelWithInput(
@@ -55,7 +56,6 @@ reset your password | rocklegend
 						'password',
 						array(
 							'required',
-							'equalto' => 'password'
 						),
 						array(
 							'key' => 'same',

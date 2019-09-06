@@ -9,6 +9,7 @@
 <div class="hide-for-small medium-2 columns">&nbsp;</div>
 
 <form method="post" action="" id="profile-edit-form">
+{{ csrf_field() }}
 <div class="small-12 medium-8 columns">
 	<div class="row">
 		<div class="small-12 medium-12 columns">
@@ -24,7 +25,7 @@
 						@if($user->official_tracker == 1)
 							<h3 class="bg-blue no-margin">official tracker</h3>
 						@endif
-						@if(Sentry::findUserById($user->id)->inGroup(Sentry::findGroupByName('Admin')))
+						@if(Sentinel::findUserById($user->id)->inRole('admin'))
 							<h3 class="bg-yellow no-margin">admin</h3>
 						@endif
 					</td>

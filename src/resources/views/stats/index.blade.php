@@ -57,9 +57,10 @@
 					</div>
 				@endforeach
 			</div>
-
 			<div class="comment-options">
+				@if($comment->track != null)
 				<a href="{{ route('game.play', array('artist' => $comment->track->song->artist->slug, 'song' => $comment->track->song->slug, 'track' => $comment->track_id)) }}" target="_blank">go to track</a> |
+				@endif
 				<a href="/app/admin-stats.json?key=thisismaisbaron&page=delete_comment&comment_id={{$comment->id}}" class="delete-btn">delete comment</a>
 			</div>
 		</div>

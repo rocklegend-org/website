@@ -1,4 +1,4 @@
-@if(User::current()->official_tracker || Sentry::getUser()->inGroup(Sentry::findGroupByName('Admin')))
+@if(User::current()->official_tracker || Sentinel::getUser()->inRole('admin'))
 
 			<h2 class="bg-black">Upload MIDI</h2>
 			<p>Choose a midi file (page refreshes automatically - all unsaved changes will be lost).<br />

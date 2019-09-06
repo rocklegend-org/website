@@ -11,3 +11,5 @@ composer.lock
 src/resources/views/vendor
 composer.phar
 storage/debugbar
+src/public/assets/.sass-cache/
+src/public/assets/bower_components/

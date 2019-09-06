@@ -4,7 +4,7 @@ namespace Rocklegend\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Route;
-use Cartalyst\Sentry\Facades\Laravel\Sentry;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class Permission {
     /**
@@ -18,13 +18,13 @@ class Permission {
     {
         $shouldCheck = !$request->is("login");
 
-        if ($shouldCheck && Sentry::check()) {
+        if ($shouldCheck && Sentinel::check()) {
             $action = Route::getRoutes()->match($request)->getAction()['controller'];
 
             $ctrl = explode('@', $action);
             $ctrl = $ctrl[0];
 
-            if (!Sentry::getUser()->hasAnyAccess(array($action, $ctrl)))
+            if (!Sentinel::getUser()->hasAnyAccess(array($action, $ctrl)))
                 \App::abort(403, 'Not allowed: ' . $action);
         }
 

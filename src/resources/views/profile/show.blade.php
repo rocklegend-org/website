@@ -51,7 +51,7 @@
 				@if($user->official_tracker == 1)
 					<h3 class="bg-blue no-margin">official tracker</h3>
 				@endif
-				@if(Sentry::findUserById($user->id)->inGroup(Sentry::findGroupByName('Admin')))
+				@if(Sentinel::findUserById($user->id)->inRole('admin'))
 					<h3 class="bg-yellow no-margin">admin</h3>
 				@endif
 			</div>

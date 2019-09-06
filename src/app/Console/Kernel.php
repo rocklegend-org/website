@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \Rocklegend\Console\Commands\Inspire::class,
+        \Rocklegend\Console\Commands\MigrateToSentinel::class,
     ];
 
     /**

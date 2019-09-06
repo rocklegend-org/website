@@ -152,7 +152,7 @@ return [
          * Package Service Providers
          */
         Barryvdh\Debugbar\ServiceProvider::class,
-        Cartalyst\Sentry\SentryServiceProvider::class,
+        Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Roumen\Sitemap\SitemapServiceProvider::class,
@@ -209,7 +209,9 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
 
-        'Sentry'    => Cartalyst\Sentry\Facades\Laravel\Sentry::class,
+        'Activation' => Cartalyst\Sentinel\Laravel\Facades\Activation::class,
+        'Reminder'   => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
+        'Sentinel'   => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
         'Image'     => Intervention\Image\Facades\Image::class,
         'Agent'     => Jenssegers\Agent\Facades\Agent::class,
         'Date'      => Jenssegers\Date\Date::class,

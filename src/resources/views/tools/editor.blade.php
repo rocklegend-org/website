@@ -275,7 +275,7 @@ Create a Track for {{ $song->title }} by {{ $song->artist->name }} | rocklegend
 		<br />
 		<strong>Note count:</strong> <span class="stats-notecount">{{ isset($track) ? $track->getCount() : '0' }}</span>
 		<br />
-		@if(User::current()->official_tracker || Sentry::getUser()->inGroup(Sentry::findGroupByName('Admin')))
+		@if(User::current()->official_tracker || Sentinel::getUser()->inRole('admin')))
 		<h2 class="bg-blue">Download</h2>
 		<br />
 		<a href="{{url('').$soundFiles[0]}}" target="_blank">{{$song->title}} - MP3</a>
