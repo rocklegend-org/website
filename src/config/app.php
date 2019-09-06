@@ -158,6 +158,7 @@ return [
         Roumen\Sitemap\SitemapServiceProvider::class,
         Jenssegers\Date\DateServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
     ],
 
     /*

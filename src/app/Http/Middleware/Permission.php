@@ -14,18 +14,10 @@ class Permission {
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $permission)
     {
-        $shouldCheck = !$request->is("login");
-
-        if ($shouldCheck && Sentinel::check()) {
-            $action = Route::getRoutes()->match($request)->getAction()['controller'];
-
-            $ctrl = explode('@', $action);
-            $ctrl = $ctrl[0];
-
-            if (!Sentinel::getUser()->hasAnyAccess(array($action, $ctrl)))
-                \App::abort(403, 'Not allowed: ' . $action);
+        if (!Sentinel::getUser()->hasAccess($permission)) {
+            \App::abort(403, 'Not allowed: ' . $permission);
         }
 
         return $next($request);

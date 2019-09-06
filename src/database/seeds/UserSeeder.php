@@ -8,20 +8,25 @@ class UserSeeder extends Seeder {
     {
         Eloquent::unguard();
 
-        $roles = array('admin', 'player', 'artist', 'label');
+        $roles = array('admin', 'player');
 
         foreach($roles as $username) {
 
             $role = Sentinel::findRoleBySlug($username);
+            $user = User::where('username', $username)->first();
+            var_dump($user);
+            if (is_null($user)) {
+                $password = $username.'rl';
 
-            $password = $username.'rl';
-
-        	$user = Sentinel::create([
-				'username'    => $username,
-				'password'    => $password,
-				'email'       => $username . '@example.com',
-				'activated'   => 1,
-            ]);
+                $user = Sentinel::create([
+                    'username'    => $username,
+                    'password'    => $password,
+                    'email'       => $username . '@example.com',
+                    'activated'   => 1,
+                ]);
+            } else if ($user->inRole($role->slug)) {
+                return;
+            }
 
             $role->users()->attach($user);
         }

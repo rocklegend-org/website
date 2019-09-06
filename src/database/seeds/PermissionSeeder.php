@@ -6,48 +6,15 @@ class PermissionSeeder extends Seeder {
 
     public function run() {
 
-        $permissions = array(
+        $permissions = [
+            'Admin' => [
+                'dashboard' => true,
+            ],
 
-            'Admin' => array(
-
-                'Dashboard\\DashboardController'    => 1,
-                'Dashboard\\AlbumController'        => 1,
-                'Dashboard\\ArtistController'       => 1,
-                'Dashboard\\LabelController'        => 1,
-                'Dashboard\\TrackController'         => 1,
-                'Dashboard\\SongController'         => 1,
-                'Dashboard\\UserController'         => 1,
-                'Dashboard\\InviteController'       => 1,
-                'Dashboard\\SignupCodeController'  => 1,
-
-                'ProfileController'                 => 1,
-            ),
-
-            'Artist' => array(
-
-                'Dashboard\\DashboardController'    => 1,
-                'Dashboard\\AlbumController'        => 1,
-                'Dashboard\\ArtistController'       => 1,
-                'Dashboard\\LabelController@show'   => 1,
-                'Dashboard\\SongController'         => 1,
-                'Dashboard\\UserController'         => 1,
-            ),
-
-            'Label' => array(
-
-                'Dashboard\\DashboardController'    => 1,
-                'Dashboard\\AlbumController'        => 1,
-                'Dashboard\\ArtistController'       => 1,
-                'Dashboard\\LabelController'        => 1,
-                'Dashboard\\UserController'         => 1,
-                'Dashboard\\SongController'         => 1,
-            ),
-
-            'Player' => array(
-
-                'ProfileController'                 => 1,
-            ),
-        );
+            'Player' => [
+                'tools' => true,
+            ],
+        ];
 
         Eloquent::unguard();
 
@@ -59,7 +26,7 @@ class PermissionSeeder extends Seeder {
             if (is_null($role)) {
                 $role = Sentinel::getRoleRepository()->createModel()->create([
                     'name'          => $name,
-                    'slug'          => ucfirst($name)
+                    'slug'          => lcfirst($name)
                 ]);
             }
         
