@@ -14,14 +14,16 @@ These are rough steps which you need to take:
 
 - Create a ```.env``` file based on the ```example.env``` and update the data for database etc.
 - Run the following commands:
-```
+
+```sh
 cd rocklegend
-composer install
+composer install --no-scripts # parameter is required on first install
 php artisan migrate
 php artisan db:seed
 cd build-tools
 cd ../public/assets
 yarn
+yarn bower install # @todo remove this once bower is gone
 cd ../games/note-highway/develop/player
 yarn
 cd ../editor
