@@ -16,10 +16,6 @@ use Controller,
 use Illuminate\Database\QueryException;
 
 class SignupCodeController extends BaseController {
-	
-	/**
-	 * @Get("dashboard/signup-code", as="dashboard.signupcodes")
-	 */
 	public function index()
 	{
 		$view = View::make('dashboard.signupcodes.index')
@@ -54,9 +50,6 @@ class SignupCodeController extends BaseController {
 		return Redirect::route('dashboard.signupcodes');
 	}
 
-	/**
-	 * @Get("dashboard/signup-code/edit/{id}", as="dashboard.signupcode.edit")
-	 */
 	public function edit( $id )
 	{
 
@@ -67,9 +60,6 @@ class SignupCodeController extends BaseController {
 		
 	}
 
-	/**
-	 * @Get("dashboard/signup-code/delete/{id}", as="dashboard.signupcode.delete")
-	 */
 	public function destroy($id)
 	{
 		SignupCode::find($id)->delete();

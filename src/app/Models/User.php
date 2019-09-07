@@ -111,8 +111,7 @@ class User extends SentinelUser implements AuthenticatableContract, CanResetPass
 			return Cache::get($cacheKey);
 		}
 
-		$setting = Setting::where('name', $settingName)
-					->first();
+		$setting = Setting::byName($settingName);
 
 		$user_setting = UserSetting::currentUser()
 						->name($settingName)

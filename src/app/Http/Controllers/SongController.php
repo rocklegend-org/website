@@ -54,25 +54,17 @@ class SongController extends BaseController {
 					->with('song', $song);
 	}
 
-	/**
-	 * Print the player
-	 *
-	 * @Get("play/{artist}/{song}/{track}/{user?}", as="game.play")
-	 *
-	 * @todo make the notes id a function parameter
-	 * @author pne
-	 * @return View
-	 */
 	public function play($artist, $song, $track, $user = 0, $test = false)
 	{
+		$time_start = microtime(true); 
+
 		$song = Song::where('slug', $song)
 					->with('artist')
 					->first();
 
 		$track = Track::withTrashed()
-						->where('song_id', $song->id)
-						->with('highscores', 'song', 'song.artist')
 						->where('id', $track)
+						->with('highscores', 'song', 'song.artist')
 						->first();
 
 		if($track){
@@ -80,7 +72,8 @@ class SongController extends BaseController {
 
 			$debug = App::environment() == 'development';
 
-			$nextSong = Track::with('song')
+			$nextSong = Track::select('id', 'song_id')
+							->with('song')
 							->with('song.artist')
 							->where('id','!=', $track->id)
 							->where('difficulty', $track->difficulty)
@@ -90,7 +83,8 @@ class SongController extends BaseController {
 							->first();
 
 			if($nextSong == null){
-				$nextSong = Track::with('song')
+				$nextSong = Track::select('id', 'song_id')
+							->with('song')
 							->with('song.artist')
 							->where('id','!=', $track->id)
 							->where('status',2)

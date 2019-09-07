@@ -6,16 +6,8 @@ class ArtistController extends BaseController {
 	{
 		parent::__construct();
 	}
-
-	/**
-	 * Shows the artists detail page
-	 *
-	 * @author pne
-	 * @return View
-	 *
-	 * @Get("artist/{artist}", as="artist.show")
-	 */
-	public function show($artist)
+	
+	function show($artist)
 	{
 		$artist = Artist::where('slug', $artist)->first();
 

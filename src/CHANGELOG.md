@@ -1,5 +1,11 @@
 # Change Log
 <div class="clear"></div>
+#v0.9.11 | 2019-09-07
+
+* allows selecting other song and difficulty from play page or artist page (by clicking on a song title in the sidebar)
+* fixed sitemap
+* updated routes
+
 #v0.9.10 | 2019-09-07
 
 * updated laravel 5.3 -> 5.4

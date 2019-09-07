@@ -15,6 +15,7 @@ Route::post('profile/unfollow', array('uses' => 'ProfileController@unfollow', 'a
 
 Route::get('profile/badges/{username?}', array('uses' => 'ProfileController@badges', 'as' => 'profile.badges'));
 Route::get('badges', array('uses' => 'BadgeController@showList', 'as' => 'badges'));
+Route::post('badge/{badge}.json', array('uses' => 'BadgeController@getJson', 'as' => 'badge.getjson'));
 
 // conversations
 Route::get('conversations', array('uses' => 'ConversationController@index', 'as' => 'conversation'));

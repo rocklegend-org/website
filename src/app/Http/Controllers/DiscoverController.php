@@ -7,10 +7,7 @@ class DiscoverController extends BaseController {
 		parent::__construct();
 	}
 
-	/**
-	 * @Get("discover", as="discover")
-	 */
-	public function index($artist = false, $song = false)
+	public function index()
 	{		
 		$artists = Artist::with('songs')
 					->orderBy('created_at')
@@ -26,9 +23,6 @@ class DiscoverController extends BaseController {
 		return $view;
 	}
 
-	/**
-	 * @Get("discover/songlist", as="discover.songlist")
-	 */
 	public function songlist()
 	{
 		return View::make('discover.songlist');

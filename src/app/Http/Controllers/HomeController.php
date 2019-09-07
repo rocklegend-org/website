@@ -3,13 +3,6 @@
 use Michelf\Markdown;
 
 class HomeController extends BaseController {
-
-	/**
-	 * Show home page
-	 *
-	 * @Get("/", as="home")
-	 *
-	 */
 	public function index()
 	{
 		$lastHighscores = Highscore::latest(5);
@@ -39,31 +32,16 @@ class HomeController extends BaseController {
 			->with('hotTracks', $hotTracks->map(function($score) { return $score->track; }));
 	}
 
-	/**
-	 * Show impressum
-	 *
-	 * @Get("imprint", as="imprint")
-	 */
 	public function showImprint()
 	{
 		return view('imprint');
 	}
 
-	/**
-	 * Show ToS
-	 *
-	 * @Get("terms-of-service", as="tos")
-	 */
 	public function showTerms()
 	{
 		return view('tos');
 	}
 
-	/**
-	 * Show statistics
-	 *
-	 * @Get("admin-stats")
-	 */
 	public function showStatistics()
 	{
 		header('X-Frame-Options: GOFORIT');

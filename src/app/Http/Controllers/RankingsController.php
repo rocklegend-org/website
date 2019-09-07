@@ -7,14 +7,6 @@ class RankingsController extends BaseController {
 		parent::__construct();
 	}
 
-	/**
-	 * Shows the rankings page
-	 *
-	 * @author pne
-	 * @return View
-	 *
-	 * @Get("rankings/{sortBy?}/{dir?}", as="rankings")
-	 */
 	public function home($sortBy = 'score', $dir = 'desc')
 	{
 		if(!in_array($sortBy, array('score', 'max_streak', 'max_multiplier', 'notes_hit', 'notes_missed', 'play_mode')) || !in_array(strtoupper($dir), array('DESC', 'ASC'))){

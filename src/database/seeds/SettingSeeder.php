@@ -11,7 +11,7 @@ class SettingSeeder extends Seeder {
         $default_settings = Config::get('user_settings');
 
         foreach($default_settings as $default_setting){
-            $setting = Setting::where('name', $default_setting['name'])->first();
+            $setting = Setting::byName($default_setting['name']);
 
             if (is_null($setting)) {
                 $setting = new Setting;

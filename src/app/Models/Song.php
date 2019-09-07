@@ -200,10 +200,11 @@ class Song extends Resource {
 
 	public function getSoundFiles()
 	{		
+		$mediaPath = $this->getMediaPath();
 		$songFilename = 'audio';
-		$songBasePath = $this->getMediaPath().$songFilename;
+		$songBasePath = $mediaPath.$songFilename;
 
-		$songBasePathCompressed = $this->getMediaPath().$songFilename.'-compressed';
+		$songBasePathCompressed = $mediaPath.$songFilename.'-compressed';
 
 		//  Firefox doesn't support mp3 files, so use ogg
 		$formats = array('mp3','ogg');
@@ -212,6 +213,7 @@ class Song extends Resource {
 
 		$soundFiles = array();
 		$soundFilesCompressed = array();
+
 		foreach($formats as $format)
 		{
 			$soundFiles[] = $songBasePath.'.'.$format;

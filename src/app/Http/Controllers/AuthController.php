@@ -3,12 +3,6 @@
 use Rocklegend\Http\Requests\LoginFormRequest;
 
 class AuthController extends BaseController {
-
-	/**
-	 * Show Register page
-	 *
-	 * @Get("login", as="login")
-	 */
 	public function login()
 	{
 		if(!is_null(Sentinel::getUser())){
@@ -18,11 +12,6 @@ class AuthController extends BaseController {
 		return View::make('auth/register');
 	}
 
-	/**
-	 * Logout currently logged in user
-	 *
-	 * @Get("logout", as="logout")
-	 */
 	public function logout()
 	{
 		Sentinel::logout();
@@ -30,12 +19,6 @@ class AuthController extends BaseController {
 		return Redirect::to('');
 	}
 
-	/**
-	 * Process login data
-	 *
-	 * @Post("login", as="login.process")
-	 *
-	 */
 	public function postLogin(LoginFormRequest $request)
 	{
 		$credentials = array(
@@ -71,21 +54,11 @@ class AuthController extends BaseController {
 						->withInput();
 	}
 
-	/**
-	 * Show "Forgot Password" screen
-	 *
-	 * @Get("forgot-password", as="password.forgotten")
-	 */
 	public function passwordForgotten()
 	{
 		return view('auth.password_forgotten');
 	}
 
-	/**
-	 * Process "Forgot Password"
-	 *
-	 * @Post("forgot-password", as="password.forgotten")
-	 */
 	public function passwordForgottenProcess()
 	{
 		if(!Input::has('email')){
@@ -116,11 +89,6 @@ class AuthController extends BaseController {
 		}
 	}
 
-	/**
-	 * Process "Forgot Password"
-	 *
-	 * @Get("reset-password/{code}/{id}", as="password.reset")
-	 */
 	public function passwordReset($code, $id)
 	{
 		$user = Sentinel::findById($id);
@@ -142,11 +110,6 @@ class AuthController extends BaseController {
 		}
 	}
 
-	/**
-	 * Process "Forgot Password"
-	 *
-	 * @Post("reset-password/process", as="password.reset.process")
-	 */
 	public function passwordResetProcess()
 	{
 		$user = Sentinel::findById(Input::get('id'));
@@ -174,12 +137,6 @@ class AuthController extends BaseController {
 		}
 	}
 
-
-	/**
-	 * Show / Handle Registration via Form
-	 *
-	 * @Any("register", as="register")
-	 */
 	public function register()
 	{		
 		$errors = new Illuminate\Support\MessageBag();
