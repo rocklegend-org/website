@@ -91,6 +91,8 @@ class MigrateToSentinel extends Migration
             $table->renameColumn('ip_address', 'ip');
             $table->timestamps();
         });
+
+        Artisan::call("sentinel:upgrade");
     }
     /**
      * Reverse the migrations.
