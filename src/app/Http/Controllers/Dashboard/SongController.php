@@ -96,9 +96,6 @@ class SongController extends BaseController {
 			->with('form', $form);
 	}
 
-	/**
-	 * @Get("dashboard/song/{id}/notes", as="dashboard.song.notes")
-	 */
 	public function notes($id)
 	{
 		$song = Song::find($id);
@@ -117,9 +114,6 @@ class SongController extends BaseController {
 			->with('formUrl', URL::route('dashboard.song.notes', array('id' => $song->id)));
 	}
 
-	/**
-	 * @Post("dashboard/song/{id}/notes", as="dashboard.song.notes.approve")
-	 */
 	public function updateNotes($id)
 	{
 		$song = Song::find($id);

@@ -20,7 +20,7 @@ class UserSetting extends Eloquent {
 
     public function scopeName($query, $name)
     {
-    	$setting = Setting::where('name',$name)->first();
+    	$setting = Setting::byName($name);
 
     	return $query->where('setting_id', $setting->id);
     }

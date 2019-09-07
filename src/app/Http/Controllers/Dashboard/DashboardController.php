@@ -42,12 +42,6 @@ class DashboardController extends BaseController {
 			->with('tracks',$tracks);
 	}
 
-	/**
-	 * Flushes the cache
-	 *
-	 * @Get("dashboard/flush-cache", as="flush.cache")
-	 *
-	 */
 	public function flushCache()
 	{
 		\Cache::flush();

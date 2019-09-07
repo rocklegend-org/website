@@ -30,7 +30,6 @@
 	$scores = $scores->groupBy('user_id')
 				->orderBy('score', 'DESC');
 
-
 	$allScores = $scores->pluck('user_id');
 
 	$user_score = clone $scores;

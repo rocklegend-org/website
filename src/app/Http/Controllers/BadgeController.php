@@ -19,14 +19,6 @@ class BadgeController extends BaseController {
 			->with('badges', Badge::all());
 	}
 
-	/**
-	 * Returns the badge data as json
-	 *
-	 * @Post("badge/{badge}.json", as="badge.getjson")
-	 *
-	 * @author pne
-	 * @return View
-	 */
 	public function getJson($badge)
 	{
 		$badge = Badge::where('id', $badge)->first();

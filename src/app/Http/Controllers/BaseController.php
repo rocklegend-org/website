@@ -4,7 +4,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as LaravelBaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
-abstract class BaseController extends LaravelBaseController
+class BaseController extends LaravelBaseController
 {
     use DispatchesJobs, ValidatesRequests;
 
@@ -15,10 +15,6 @@ abstract class BaseController extends LaravelBaseController
        	$this->redis = LRedis::connection();
     }
 
-	/**
-	 * @Get("sitemap/{format?}")
-	 * @Get("sitemap.{format}")
-	 */
 	public function generateSitemap($format = 'xml'){
 	 	// create new sitemap object
 	    $sitemap = App::make('sitemap');
@@ -45,12 +41,10 @@ abstract class BaseController extends LaravelBaseController
 		    foreach ($artists as $artist)
 		    {
 		    	$sitemap->add(route('artist.show', array('artist' => $artist->slug)), $artist->updated_at, '0.8', 'weekly');
-		    	$sitemap->add(route('discover.full.artist', array('artist' => $artist->slug)), $artist->updated_at, '0.6', 'weekly');
 
 		    	$songs = $artist->songs()->where('status', 1)->get();
 
 		    	foreach($songs as $song){
-		    		$sitemap->add(route('discover.full.song', array('artist' => $artist->slug, 'song' => $song->slug)), $song->updated_at, '0.7', 'weekly');
 
 		    		$tracks = $song->getTracks();
 

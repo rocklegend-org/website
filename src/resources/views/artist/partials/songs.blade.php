@@ -19,7 +19,7 @@
 		@else
 			<meta itemprop="inAlbum" content="{{$song->title}}" />
 		@endif
-		<a href="#" class="song" itemprop="name">
+		<a href="javascript:;" class="song" itemprop="name">
 			{{$i.'. '.$song->title}}
 		</a>
 		<ul class="track-list headline">
@@ -104,3 +104,19 @@
 		@endforeach
 	</ul>
 @endif
+
+@section('footer-scripts')
+	@parent
+	<script type="text/javascript">
+		jQuery(function($) {
+			// handle song list toggling
+			$('ul.song-list > li').on('click', function(e) {
+				if (!$(this).hasClass('active')) {
+					$('ul.song-list li.active').removeClass('active');
+				}
+
+				$(this).toggleClass('active');
+			});
+		});
+	</script>
+@stop

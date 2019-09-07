@@ -138,7 +138,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
-        Rocklegend\Providers\AnnotationsServiceProvider::class,
 
         /*
          * Application Service Providers...
