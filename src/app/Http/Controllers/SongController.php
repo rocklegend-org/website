@@ -64,7 +64,7 @@ class SongController extends BaseController {
 
 		$track = Track::withTrashed()
 						->where('id', $track)
-						->with('highscores', 'song', 'song.artist')
+						->with('song', 'song.artist')
 						->first();
 
 		if($track){
@@ -168,13 +168,13 @@ class SongController extends BaseController {
 
 		switch(Input::get('timespan')){
 			case 'week':
-				$where .= 'AND YEARWEEK(created_at) = YEARWEEK(NOW()) AND YEAR(created_at) = YEAR(NOW()) ';
+				$where .= 'YEARWEEK(created_at) = YEARWEEK(NOW()) ';
 				break;
 			case 'today':
-				$where .= 'AND DATE(created_at) = DATE(NOW()) ';
+				$where .= 'DATE(created_at) = DATE(NOW()) ';
 				break;
 			case 'month':
-				$where .= 'AND MONTH(created_at) = MONTH(NOW()) AND YEAR(created_at) = YEAR(NOW()) ';
+				$where .= 'MONTH(created_at) = MONTH(NOW())';
 				break;
 		}
 
