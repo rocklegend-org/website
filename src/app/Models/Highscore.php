@@ -35,10 +35,10 @@ class Highscore extends Score {
 			case "today":
 				return $query->where('created_at', '>=', DB::raw('CURDATE()'));
 			case "week":
-				return $query->where('created_at', '>', DB::raw('DATE_SUB(NOW(), INTERVAL 1 WEEK)'));
+				return $query->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 1 WEEK)'));
 			default:
 			case "month":
-				return $query->where('created_at', '>', DB::raw('DATE_SUB(NOW(), INTERVAL 1 MONTH)'));
+				return $query->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 1 MONTH)'));
 		}
 	}
 

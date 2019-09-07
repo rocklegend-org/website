@@ -3,15 +3,17 @@
 
 	if(!isset($where))
 	{
-		$where = 'AND YEARWEEK(created_at) = YEARWEEK(NOW())';
+		$where = 'YEARWEEK(created_at) = YEARWEEK(NOW())';
 	}
+	
+	$scoreIds = DB::select(
+		DB::raw('select s.id as id from (
+			select id, max(score) as score, user_id, created_at, track_id from scores where track_id = :trackId and '.$where.' group by user_id
+		) as x inner join scores s on s.user_id = x.user_id and s.score = x.score and s.track_id = x.track_id'),
+		['trackId' => $track->id]
+	);
 
-	// I'm using this crazy query so i don't have to check for the count of printed users in php
-	$scores = DB::table(
-				DB::raw('(SELECT * FROM scores WHERE track_id = '.$track->id.'  '.$where.' ORDER BY score DESC) scores')
-			)->select(
-				DB::raw('*')
-			)->leftJoin('users', 'users.id', '=', 'scores.user_id');
+	$scores = Score::whereIn('id', array_column($scoreIds, 'id'));
 
 	$noCountry = false;
 
@@ -27,18 +29,20 @@
 		}
 	}
 
-	$scores = $scores->groupBy('user_id')
-				->orderBy('score', 'DESC');
-
-	$allScores = $scores->pluck('user_id');
-
-	$user_score = clone $scores;
-	$user_score = $user_score->where('user_id', User::current()->id)->get();
-
-	$highscores = $scores->take($maxResults)
+	$scores = $scores->orderBy('score', 'DESC')
 				->get();
 
-	$user_rank = array_search(User::current()->id, (array) $allScores);
+	$user_score = null;
+
+	$userId = User::current()->id;
+	foreach ($scores as $score) {
+		if ($score->user_id === $userId) {
+			$user_score = $score;
+			exit;
+		}
+	}
+
+	$user_rank = array_search(User::current()->id, array_column((array) $scores, 'user_id'));
 
 	if($user_rank !== false){
 		$user_rank +=1;
@@ -52,7 +56,7 @@
 Until then, we'll show the global highscore list under this tab too.</p>
 @endif
 
-@foreach($highscores as $key => $score)
+@foreach($scores as $key => $score)
 	<?php $user = User::find($score->user_id); ?>
 	<div class="highscore-single">
 		<a href="{{$track->url($score->user_id)}}">
@@ -90,12 +94,12 @@ Until then, we'll show the global highscore list under this tab too.</p>
 	</a>
 </div>
 @elseif(!$user_rank)
-	@if(count($highscores) > 0)
+	@if(count($scores) > 0)
 	<hr />
 	@endif
 <p>You have no score on this list yet! Play the track now, and set a new highscore!</p>
 @endif
 
-@if(count($highscores) <= 0)
+@if(count($scores) <= 0)
 <p>There are no scores available for this selection :(</p>
 @endif

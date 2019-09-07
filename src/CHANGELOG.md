@@ -1,5 +1,11 @@
 # Change Log
 <div class="clear"></div>
+
+#v0.9.12 | 2019-09-08
+
+* fixes for various score queries
+* performance improvements for ranking and score listings
+  
 #v0.9.11 | 2019-09-07
 
 * allows selecting other song and difficulty from play page or artist page (by clicking on a song title in the sidebar)

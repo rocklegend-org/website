@@ -13,7 +13,7 @@ class RankingsController extends BaseController {
 			return Redirect::route('rankings');
 		}
 		$rankedUsers = DB::table('scores')
-						->select('*',DB::raw('SUM('.$sortBy.') as total_score'), DB::raw('COUNT(*) as plays'))
+						->select('user_id', DB::raw('SUM('.$sortBy.') as total_score'), DB::raw('COUNT(*) as plays'))
 						->groupBy('user_id')
 						->orderBy('total_score', strtoupper($dir))
 						->take(100)

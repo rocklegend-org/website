@@ -33,11 +33,6 @@ class Track extends Eloquent {
 		return $this->hasMany('Score');
 	}
 
-	public function highscores()
-	{
-		return $this->hasMany('Highscore');
-	}
-
 	public function comments()
 	{
 		return $this->hasMany('TrackComment');
@@ -59,12 +54,12 @@ class Track extends Eloquent {
 	{
 		if(Sentinel::getUser() !== null){
 			if($user_id){			
-				$score = $this->highscores()
+				$score = $this->scores()
 							->select($fields)
 							->where('user_id', $user_id)
 							->first();
 			}else{
-				$score =  $this->highscores()
+				$score =  $this->scores()
 							->select($fields)
 							->where('user_id', User::current()->id)
 							->first();
@@ -82,14 +77,14 @@ class Track extends Eloquent {
 	public function getHighscore($timespan = false, $asObject = false)
 	{
 		if($timespan){
-			$score = $this->highscores()
+			$score = $this->scores()
 						->select('score', 'user_id')
 						->with('user')
 						->date($timespan)
 						->orderBy('score', 'desc')
 						->first();
 		}else{
-			$score = $this->highscores()
+			$score = $this->scores()
 						->select('score', 'user_id')
 						->with('user')
 						->where('track_id',$this->id)
