@@ -11,14 +11,14 @@ class SongController extends BaseController {
 		$agent = '';
 		if(isset($_SERVER['HTTP_USER_AGENT']) && (strstr($_SERVER['HTTP_USER_AGENT'],'facebookexternalhit') || stristr($_SERVER['HTTP_USER_AGENT'], 'googlebot') || stristr($_SERVER['HTTP_USER_AGENT'], 'bot'))){
 		  //it's probably Facebook's or googles bot
-
+			// @todo kick this stuff
 			try{
-				$user = Sentry::authenticate(array(
+				$user = Sentinel::authenticate(array(
 					'username' => 'adsenseBotEntry',
 					'password' => 'adsenseBotEntry#!P4ssw0rd'
 				));
 
-				Sentry::login($user);
+				Sentinel::login($user);
 			}
 			catch(Exception $e)
 			{
@@ -101,7 +101,7 @@ class SongController extends BaseController {
 
 			if($user)
 			{
-				$friendScore = $user !== 0 ? $track->getUserScore(true,$user) : 0;
+				$friendScore = $user !== 0 ? $track->getUserScore(true,$user, ['score', 'tracked_score', 'user_id']) : 0;
 				if($friendScore && isset($friendScore->tracked_score)){
 					$data = lzw_decompress($friendScore->tracked_score);
 				}
@@ -141,7 +141,8 @@ class SongController extends BaseController {
 	{
 		$track_obj = Track::where('id', $track)->first();
 
-		if(User::current()->official_tracker == 1 || $track_obj->user_id == Sentry::getUser()->id || Sentry::getUser()->inGroup(Sentry::findGroupByName('Admin'))){
+		$user = Sentinel::getUser();
+		if($user->official_tracker == 1 || $track_obj->user_id == $user->id || $user->inRole('admin')){
 			$artist = $track_obj->song->artist->slug;
 			$song = $track_obj->song->slug;
 
@@ -239,8 +240,9 @@ class SongController extends BaseController {
 		$score->play_mode = Input::get('mode');
 		$score->extendedSave();
 
-		$bandsBadge = Badge::checkGroup('playedBands', User::current()->id, true);
-		$songsBadge = Badge::checkGroup('playedSongs', User::current()->id, true);
+		$user = User::current();
+		$bandsBadge = Badge::checkGroup('playedBands', $user, true);
+		$songsBadge = Badge::checkGroup('playedSongs', $user, true);
 
 		$wonBadge = false;
 		foreach($bandsBadge as $name => $badge){

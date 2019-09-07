@@ -68,7 +68,9 @@ class HomeController extends BaseController {
 	{
 		header('X-Frame-Options: GOFORIT');
 
-		if(Sentry::getUser() != null && Sentry::getUser()->inGroup(Sentry::findGroupByName('Admin'))){
+		$user = Sentinel::getUser();
+
+		if($user != null && $user->inRole('admin')){
 
 			switch(Input::get('page')){
 				case 'trackplaycount':
@@ -114,9 +116,10 @@ class HomeController extends BaseController {
 					$scores = Score::count();
 					$users = User::count();
 					$tracks = Track::count();
-					$scoresByUsers = Score::groupBy('user_id')->count();
+					$scoresByUsers = Score::count(DB::raw('DISTINCT user_id'));
 					$comments = TrackComment::count();
-
+					$latestComments = TrackComment::orderBy('created_at', 'desc')->take(20)->with('track.song.artist')->get();
+					
 					return view('stats.index')
 						->with('songs',$songs)
 						->with('artists',$artists)
@@ -125,7 +128,7 @@ class HomeController extends BaseController {
 						->with('users',$users)
 						->with('scoresByUsers', $scoresByUsers)
 						->with('comments', $comments)
-						->with('latestComments', TrackComment::orderBy('created_at', 'desc')->take(20)->get())
+						->with('latestComments', $latestComments)
 						->with('tracks',$tracks);
 			}
 		}

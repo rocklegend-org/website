@@ -19,7 +19,7 @@ use Controller,
 	Redirect,
 	Session,
 	Config,
-	Sentry,
+	Sentinel,
 	Validator,
 	MidiParser,
 	Helper\RLString;
@@ -239,7 +239,7 @@ class SongController extends BaseController {
 						$track->difficulty = $difficulty_id;
 						$track->lanes = 5;
 						$track->setNotesFromArray($difficulty_notes);
-						$track->user_id = Sentry::getUser()->id;
+						$track->user_id = Sentinel::getUser()->id;
 						$track->save();
 					}
 				}

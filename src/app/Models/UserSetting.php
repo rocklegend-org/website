@@ -15,7 +15,7 @@ class UserSetting extends Eloquent {
 
     public function scopeCurrentUser($query)
     {
-    	return $query->where('user_id',Sentry::getUser()->id);
+    	return $query->where('user_id',Sentinel::getUser()->id);
     }
 
     public function scopeName($query, $name)

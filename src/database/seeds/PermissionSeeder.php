@@ -6,74 +6,40 @@ class PermissionSeeder extends Seeder {
 
     public function run() {
 
-        $permissions = array(
+        $permissions = [
+            'Admin' => [
+                'dashboard' => true,
+            ],
 
-            'Admin' => array(
-
-                'Dashboard\\DashboardController'    => 1,
-                'Dashboard\\AlbumController'        => 1,
-                'Dashboard\\ArtistController'       => 1,
-                'Dashboard\\LabelController'        => 1,
-                'Dashboard\\TrackController'         => 1,
-                'Dashboard\\SongController'         => 1,
-                'Dashboard\\UserController'         => 1,
-                'Dashboard\\InviteController'       => 1,
-                'Dashboard\\SignupCodeController'  => 1,
-
-                'ProfileController'                 => 1,
-            ),
-
-            'Artist' => array(
-
-                'Dashboard\\DashboardController'    => 1,
-                'Dashboard\\AlbumController'        => 1,
-                'Dashboard\\ArtistController'       => 1,
-                'Dashboard\\LabelController@show'   => 1,
-                'Dashboard\\SongController'         => 1,
-                'Dashboard\\UserController'         => 1,
-            ),
-
-            'Label' => array(
-
-                'Dashboard\\DashboardController'    => 1,
-                'Dashboard\\AlbumController'        => 1,
-                'Dashboard\\ArtistController'       => 1,
-                'Dashboard\\LabelController'        => 1,
-                'Dashboard\\UserController'         => 1,
-                'Dashboard\\SongController'         => 1,
-            ),
-
-            'Player' => array(
-
-                'ProfileController'                 => 1,
-            ),
-        );
+            'Player' => [
+                'tools' => true,
+            ],
+        ];
 
         Eloquent::unguard();
 
-        $groups = array();
+        $roles = array();
 
         foreach ($permissions as $name => $perm) {
+            $role = Sentinel::findRoleByName($name);
 
-            try {
-
-                $group = Sentry::getGroupProvider()->findByName($name);
-                $group->permissions = $perm;
-                $group->save();
-
-            } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) {
-
-                $group = Sentry::getGroupProvider()->create(array(
-
+            if (is_null($role)) {
+                $role = Sentinel::getRoleRepository()->createModel()->create([
                     'name'          => $name,
-                    'permissions'   => $perm,
-                ));
+                    'slug'          => lcfirst($name)
+                ]);
             }
+        
+            $role->permissions = $perm;
+            $role->save();
 
-            $groups[$name] = $group;
+            $roles[$name] = $role;
         }
 
-        $this->command->info('Groups and permissions seeded.');
+        // delete roles which no longer exist
+        DB::table('roles')->whereNotIn('name', array_keys($permissions))->delete();
+
+        $this->command->info('Roles and permissions seeded.');
     }
 
 }

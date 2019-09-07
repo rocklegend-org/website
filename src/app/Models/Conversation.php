@@ -16,7 +16,7 @@ class Conversation extends MessengerConversation {
 
 	public function scopeForUser(Builder $query, $user = null)
 	{
-		$user = $user ?: Sentry::getUser()->id;
+		$user = $user ?: Sentinel::getUser()->id;
 
 		return $query->join('participants', 'threads.id', '=', 'participants.thread_id')
 		->where('participants.user_id', $user)
@@ -26,7 +26,7 @@ class Conversation extends MessengerConversation {
 
 	public function scopeWithNewMessages($query, $user = null)
 	{
-		$user = $user ?: Sentry::getUser()->id;
+		$user = $user ?: Sentinel::getUser()->id;
 
 		return $query->join('participants', 'threads.id', '=', 'participants.thread_id')
 		->where('participants.user_id', $user)
@@ -36,7 +36,7 @@ class Conversation extends MessengerConversation {
 
 	public function participantsString($userId = NULL, $columns = array())
 	{
-		$user = $user ?: Sentry::getUser()->id;
+		$user = $user ?: Sentinel::getUser()->id;
 
 		$participantNames = \DB::table('users')
 		->join('participants', 'users.id', '=', 'participants.user_id')

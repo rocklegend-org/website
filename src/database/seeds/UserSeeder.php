@@ -8,22 +8,27 @@ class UserSeeder extends Seeder {
     {
         Eloquent::unguard();
 
-        $groups = array('admin', 'player', 'artist', 'label');
+        $roles = array('admin', 'player');
 
-        foreach($groups as $username) {
+        foreach($roles as $username) {
 
-            $group = Sentry::getGroupProvider()->findByName($username);
+            $role = Sentinel::findRoleBySlug($username);
+            $user = User::where('username', $username)->first();
 
-            $password = $username.'rl';
+            if (is_null($user)) {
+                $password = $username.'rl';
 
-        	Sentry::getUserProvider()->create(array(
+                $user = Sentinel::create([
+                    'username'    => $username,
+                    'password'    => $password,
+                    'email'       => $username . '@example.com',
+                    'activated'   => 1,
+                ]);
+            } else if ($user->inRole($role->slug)) {
+                return;
+            }
 
-				'username'    => $username,
-				'password'    => $password,
-				'email'       => $username . '@example.com',
-				'activated'   => 1,
-
-			))->addGroup($group);
+            $role->users()->attach($user);
         }
     }
 }

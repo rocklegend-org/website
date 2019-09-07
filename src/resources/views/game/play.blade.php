@@ -341,7 +341,7 @@ Play '{{$song->title}}' by {{$artist->name}} ({{$track->getDifficultyName()}}) n
 </div>
 @endif
 <div class="row">
-	@if(!$isFacebook && Sentry::getUser() != null && Sentry::getUser()->inGroup(Sentry::findGroupByName('Admin')))
+	@if(!$isFacebook && Sentinel::inRole('admin'))
 		<div class="small-12 columns text-center">
 			<a href="{{ route('create.editor', array('song' => $track->song->slug, 'track' => $track->id, 'difficulty_id' => $track->difficulty)) }}">Edit track</a>
 		</div>

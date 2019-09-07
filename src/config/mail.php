@@ -121,4 +121,13 @@ return [
 
     'pretend' => false,
 
+    // laravel 5.4+ markdown mail support
+    'markdown' => [
+        'theme' => 'default',
+
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+    ],
+
 ];

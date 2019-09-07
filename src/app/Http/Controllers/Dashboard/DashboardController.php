@@ -13,22 +13,11 @@ use View,
 	DB;
 
 class DashboardController extends BaseController {
-
-	public function __construct()
-	{
-		$this->middleware('auth', array('except' => array('login', 'processLogin')));
-		$this->middleware('perm');
-	}
-
 	public function login()
 	{
 		return View::make('dashboard.login', array('bodyClass' => 'sign-in-bg'));
 	}
 
-	/**
-	 * @Get("dashboard", as="dashboard")
-	 *
-	 */
 	public function index()
 	{
 		$songs = Song::all();

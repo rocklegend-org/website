@@ -4,7 +4,6 @@ namespace Rocklegend\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Cartalyst\Sentry\Facades\Laravel\Sentry;
 use \Redirect;
 
 class RouteServiceProvider extends ServiceProvider

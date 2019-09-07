@@ -7,11 +7,11 @@
 	</div>
 
 	<div class="info-badge songs-played bg-blue">
-		{{ number_format($user->scores->count() + $user->oldScores->count(), 0, ',', '.') }}
+		{{ number_format($user->scores->count(), 0, ',', '.') }}
 		<i class="fa fa-play t-white"></i>
 	</div>
 	<div class="info-badge songs-played bg-yellow">
-		{{ number_format($user->scores()->sum('score') + $user->oldScores()->sum('score'), 0, ',', '.') }}
+		{{ number_format($user->scores()->sum('score'), 0, ',', '.') }}
 		<i class="fa fa-trophy t-white"></i>
 	</div>
 

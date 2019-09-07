@@ -14,7 +14,7 @@ reset your password | rocklegend
 
 	<h2 class="bg-red first">Forgot your password?</h2>
 
-	@if($errors->count() > 0 && Input::old('register') != "")
+	@if($errors->count() > 0)
 		<div class="alert-box error">
 			{{ $errors->first() }}
 		</div>

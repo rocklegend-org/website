@@ -91,7 +91,7 @@ class ProfileController extends BaseController {
 			]);
 
 			if(!$validator->fails()){
-				$user = User::where('id', Sentry::getUser()->id)->first();
+				$user = User::where('id', Sentinel::getUser()->id)->first();
 
 				if(!is_null(Input::file('profile_image'))){
 					if(in_array(Input::file('profile_image')->getClientOriginalExtension(),
@@ -104,9 +104,9 @@ class ProfileController extends BaseController {
 				}
 
 				if(!is_null(Input::get('password')) && Input::get('password') != ''){
-					$sentryUser = Sentry::getUserProvider()->findById(Sentry::getUser()->id);
-					$sentryUser->password = Input::get('password');
-					$sentryUser->save();
+					$sentinelUser = Sentinel::getUser();
+					$sentinelUser->password = Input::get('password');
+					$sentinelUser->save();
 				}
 
 				for($i = 1; $i <= 5; $i++){
@@ -137,7 +137,7 @@ class ProfileController extends BaseController {
 	{
 		if(Request::isMethod('get')){
 			return View::make('profile.settings')
-						->with('user', User::where('id',Sentry::getUser()->id)->first());
+						->with('user', User::where('id',Sentinel::getUser()->id)->first());
 		}else{
 			$validator = Validator::make(
 				array(
@@ -148,7 +148,7 @@ class ProfileController extends BaseController {
 				));
 
 			if(!$validator->fails()){
-				$user = User::where('id', Sentry::getUser()->id)->first();
+				$user = User::where('id', Sentinel::getUser()->id)->first();
 
 				$user->setting('autosave_interval', Input::get('autosave_interval'));
 
@@ -170,7 +170,7 @@ class ProfileController extends BaseController {
 	{
 		if(Request::isMethod('get')){
 			return View::make('profile.settings')
-						->with('user', User::where('id',Sentry::getUser()->id)->first());
+						->with('user', User::where('id',Sentinel::getUser()->id)->first());
 		}else{
 			$user = User::current();
 

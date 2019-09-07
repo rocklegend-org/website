@@ -8,7 +8,7 @@ class ResetSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		$tables = array('groups', 'throttle', 'users', 'users_groups');
+		$tables = array('roles', 'throttle', 'users', 'role_users');
 
 		foreach ($tables as $table) {
 

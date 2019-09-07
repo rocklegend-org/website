@@ -11,7 +11,7 @@ class AuthController extends BaseController {
 	 */
 	public function login()
 	{
-		if(!is_null(Sentry::getUser())){
+		if(!is_null(Sentinel::getUser())){
 			return Redirect::to('/');
 		}
 
@@ -25,7 +25,7 @@ class AuthController extends BaseController {
 	 */
 	public function logout()
 	{
-		Sentry::logout();
+		Sentinel::logout();
 
 		return Redirect::to('');
 	}
@@ -44,38 +44,31 @@ class AuthController extends BaseController {
 		);
 
 		try {
-	    if (Sentry::authenticate($credentials, false)) {
-	    	$user = Sentry::getUser();
+	    if (Sentinel::authenticate($credentials, true)) {
+	    	$user = Sentinel::getUser();
+
+				// cache user settings for later access
+				User::current()->settingsMap();
 
 	    	Session::flash('success', Lang::get('auth.logged_in'));
 
 	    	return Redirect::intended('/');
-	    }
+	    } else {
+				throw new Exception('Error during authenticate.');
+			}
 		}
-		catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
-		    //$m = $this->handleThrottle(Input::get('username')) ?: 'wrong_password';
-		    $m = "wrong_password";
-		}
-		catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
-
-		    $m = 'user_not_found';
-		}
-		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e) {
-
-		    $m = 'user_not_activated';
-		}
-		catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
+		catch (Cartalyst\Sentinel\Checkpoints\ThrottlingException $e) {
 
 		    $m = 'user_suspended';
 		}
-		catch (Cartalyst\Sentry\Throttling\UserBannedException $e) {
+		catch (Exception $e) {
 
-		    $m = 'user_banned';
+		    $m = 'wrong_password';
 		}
 
-    	return Redirect::route('login')
-    					->withErrors(array($m => Lang::get('auth.' . $m)))
-    					->withInput();
+		return Redirect::route('login')
+						->withErrors(array($m => Lang::get('auth.' . $m)))
+						->withInput();
 	}
 
 	/**
@@ -106,12 +99,14 @@ class AuthController extends BaseController {
 			return Redirect::route('password.forgotten')
 						->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
 		}else{
-			$resetCode = Sentry::findUserById($user->id)->getResetPasswordCode();
+			($reminder = Reminder::exists($user)) || ($reminder = Reminder::create($user));
 
-			Session::flash('user-email', $user->email);
-			Mail::send('emails.auth.password_reset', array('user' => $user, 'resetCode' => $resetCode, 'url' => route('password.reset', array('code' => $resetCode))), function($message)
+			Mail::send(
+				'emails.auth.password_reset',
+				array('user' => $user, 'resetCode' => $reminder->code, 'url' => route('password.reset', array('code' => $reminder->code, 'id' => $user->id))),
+				function($message) use ($user)
 			{
-			    $message->to(Session::get('user-email'), Session::get('user-email'))
+			    $message->to($user->email, $user->email)
 			    		->subject('Your rocklegend password.')
 			    		->from('office@rocklegend.org');
 			});
@@ -124,26 +119,26 @@ class AuthController extends BaseController {
 	/**
 	 * Process "Forgot Password"
 	 *
-	 * @Get("reset-password/{code}", as="password.reset")
+	 * @Get("reset-password/{code}/{id}", as="password.reset")
 	 */
-	public function passwordReset($code)
+	public function passwordReset($code, $id)
 	{
-		try{
-			$user = Sentry::findUserByResetPasswordCode($code);
-		}catch(Exception $e){
-			var_dump($code);
-			die('notfound');
+		$user = Sentinel::findById($id);
+
+		if (is_null($user)) {
 			return Redirect::route('password.forgotten')
 						->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
 		}
 
-		if(!is_null($user)){
+		$reminder = Reminder::exists($user);
+
+		if(!is_null($user) && $reminder->code === $code){
 			return View::make('auth.password_reset')
-						->with('username', $user->username)
+						->with('id', $user->id)
 						->with('code', $code);
-		}else{
+		} else {
 			return Redirect::route('password.forgotten')
-						->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
+						->withErrors(array('invalid_reset_code' => Lang::get('auth.invalid_reset_code')));
 		}
 	}
 
@@ -154,24 +149,28 @@ class AuthController extends BaseController {
 	 */
 	public function passwordResetProcess()
 	{
-		try{
-			$user = Sentry::findUserByResetPasswordCode(Input::get('code'));
-		}catch(Exception $e){
+		$user = Sentinel::findById(Input::get('id'));
+
+		if (is_null($user)) {
 			return Redirect::route('password.forgotten')
-						->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
+				->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
 		}
 
-		if(!is_null($user)){
-			if($user->attemptResetPassword(Input::get('code'), Input::get('password'))){
-				return View::make('auth.password_reset_success')
-							->with('username', $user->username);
-			}else{
-				return Redirect::route('password.forgotten')
-						->withErrors(array('reset_wrong' => 'Something went wrong when trying to reset your password.'));
-			}
+		$validator = Validator::make(Input::all(), [
+			'password_confirm' => 'same:password'
+		]);
+
+		if ($validator->fails()) {
+			return Redirect::route('password.reset', ["id" => $user->id, "code" => Input::get('code')])
+						->withInput()
+						->withErrors($validator);
+		}
+		
+		if(Reminder::complete($user, Input::get('code'), Input::get('password'))){
+			return View::make('auth.password_reset_success');
 		}else{
 			return Redirect::route('password.forgotten')
-						->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
+					->withErrors(array('reset_wrong' => 'Something went wrong when trying to reset your password.'));
 		}
 	}
 
@@ -197,18 +196,18 @@ class AuthController extends BaseController {
 					}
 					else
 					{
-					    $user = Sentry::createUser(array(
+						$user = Sentinel::create(array(
 							'username' => Input::get('username'),
 							'password' => Input::get('password'),
-							'email'	=> Input::get('email'),
-							'activated' => 1
+							'email'	=> Input::get('email')
 						));
 
-					    if(Input::has('code')){
-					    	SignupCode::useCodeForUserId($user->id, Input::get('code'));
-					    }
+						if(Input::has('code')){
+							SignupCode::useCodeForUserId($user->id, Input::get('code'));
+						}
 
-						$user->addGroup(Sentry::findGroupByName('Player'));
+						$role = Sentinel::findRoleByName('Player');
+						$role->users()->attach($user);
 
 						if($this->loginUserById($user->id) === TRUE){
 							return Redirect::to('');
@@ -216,13 +215,14 @@ class AuthController extends BaseController {
 					}
 				}
 			}
-			catch (Cartalyst\Sentry\Users\UserExistsException $e)
-			{
-			    $m = 'user_exists';
-			}
-			catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
-			{
-				$m = 'internal_error_301';
+			catch (Illuminate\Database\QueryException $e){
+				$errorCode = $e->errorInfo[1];
+				var_dump($e);
+				if($errorCode == 1062){
+					$m = 'user_exists';
+				} else {
+					$m = 'error';
+				}
 			}
 			catch(Exception $e){
 				$m = $e->getMessage();
@@ -237,34 +237,15 @@ class AuthController extends BaseController {
 			->withErrors($errors);
 	}
 
-	/* HELPER */
-
 	private function loginUserByID($user_id)
 	{
-		try
-		{
-			$user = Sentry::findUserById($user_id);
+		$user = Sentinel::findUserById($user_id);
 
-			// Log the user in
-			$response = Sentry::login($user, false);
-
+		if ($user) {
+			$response = Sentinel::login($user, false);
 			return true;
-		}
-		catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
-		{
-			return 'Login field is required.';
-		}
-		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
-		{
-			return 'User not activated.';
-		}
-		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
-		{
-			return 'User not found.';
-		}
-		catch(Exception $e)
-		{
-			var_dump($e->getMessage());
+		} else {
+			return false;
 		}
 	}
 

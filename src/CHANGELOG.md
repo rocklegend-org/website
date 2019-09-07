@@ -1,5 +1,17 @@
 # Change Log
 <div class="clear"></div>
+#v0.9.10 | 2019-09-07
+
+* updated laravel 5.3 -> 5.4
+* migrated from cartalyst/sentry -> cartalyst/sentinel
+	* updated roles and permissions scheme
+	* improved seeders
+* adds missing bowerfile (before i can get around to kick bower)
+* loads of improvements on database side (missing foreign keys, improved seeding)
+* migrate all highscores_OLD scores and remove all selects from old highscores table
+* fixed error when trying to save profile info
+* fixed error display in some password reset conditions
+* fixed error formatting for forgot-password error
 
 #v0.9.9 | 2019-09-05
 

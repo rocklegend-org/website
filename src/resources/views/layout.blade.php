@@ -92,7 +92,7 @@
 
 				<div class="small-10 medium-6 columns profile-box" data-equalizer-watch>
 					<div class="row">
-					@if (!Sentry::check())
+					@if (!Sentinel::check())
 						@include('partials.header.login')
 					@else
 						@include('partials.header.user')
@@ -139,7 +139,7 @@
 			</div>
 		</div>
 		
-		@if(Config::get('realtime::enabled') && !is_null(Sentry::getUser()))
+		@if(Config::get('realtime::enabled') && !is_null(Sentinel::getUser()))
 -			@if(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS']  != 'on')
 -			@include('chat.base')
 -			@endif

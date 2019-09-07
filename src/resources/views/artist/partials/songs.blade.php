@@ -7,7 +7,7 @@
 ?>
 
 @foreach($artist->songs as $song)
-	@if($song->tracks()->where('status',2)->whereNull('deleted_at')->get()->count() > 0)
+	@if($song->tracks()->where('status',2)->whereNull('deleted_at')->count() > 0)
 	<?php $i++; ?>
 	<li data-song-id="{{ $song->id }}" data-song-slug="{{$song->slug}}" {{ ($default_song && $default_song == $song) || ($i == 1 && (!isset($autoopen) || $autoopen))? 'class="active"' : '' }} itemscope itemprop="track" itemtype="http://schema.org/MusicRecording">
 		<meta itemprop="image" content="{{$song->getArtwork()}}" />

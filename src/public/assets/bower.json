@@ -1,0 +1,20 @@
+{
+  "name": "rocklegendassets",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Patrick Neschkudla"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/rocklegend-org/website",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "zurb/bower-foundation#5.4.7"
+  }
+}

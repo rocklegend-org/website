@@ -55,19 +55,26 @@
 				</div>
 
 				<?php 
-					$throttle = Sentry::findThrottlerByUserId($user->id);
+					$sentinelUser = Sentinel::findById($user->id);
+					$isThrottled = false;
+
+					try {
+						$app['sentinel.checkpoint.throttle']->check($sentinelUser);
+					} catch (Exception $e) {
+						$isThrottled = true;
+					}
 				?>
 				<div class="form-group">
 					{!! Form::label('suspended', 'Suspended', array('class' => 'col-md-3 control-label')) !!}
 					<div class="col-md-9">
-						{!! Form::checkbox('suspended', 1, $throttle->isSuspended(), array('class' => 'form-control') ) !!}<br />
+						{!! Form::checkbox('suspended', 1, $isThrottled, array('class' => 'form-control') ) !!}<br />
 					</div>
 				</div>
 
 				<div class="form-group">
 					{!! Form::label('banned', 'Banned', array('class' => 'col-md-3 control-label')) !!}
 					<div class="col-md-9">
-						{!! Form::checkbox('banned', 1, $throttle->isBanned(), array('class' => 'form-control') ) !!}<br />
+						{!! Form::checkbox('banned', 1, 0, array('class' => 'form-control') ) !!}<br />
 					</div>
 				</div>
 

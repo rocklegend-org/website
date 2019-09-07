@@ -11,7 +11,7 @@ class ToolsController extends BaseController {
 
 	public function index()
 	{
-		$myTracks = Track::where('user_id', Sentry::getUser()->id)
+		$myTracks = Track::where('user_id', Sentinel::getUser()->id)
 					->with('song', 'song.artist')
 					->orderBy('updated_at', 'desc')
 					->get();
@@ -123,6 +123,8 @@ class ToolsController extends BaseController {
 
 	public function editor($song = null, $difficulty_id = null, $track = null)
 	{
+		$user = Sentinel::getUser();
+
 		if(Request::isMethod('get')){
 			if(is_null($song)){
 				return Redirect::route('create.new_song');
@@ -131,7 +133,7 @@ class ToolsController extends BaseController {
 			$song = Song::where('slug', $song)->first();
 
 			if($song->trackable != 1 && 
-			   (is_null($track) || Track::where('id', $track)->first()->user_id != User::current()->id))
+			   (is_null($track) || Track::where('id', $track)->first()->user_id != $user->id))
 			{
 				return Redirect::route('create.new_song');
 			}
@@ -140,10 +142,10 @@ class ToolsController extends BaseController {
 			
 			if(is_null($track)){
 				$track = new Track;
-				$track->name = $song->title.' tracked by '.User::current()->username;
+				$track->name = $song->title.' tracked by '.$user->username;
 				$track->lanes = 5;
 				$track->setNotesFromArray([[],[],[],[],[]]);
-				$track->user_id = User::current()->id;
+				$track->user_id = $user->id;
 				$track->px_per_second = 200;
 				$track->difficulty = $difficulty_id;
 				$track->song_id = $song->id;
@@ -160,7 +162,7 @@ class ToolsController extends BaseController {
 			}
 
 			return View::make($view)
-						->with('user', User::current())
+						->with('user', $user)
 						->with('song', $song)
 						->with('soundFiles', $song->getSoundFiles())
 						->with('lanes', $track->lanes)
@@ -182,7 +184,7 @@ class ToolsController extends BaseController {
 				return Response::json(array('track_id' => $track->id, 'note_count' => $track->getCount(), 'status' => $track->status, 'error' => 'serialized.corrupt'));
 			}
 
-			if($track->status != 2 && Input::get('status') == 2 && User::current()->official_tracker == 1){
+			if($track->status != 2 && Input::get('status') == 2 && $user->official_tracker == 1){
 				$followers = Follower::where('followed_user_id', $track->user_id)->get();
 
 				foreach($followers as $follower){
@@ -198,7 +200,7 @@ class ToolsController extends BaseController {
 				}
 			}	
 
-			$track->name = $song->title.' tracked by '.User::current()->username;
+			$track->name = $song->title.' tracked by '.$user->username;
 			$track->lanes = 5;
 			$track->updated_at = $date;
 			$track->px_per_second = Input::get('px_per_second');
@@ -207,7 +209,7 @@ class ToolsController extends BaseController {
 			$track->save();
 
 			// Tracks under 100 notes should be reviewed before they are accepted
-			if($track->status == 2 && ($track->getCount() < 100 || User::current()->official_tracker != 1)){
+			if($track->status == 2 && ($track->getCount() < 100 || $user->official_tracker != 1)){
 				$track->status = 1;
 				$track->save();
 				$this->sendReviewMail($track);
@@ -224,11 +226,11 @@ class ToolsController extends BaseController {
 			$history = new TrackHistory;
 			$history->version = $version;
 			$history->tracK_id = $track->id;
-			$history->name = $song->title.' tracked by '.User::current()->username;
+			$history->name = $song->title.' tracked by '.$user->username;
 			$history->song_id = $song->id;
 			$history->lanes = $track->lanes;
 			$history->data = $track->data;
-			$history->user_id = Sentry::getUser()->id;
+			$history->user_id = $user->id;
 			$history->px_per_second = Input::get('px_per_second');
 			$history->status = Input::get('status');
 			$history->save();
@@ -386,7 +388,7 @@ class ToolsController extends BaseController {
 
 	public function deleteTrack($track, $force = false)
 	{
-		$track = Track::where('id',$track)->withTrashed()->first();
+		$track = Track::where('id',$track)->select('id', 'user_id')->withTrashed()->first();
 
 		if($track->user_id == User::current()->id){
 			if($force){
@@ -407,7 +409,7 @@ class ToolsController extends BaseController {
 	{
 		$track = Track::where('id', $track)->withTrashed()->first();
 
-		if($track->user_id == Sentry::getUser()->id){
+		if($track->user_id == Sentinel::getUser()->id){
 			$track->restore();
 
 			Session::flash('success','Track revived.');

@@ -8,9 +8,11 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
+
 use Cmgmyr\Messenger\Traits\Messagable;
 
-class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract {
+class User extends SentinelUser implements AuthenticatableContract, CanResetPasswordContract {
     use Messagable, SoftDeletes, Authenticatable, CanResetPassword;
 	
 	/**
@@ -19,6 +21,17 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	 * @var string
 	 */
 	protected $table = 'users';
+
+	
+	protected $fillable = [
+			'email',
+			'username',
+			'password',
+			'last_name',
+			'first_name',
+			'permissions',
+	];
+	protected $loginNames = ['username'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -70,6 +83,11 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 	public function getCountry()
 	{
 		return $this->belongsTo('Country', 'country');
+	}
+
+	public function throttleInfo()
+	{
+		return $this->hasOne('Cartalyst\Sentinel\Throttling\EloquentThrottle');
 	}
 
 	public function delete()
@@ -162,7 +180,7 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 		foreach($settings as $setting) {
 			$map[$setting->name] = Cache::remember(
 				$this->cacheKey($setting->name),
-				10,
+				30,
 				function() use ($setting) {
 					return $this->setting($setting->name);
 				}
@@ -188,12 +206,17 @@ class User extends Eloquent implements AuthenticatableContract, CanResetPassword
 
 	public function scopeCurrent($query)
 	{
-		if(is_null(Sentry::getUser())){
+		if(is_null(Sentinel::getUser())){
 			return (object) array('id'=>false);
 		}
 
-		return $query->where('id', Sentry::getUser()->id)
+		$userId = Sentinel::getUser()->id;
+		$cachedUser = Cache::get('user.'.$userId);
+
+		return is_null($cachedUser) ? Cache::remember('user.'.$userId, 1, function() use ($query, $userId) {
+			return $query->where('id', $userId)
 				->first();
+		}) : $cachedUser;
 	}
 
 	public function profileUrl()

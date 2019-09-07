@@ -27,13 +27,13 @@
 			<table width="100%" class="profile-stats" style="border: none;">
 				<tr>
 					<td style="text-align:center;" class="bg-black">
-						<span class="stats">{{ number_format($user->scores()->sum('notes_hit') + $user->oldScores()->sum('notes_hit'), 0, ',','.') }}</span> notes
+						<span class="stats">{{ number_format($user->scores()->sum('notes_hit'), 0, ',','.') }}</span> notes
 					</td>
 					<td style="text-align:center;" class="bg-green">
-						<span class="stats">{{ number_format($user->scores()->sum('score') + $user->oldScores()->sum('score'), 0, ',', '.') }}</span> score
+						<span class="stats">{{ number_format($user->scores()->sum('score'), 0, ',', '.') }}</span> score
 					</td>
 					<td style="text-align:center;" class="bg-red">
-						<span class="stats">{{ number_format($user->scores->count() + $user->oldScores()->count(), 0, ',', '.') }}</span> songs
+						<span class="stats">{{ number_format($user->scores->count(), 0, ',', '.') }}</span> songs
 					</td>
 				</tr>
 			</table>
@@ -51,7 +51,7 @@
 				@if($user->official_tracker == 1)
 					<h3 class="bg-blue no-margin">official tracker</h3>
 				@endif
-				@if(Sentry::findUserById($user->id)->inGroup(Sentry::findGroupByName('Admin')))
+				@if(Sentinel::findUserById($user->id)->inRole('admin'))
 					<h3 class="bg-yellow no-margin">admin</h3>
 				@endif
 			</div>

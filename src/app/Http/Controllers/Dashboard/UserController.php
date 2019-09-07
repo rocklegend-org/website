@@ -8,9 +8,9 @@ use Controller,
 	Input,
 	Hash,
 	Lang,
-	Sentry,
 	Redirect,
 	\Badge;
+
 use Illuminate\Database\QueryException;
 
 class UserController extends BaseController {
@@ -79,18 +79,16 @@ class UserController extends BaseController {
 				Badge::withdraw('donator', $user->id);
 			}
 
-			$throttle = Sentry::findThrottlerByUserId($user->id);
-
 			if(Input::has('suspended')){
-				$throttle->suspend();
+				$user->throttleInfo->suspended = 1;
 			}else{
-				$throttle->unsuspend();
+				$user->throttleInfo->suspended = 0;
 			}
 
 			if(Input::has('banned')){
-				$throttle->ban();
+				$user->throttleInfo->banned = 1;
 			}else{
-				$throttle->unban();
+				$user->throttleInfo->banned = 0;
 			}
 
 			$user->email = Input::get('email');
