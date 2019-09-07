@@ -33,7 +33,7 @@ class Highscore extends Score {
 		switch($timespan)
 		{
 			case "today":
-				return $query->where('created_at', '>', DB::raw('DATE_SUB(NOW(), INTERVAL 1 DAY)'));
+				return $query->where('created_at', '>=', DB::raw('CURDATE()'));
 			case "week":
 				return $query->where('created_at', '>', DB::raw('DATE_SUB(NOW(), INTERVAL 1 WEEK)'));
 			default:
