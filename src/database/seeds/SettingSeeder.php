@@ -8,13 +8,14 @@ class SettingSeeder extends Seeder {
     {
         Eloquent::unguard();
 
-        $reset = new ResetSettingsSeeder;
-        $reset->run();
-
         $default_settings = Config::get('user_settings');
 
         foreach($default_settings as $default_setting){
-            $setting = new Setting;
+            $setting = Setting::where('name', $default_setting['name'])->first();
+
+            if (is_null($setting)) {
+                $setting = new Setting;
+            }
 
             $setting->fill($default_setting)->save();
         }

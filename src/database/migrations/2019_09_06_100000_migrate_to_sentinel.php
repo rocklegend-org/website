@@ -34,6 +34,8 @@ class MigrateToSentinel extends Migration
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
             $table->engine = 'InnoDB';
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         }
         );
         Schema::create(
@@ -44,6 +46,8 @@ class MigrateToSentinel extends Migration
             $table->timestamps();
             $table->engine = 'InnoDB';
             $table->unique('code');
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         }
         );
         Schema::create(
@@ -54,6 +58,8 @@ class MigrateToSentinel extends Migration
             $table->boolean('completed')->default(0);
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         }
         );
         Schema::create(
@@ -74,6 +80,9 @@ class MigrateToSentinel extends Migration
             $table->nullableTimestamps();
             $table->engine = 'InnoDB';
             $table->primary(['user_id', 'role_id']);
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         }
         );
         Schema::table(
@@ -81,8 +90,7 @@ class MigrateToSentinel extends Migration
             $table->string('type')->after('user_id');
             $table->renameColumn('ip_address', 'ip');
             $table->timestamps();
-        }
-        );
+        });
     }
     /**
      * Reverse the migrations.
@@ -96,5 +104,9 @@ class MigrateToSentinel extends Migration
         Schema::drop('reminders');
         Schema::drop('roles');
         Schema::drop('role_users');
+
+        Schema::table('throttle', function (Blueprint $table) {
+                $table->dropForeign(['user_id']);
+        });
     }
 }

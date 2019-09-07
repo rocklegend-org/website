@@ -36,6 +36,9 @@ class PermissionSeeder extends Seeder {
             $roles[$name] = $role;
         }
 
+        // delete roles which no longer exist
+        DB::table('roles')->whereNotIn('name', array_keys($permissions))->delete();
+
         $this->command->info('Roles and permissions seeded.');
     }
 
