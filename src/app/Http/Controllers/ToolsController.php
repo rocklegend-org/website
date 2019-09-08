@@ -138,7 +138,7 @@ class ToolsController extends BaseController {
 				return Redirect::route('create.new_song');
 			}
 
-			$view = Input::has('old') ? 'tools.editor_old' : 'tools.editor';
+			$view = Input::get('old') ? 'tools.editor_old' : 'tools.editor';
 			
 			if(is_null($track)){
 				$track = new Track;

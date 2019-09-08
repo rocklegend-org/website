@@ -71,21 +71,21 @@ class UserController extends BaseController {
 				$user->password = Hash::make(Input::get('password'));
 			}
 			
-			$user->official_tracker = Input::has('official_tracker') ? 1 : 0;
+			$user->official_tracker = Input::get('official_tracker') ? 1 : 0;
 			
-			if(Input::has('donator_badge') && Input::get('donator_badge') == 1){
-				Badge::award('donator', $user->id);
+			if(Input::get('donator_badge') && Input::get('donator_badge') == 1){
+				Badge::award('donator', $user);
 			}else{
-				Badge::withdraw('donator', $user->id);
+				Badge::withdraw('donator', $user);
 			}
 
-			if(Input::has('suspended')){
+			if(Input::get('suspended')){
 				$user->throttleInfo->suspended = 1;
 			}else{
 				$user->throttleInfo->suspended = 0;
 			}
 
-			if(Input::has('banned')){
+			if(Input::get('banned')){
 				$user->throttleInfo->banned = 1;
 			}else{
 				$user->throttleInfo->banned = 0;

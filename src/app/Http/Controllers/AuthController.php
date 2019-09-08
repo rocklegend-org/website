@@ -45,7 +45,6 @@ class AuthController extends BaseController {
 		    $m = 'user_suspended';
 		}
 		catch (Exception $e) {
-
 		    $m = 'wrong_password';
 		}
 
@@ -61,7 +60,7 @@ class AuthController extends BaseController {
 
 	public function passwordForgottenProcess()
 	{
-		if(!Input::has('email')){
+		if(!Input::get('email')){
 			return Redirect::route('password.forgotten')
 				->withErrors(array('user_not_found' => Lang::get('auth.user_not_found')));
 		}
@@ -144,7 +143,7 @@ class AuthController extends BaseController {
 		if(Request::method() === 'POST'){
 			try{
 				// check if user provided a code and if the code is valid
-				if(Input::has('code') && !SignupCode::valid(Input::get('code'))){
+				if(Input::get('code') && !SignupCode::valid(Input::get('code'))){
 					$m = 'invalid_code';
 				}else{
 					if(User::where('email',Input::get('email'))->count() >=1)
@@ -159,7 +158,7 @@ class AuthController extends BaseController {
 							'email'	=> Input::get('email')
 						));
 
-						if(Input::has('code')){
+						if(Input::get('code')){
 							SignupCode::useCodeForUserId($user->id, Input::get('code'));
 						}
 
@@ -174,7 +173,7 @@ class AuthController extends BaseController {
 			}
 			catch (Illuminate\Database\QueryException $e){
 				$errorCode = $e->errorInfo[1];
-				var_dump($e);
+
 				if($errorCode == 1062){
 					$m = 'user_exists';
 				} else {
