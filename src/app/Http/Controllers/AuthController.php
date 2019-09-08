@@ -22,8 +22,8 @@ class AuthController extends BaseController {
 	public function postLogin(LoginFormRequest $request)
 	{
 		$credentials = array(
-		  'username' => Input::get('username'),
-      'password' => Input::get('password'),
+		  'login' => Input::get('username') ?: Input::get('username_login'),
+      	  'password' => Input::get('password') ?: Input::get('password_login'),
 		);
 
 		try {

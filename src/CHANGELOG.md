@@ -1,6 +1,11 @@
 # Change Log
 <div class="clear"></div>
 
+#v0.9.13 | 2019-09-08
+
+* allow login with username OR email address
+* fix login on mobile view
+
 #v0.9.12 | 2019-09-08
 
 * improved display of scores in scores partial
