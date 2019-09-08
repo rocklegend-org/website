@@ -4,7 +4,7 @@
 	<div class="button-box">
 		<a href="#" title="Global" class="active js-scores-region tooltip" data-region="all"><i class="fa fa-lg fa-globe"></i></a>
 
-		<a href="#" title="Your Country" class="js-scores-region tooltip" data-region="country"><i class="fa fa-lg fa-map-marker"></i></a>
+		{{-- <a href="#" title="Your Country" class="js-scores-region tooltip" data-region="country"><i class="fa fa-lg fa-map-marker"></i></a> --}}
 	
 		<a href="#" title="Followed Users" class="js-scores-region tooltip" data-region="followed"><i class="fa fa-lg fa-eye"></i></a>
 
