@@ -3,6 +3,7 @@
 
 #v0.9.12 | 2019-09-08
 
+* improved display of scores in scores partial
 * fixes for various score queries
 * performance improvements for ranking and score listings
   
