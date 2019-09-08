@@ -1,15 +1,15 @@
 version: "3.2"
 services:
-  php:
-    build: './docker/php/'
-    volumes:
-      - ./src:/var/www/html/
-    networks:
-      - backend
+  # PHP is infuriatingly slow inside of docker, so lets run it outside instead (for dev)
+  # php:
+  #   build: './docker/php/'
+  #   volumes:
+  #     - ./src:/var/www/html/
+  #   networks:
+  #     - backend
   nginx:
     image: 'bitnami/nginx:latest'
     depends_on:
-      - php
       - mysql
     networks:
       - frontend
@@ -33,6 +33,8 @@ services:
       - ./docker/mysql-data/:/var/lib/mysql
   redis:
     image: redis:5.0.5-alpine3.10 
+    ports:
+      - "6379:6379"
     networks:
       - backend
 networks:

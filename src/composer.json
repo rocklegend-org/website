@@ -6,9 +6,9 @@
     "type": "project",
     "require": {
       "php": ">=5.5.9",
-      "laravel/framework": "5.4.*",
+      "laravel/framework": "5.5.*",
 
-      "laravelcollective/html": "5.4.*",
+      "laravelcollective/html": "5.5.*",
       "laravelcollective/annotations": "5.*",
 
       "cartalyst/sentinel": "2.0.*",
@@ -27,16 +27,15 @@
       "cmgmyr/messenger": "2.16.2",
       "jenssegers/date": "3.*",
 
-      "filp/whoops": "~1.0",
-
       "doctrine/dbal": "^2.5",
       "barryvdh/laravel-debugbar": "~2.4",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7",
+        "phpunit/phpunit": "~6.0",
         "phpspec/phpspec": "~2.1",
         "symfony/dom-crawler": "3.1.*",
         "symfony/css-selector": "3.1.*"
@@ -61,9 +60,7 @@
         "post-install-cmd": [
             "php artisan view:clear",
             "php artisan route:clear",
-            "php artisan clear-compiled",
-            "php artisan optimize",
-            "php artisan route:scan"
+            "php artisan clear-compiled"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
@@ -71,17 +68,21 @@
         "post-update-cmd": [
             "php artisan view:clear",
             "php artisan route:clear",
-            "php artisan optimize",
-            "php artisan route:scan"
+            "php artisan cache:clear"
         ],
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "optimize-autoloader": true
     }
 }
