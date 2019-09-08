@@ -66,7 +66,7 @@
 					<a href="{{ URL::route('dashboard.user.index') }}" title="Users" ><i class="fa fa-users"></i><!--<span><i>20+</i></span>-->Users</a>
 				</li>
 				<li>
-					<a href="{{ URL::route('dashboard.signupcodes') }}" title="Signup Codes" ><i class="fa fa-key"></i><!--<span><i>20+</i></span>-->Codes</a>
+					<a href="{{ URL::route('dashboard.signup-code.index') }}" title="Signup Codes" ><i class="fa fa-key"></i><!--<span><i>20+</i></span>-->Codes</a>
 				</li>
 			</ul>
 		</div>

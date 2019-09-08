@@ -41,3 +41,6 @@ RUN echo "xdebug.remote_host=docker.for.mac.localhost" >> /usr/local/etc/php/con
 RUN echo "xdebug.profiler_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN echo "xdebug.profiler_enable_trigger=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN echo "xdebug.profiler_output_dir=/var/www/html" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+RUN echo "pm = static" >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo "pm.max_children = 1" >> /usr/local/etc/php-fpm.d/www.conf
