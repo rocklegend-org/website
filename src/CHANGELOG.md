@@ -1,6 +1,14 @@
 # Change Log
 <div class="clear"></div>
 
+#v0.9.14 | 2019-09-08
+
+__Track Editor Fixes!__
+* fix note tails not updating properly when changing note distance
+* fix bug when enabling time lines
+* fix bug when no notes are defined for a lane
+* fix typo
+
 #v0.9.13 | 2019-09-08
 
 * allow login with username OR email address
