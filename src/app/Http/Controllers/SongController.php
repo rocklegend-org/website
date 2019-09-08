@@ -176,6 +176,9 @@ class SongController extends BaseController {
 			case 'month':
 				$where .= 'MONTH(created_at) = MONTH(NOW())';
 				break;
+			default:
+				$where .= '1=1';
+				break;
 		}
 
 		switch(Input::get('region')){
