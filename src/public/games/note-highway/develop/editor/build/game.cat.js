@@ -1,4 +1,4 @@
-/*! rocklegend note-highway 26-06-2015 */
+/*! rocklegend note-highway 08-09-2019 */
 
 /*! luv 0.0.1 (2013-11-17) - https://github.com/kikito/luv.js */
 /*! Minimal HTML5 game development lib */
@@ -615,7 +615,6 @@ return {
 		var grid = this.grid;
 		var pxPerSecond = RL.config.pxPerSecond;
 		var neededLines = AudioManager.duration/1000 / grid;
-
 
 		var line = new Phaser.Graphics(game, 0, 0);
 
@@ -1369,7 +1368,7 @@ return {
     	noteContainer.removeAll(true);
 
         for(var lane = 1; lane <= RL.config.lanes; lane++){
-            notes = this.aNotes[lane];
+            notes = this.aNotes[lane] || [];
 
             for(var i = 0; i < notes.length; i++){
                 duration = notes[i].duration;
@@ -1406,7 +1405,7 @@ return {
             }
         }
 
-        //this.drawHitArea();
+        this.drawHitArea();
     },
 
     updateNotes: function(notes){
@@ -1447,12 +1446,14 @@ return {
             }
         }, 50);*/
 
-            RL.config.pxPerSecond = to;
-            HighwayManager.updateNotes(HighwayManager.aNotes);
-            if(RL.editMode){
-                $('#slider-pxPerSecond').slider('value',RL.config.pxPerSecond);
-                $('span#pxPerSecond').html(RL.config.pxPerSecond);
-            }
+        RL.config.pxPerSecond = to;
+
+        HighwayManager.updateNotes(HighwayManager.aNotes);
+
+        if(RL.editMode){
+            $('#slider-pxPerSecond').slider('value',RL.config.pxPerSecond);
+            $('span#pxPerSecond').html(RL.config.pxPerSecond);
+        }
     },
 
     countIn: function(play)
@@ -2431,9 +2432,10 @@ RL.States.Editor = {
                 this.dragStartY = false;
             }       
         }
+
         if(EditorManager.advancedMode){
-            EditorManager.beatLineContainer.y = newPosY;
-            EditorManager.beatLineTextContainer.y = newPosY;
+            EditorManager.beatLineContainer.y = noteContainer.y;
+            EditorManager.beatLineTextContainer.y = noteContainer.y;
 
             EditorManager.drawBeatLines();
         }
@@ -2534,6 +2536,12 @@ RL.Note.prototype.drawRect = function(shorter){
 	}
 	else
 	{
+		if (this.rect.y !== rectangleY) {
+			this.rect.scale.setTo(1, 1);
+			this.rect.y = rectangleY;
+			this.rect.scale.setTo(1, rectangleHeight/30);
+		}
+
 		if(shorter)
 		{
 			this.rect.alpha = 1;
@@ -2613,7 +2621,7 @@ RL.Note.prototype.kill = function(force){
 
 RL.Note.prototype.updateY = function(){
 	this.y = RL.getYForTime(this.time);
-	
+
 	if(typeof this.rect != 'undefined') this.drawRect();
 }
 

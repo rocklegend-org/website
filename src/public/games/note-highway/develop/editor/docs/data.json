@@ -168,7 +168,7 @@
     "classitems": [
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 202,
+            "line": 201,
             "description": "addTap(lane, time)\nThis function gets called when editor is active and trackTaps is activated.\nIt adds an Note Object (see note.js) to the aNotes array with the current time",
             "itemtype": "method",
             "name": "addTap",
@@ -193,7 +193,7 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 276,
+            "line": 275,
             "description": "Handles the keyUp event for the this.",
             "itemtype": "method",
             "name": "finishTap",
@@ -219,7 +219,7 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 295,
+            "line": 294,
             "description": "Handles note selection.\n\nClicking on notes makes them selected.\nMultiselection by pressing shift key is possible",
             "itemtype": "method",
             "name": "onNoteDown",
@@ -240,26 +240,26 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 310,
+            "line": 309,
             "class": "RL.Note",
             "module": "this"
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 317,
+            "line": 316,
             "class": "RL.Note",
             "module": "this"
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 322,
+            "line": 321,
             "description": "otherwise, we remove it from the selected notes array \n\nwe don't want to reset everything because this way it's possible\nto easily correct a multi-selection",
             "class": "RL.Note",
             "module": "this"
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 350,
+            "line": 349,
             "description": "Resets the this.aSelectedNotes array to start a new selection",
             "itemtype": "method",
             "name": "resetSelectedNotes",
@@ -275,7 +275,7 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 375,
+            "line": 374,
             "description": "This function resets this.selectedNote to false\nNeeded for dragging of notecontainer, so we know that the user has not currently\nselected a note für die mouseDown event",
             "itemtype": "method",
             "name": "onNoteUp",
@@ -296,7 +296,7 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 408,
+            "line": 407,
             "description": "Updates the information shown next to the player about\nthe currently selected notes",
             "itemtype": "method",
             "name": "updateNoteInfo",
@@ -305,7 +305,7 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 546,
+            "line": 545,
             "description": "Deletes notes from this.aSelectedNotes array from the aNotes array\nand calls their burst methods\n\nSorts aNotes array after each note deletion to ensure noteIndex data is correct\n\nTriggers this.resetSelectedNotes afterwards to start a new selection",
             "itemtype": "method",
             "name": "deleteNotes",
@@ -321,14 +321,14 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 564,
+            "line": 563,
             "description": "so we can put another note here again",
             "class": "RL.Note",
             "module": "this"
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 586,
+            "line": 585,
             "description": "Sets the current frame of the dragged note to 1",
             "itemtype": "method",
             "name": "onNoteDragStart",
@@ -349,7 +349,7 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 605,
+            "line": 604,
             "description": "Updates the dragged note according to its new position",
             "itemtype": "method",
             "name": "onNoteDragStop",
@@ -370,27 +370,27 @@
         },
         {
             "file": "src/managers/RL.EditorManager.js",
-            "line": 646,
+            "line": 645,
             "class": "RL.Note",
             "module": "this"
         },
         {
             "file": "src/managers/RL.HighwayManager.js",
-            "line": 244,
+            "line": 246,
             "description": "This function starts hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
             "class": "RL.Note",
             "module": "RL.HighwayManager"
         },
         {
             "file": "src/managers/RL.HighwayManager.js",
-            "line": 292,
+            "line": 294,
             "description": "This function continues hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
             "class": "RL.Note",
             "module": "RL.HighwayManager"
         },
         {
             "file": "src/managers/RL.HighwayManager.js",
-            "line": 323,
+            "line": 325,
             "description": "This function ends hit detection\n\n(int) lane - The string where hitdetection ends\nreturns (boolean) true|false",
             "class": "RL.Note",
             "module": "RL.HighwayManager"
@@ -410,13 +410,13 @@
         },
         {
             "file": "src/objects/RL.Note.js",
-            "line": 149,
+            "line": 155,
             "class": "RL.Note",
             "module": "RL.InteractionManager"
         },
         {
             "file": "src/objects/RL.Note.js",
-            "line": 176,
+            "line": 182,
             "description": "getTimeForY(y)\n\n(int) y = the y position in pixels",
             "return": {
                 "description": "(float) time = the time in ms"
@@ -426,7 +426,7 @@
         },
         {
             "file": "src/objects/RL.Note.js",
-            "line": 205,
+            "line": 211,
             "description": "getLaneForX(y)\n\n(int) x = the x position in pixels",
             "return": {
                 "description": "(int) lane = the lane number"
@@ -484,35 +484,35 @@
     "warnings": [
         {
             "message": "Missing item type",
-            "line": " src/managers/RL.EditorManager.js:310"
+            "line": " src/managers/RL.EditorManager.js:309"
         },
         {
             "message": "Missing item type",
-            "line": " src/managers/RL.EditorManager.js:317"
+            "line": " src/managers/RL.EditorManager.js:316"
         },
         {
             "message": "Missing item type\notherwise, we remove it from the selected notes array \n\nwe don't want to reset everything because this way it's possible\nto easily correct a multi-selection",
-            "line": " src/managers/RL.EditorManager.js:322"
+            "line": " src/managers/RL.EditorManager.js:321"
         },
         {
             "message": "Missing item type\nso we can put another note here again",
-            "line": " src/managers/RL.EditorManager.js:564"
+            "line": " src/managers/RL.EditorManager.js:563"
         },
         {
             "message": "Missing item type",
-            "line": " src/managers/RL.EditorManager.js:646"
+            "line": " src/managers/RL.EditorManager.js:645"
         },
         {
             "message": "Missing item type\nThis function starts hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
-            "line": " src/managers/RL.HighwayManager.js:244"
+            "line": " src/managers/RL.HighwayManager.js:246"
         },
         {
             "message": "Missing item type\nThis function continues hit detection\n\n(int) lane - The string to be tested for a hittable note\nreturns (boolean) true|false",
-            "line": " src/managers/RL.HighwayManager.js:292"
+            "line": " src/managers/RL.HighwayManager.js:294"
         },
         {
             "message": "Missing item type\nThis function ends hit detection\n\n(int) lane - The string where hitdetection ends\nreturns (boolean) true|false",
-            "line": " src/managers/RL.HighwayManager.js:323"
+            "line": " src/managers/RL.HighwayManager.js:325"
         },
         {
             "message": "Missing item type",
@@ -524,15 +524,15 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/objects/RL.Note.js:149"
+            "line": " src/objects/RL.Note.js:155"
         },
         {
             "message": "Missing item type\ngetTimeForY(y)\n\n(int) y = the y position in pixels",
-            "line": " src/objects/RL.Note.js:176"
+            "line": " src/objects/RL.Note.js:182"
         },
         {
             "message": "Missing item type\ngetLaneForX(y)\n\n(int) x = the x position in pixels",
-            "line": " src/objects/RL.Note.js:205"
+            "line": " src/objects/RL.Note.js:211"
         },
         {
             "message": "Missing item type\nDefines the Boot State (initial state) of rocklegends play\nThis state loads the assets and then switches to the Run state",

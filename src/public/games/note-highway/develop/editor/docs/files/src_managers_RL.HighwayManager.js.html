@@ -120,7 +120,7 @@ return {
     	noteContainer.removeAll(true);
 
         for(var lane = 1; lane &lt;= RL.config.lanes; lane++){
-            notes = this.aNotes[lane];
+            notes = this.aNotes[lane] || [];
 
             for(var i = 0; i &lt; notes.length; i++){
                 duration = notes[i].duration;
@@ -157,7 +157,7 @@ return {
             }
         }
 
-        //this.drawHitArea();
+        this.drawHitArea();
     },
 
     updateNotes: function(notes){
@@ -198,12 +198,14 @@ return {
             }
         }, 50);*/
 
-            RL.config.pxPerSecond = to;
-            HighwayManager.updateNotes(HighwayManager.aNotes);
-            if(RL.editMode){
-                $(&#x27;#slider-pxPerSecond&#x27;).slider(&#x27;value&#x27;,RL.config.pxPerSecond);
-                $(&#x27;span#pxPerSecond&#x27;).html(RL.config.pxPerSecond);
-            }
+        RL.config.pxPerSecond = to;
+
+        HighwayManager.updateNotes(HighwayManager.aNotes);
+
+        if(RL.editMode){
+            $(&#x27;#slider-pxPerSecond&#x27;).slider(&#x27;value&#x27;,RL.config.pxPerSecond);
+            $(&#x27;span#pxPerSecond&#x27;).html(RL.config.pxPerSecond);
+        }
     },
 
     countIn: function(play)

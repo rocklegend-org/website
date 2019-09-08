@@ -90,6 +90,12 @@ RL.Note.prototype.drawRect = function(shorter){
 	}
 	else
 	{
+		if (this.rect.y !== rectangleY) {
+			this.rect.scale.setTo(1, 1);
+			this.rect.y = rectangleY;
+			this.rect.scale.setTo(1, rectangleHeight/30);
+		}
+
 		if(shorter)
 		{
 			this.rect.alpha = 1;
@@ -169,7 +175,7 @@ RL.Note.prototype.kill = function(force){
 
 RL.Note.prototype.updateY = function(){
 	this.y = RL.getYForTime(this.time);
-	
+
 	if(typeof this.rect != 'undefined') this.drawRect();
 }
 

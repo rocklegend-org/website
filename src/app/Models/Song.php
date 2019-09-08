@@ -252,11 +252,12 @@ class Song extends Resource {
 			}
 
 			$mp3 = $this->getMediaPublicPath().'audio.mp3';
+			$command = base_path().self::FFMPEG_DIR.$ffmpeg_bin." -i ".$mp3.' 2>&1 | grep -o \'Duration: [0-9:.]*\'';
 
-			$result = shell_exec(base_path().self::FFMPEG_DIR.$ffmpeg_bin." -i ".$mp3.' 2>&1 | grep -o \'Duration: [0-9:.]*\'');
+			$result = shell_exec($command);
 	        $duration = str_replace('Duration: ', '', $result); // 00:05:03.25
 
-	        $duration = explode(":",$duration);
+			$duration = explode(":",$duration);
 	        $seconds = explode(".",$duration[2]);
 	        
 	        $this->duration_iso = 'PT'.ltrim($duration[1],'0').'M'.ltrim($seconds[0],'0').'S';

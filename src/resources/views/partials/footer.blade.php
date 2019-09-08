@@ -1,7 +1,7 @@
 <footer class="row">
 
 	<div class="hide-for-small medium-3 columns version-info">
-		<a href="{{ URL::route('changelog') }}"><b>v0.9.13</b> | last update: 08.09.2019</a>
+		<a href="{{ URL::route('changelog') }}"><b>v0.9.14</b> | last update: 08.09.2019</a>
 		<a href="https://reddit.com/r/rocklegendorg" target="_blank">
 				<img alt="Subreddit subscribers" src="https://img.shields.io/reddit/subreddit-subscribers/rocklegendorg?style=social" />
 			</a>
