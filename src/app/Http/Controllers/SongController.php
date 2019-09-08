@@ -174,7 +174,7 @@ class SongController extends BaseController {
 				$where .= 'DATE(created_at) = DATE(NOW()) ';
 				break;
 			case 'month':
-				$where .= 'MONTH(created_at) = MONTH(NOW())';
+				$where .= 'MONTH(created_at) = MONTH(NOW()) ';
 				break;
 			default:
 				$where .= '1=1';
