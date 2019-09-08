@@ -57,11 +57,13 @@ class Track extends Eloquent {
 				$score = $this->scores()
 							->select($fields)
 							->where('user_id', $user_id)
+							->orderBy('score', 'DESC')
 							->first();
 			}else{
 				$score =  $this->scores()
 							->select($fields)
 							->where('user_id', User::current()->id)
+							->orderBy('score', 'DESC')
 							->first();
 			}
 
