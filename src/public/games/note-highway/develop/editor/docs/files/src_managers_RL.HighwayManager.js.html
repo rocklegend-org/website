@@ -120,7 +120,7 @@ return {
     	noteContainer.removeAll(true);
 
         for(var lane = 1; lane &lt;= RL.config.lanes; lane++){
-            notes = this.aNotes[lane];
+            notes = this.aNotes[lane] || [];
 
             for(var i = 0; i &lt; notes.length; i++){
                 duration = notes[i].duration;

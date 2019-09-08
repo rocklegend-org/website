@@ -22,7 +22,7 @@ return {
     	noteContainer.removeAll(true);
 
         for(var lane = 1; lane <= RL.config.lanes; lane++){
-            notes = this.aNotes[lane];
+            notes = this.aNotes[lane] || [];
 
             for(var i = 0; i < notes.length; i++){
                 duration = notes[i].duration;
