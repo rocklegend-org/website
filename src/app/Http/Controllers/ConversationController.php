@@ -43,7 +43,7 @@ class ConversationController extends BaseController {
 			    'last_read' => new Carbon
 			]);
 
-			if (Input::has('recipients'))
+			if (Input::get('recipients'))
 			{
 				$recipients = explode(",", Input::get('recipients'));
 
@@ -139,7 +139,7 @@ class ConversationController extends BaseController {
 
 		$start = 0;
 
-		if(Input::has('limit') && Input::get('limit') == 0){
+		if(Input::get('limit') == 0){
 			$limit = 250;
 		}else{
 			$limit = 25;

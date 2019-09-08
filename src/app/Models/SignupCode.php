@@ -16,6 +16,7 @@ class SignupCode extends Eloquent {
     public static function valid($code)
     {
         $code = self::where('code', $code)->first();
+
         if($code){
             if(strtotime($code->active_from) <= time() && strtotime($code->active_to) > time()){
                 return true;

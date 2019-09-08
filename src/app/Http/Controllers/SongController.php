@@ -317,7 +317,7 @@ class SongController extends BaseController {
 					->with('currentPage', $page)
 					->with('pageCount', $pages)
 					->with('perPage', $perPage)
-					->with('comment', Input::has('comment') ? Input::get('comment') : false);
+					->with('comment', Input::get('comment') ?: false);
 	}
 
 	public function replyToComment($comment)

@@ -181,7 +181,7 @@ class SongController extends BaseController {
 		$song->artist_id = $artist->id;
 
 		// add album
-		if(Input::has('album_title'))
+		if(Input::get('album_title'))
 		{
 			$album = Album::firstOrCreate(array(
 				'title' => Input::get('album_title'),
@@ -195,7 +195,7 @@ class SongController extends BaseController {
 		}
 
 		// add label
-		if(Input::has('label_name'))
+		if(Input::get('label_name'))
 		{
 			$label = Album::firstOrCreate(array(
 				'name' => Input::get('label_name')
