@@ -5,38 +5,37 @@
     "license": "MIT",
     "type": "project",
     "require": {
-      "php": ">=5.5.9",
-      "laravel/framework": "5.5.*",
+        "php": ">=7.0.0",
+        "laravel/framework": "5.8.*",
 
-      "laravelcollective/html": "5.5.*",
-      "laravelcollective/annotations": "5.*",
+        "laravelcollective/html": "5.8.*",
+        "fideloper/proxy": "^4.0", 
 
-      "cartalyst/sentinel": "2.0.*",
-      "ircmaxell/password-compat": "*",
+        "cartalyst/sentinel": "2.0.*",
+        "ircmaxell/password-compat": "*",
 
-      "michelf/php-markdown": "1.*",
-      "orchestra/imagine": "~3.0",
-      "predis/predis":"*",
+        "michelf/php-markdown": "1.*",
+        "orchestra/imagine": "~3.0",
+        "predis/predis":"*",
 
-      "intervention/image": "2.*",
-      "intervention/imagecache": "*",
-      "jenssegers/agent": "*",
+        "intervention/image": "2.*",
+        "intervention/imagecache": "*",
+        "jenssegers/agent": "*",
 
-      "roumen/sitemap": "2.5.*",
+        "roumen/sitemap": "2.5.*",
 
-      "cmgmyr/messenger": "2.16.2",
-      "jenssegers/date": "3.*",
+        "cmgmyr/messenger": "2.16.2",
+        "jenssegers/date": "3.*",
 
-      "doctrine/dbal": "^2.5",
-      "barryvdh/laravel-debugbar": "~2.4",
+        "doctrine/dbal": "^2.5",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "3.*",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~6.0",
-        "phpspec/phpspec": "~2.1",
+        "mockery/mockery": "^1.0",
+        "phpunit/phpunit": "^7.0",
         "symfony/dom-crawler": "3.1.*",
         "symfony/css-selector": "3.1.*"
     },
@@ -83,6 +82,7 @@
     },
     "config": {
         "preferred-install": "dist",
+        "sort-packages": true,
         "optimize-autoloader": true
     }
 }

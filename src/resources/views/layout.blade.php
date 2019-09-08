@@ -81,7 +81,7 @@
 											if($active)
 												echo 'active'
 										?>"
-										title="{{$text}}"><i class="fa {{ $navItem['icon'] }}"></i> {{ $text }}</a>
+										title="{{$text}}"><i class="fa {{ $navItem['icon'] }}"></i> {!! $text !!}</a>
 								</li>
 							<?php 
 								endforeach;

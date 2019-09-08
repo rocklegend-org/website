@@ -179,7 +179,7 @@ class User extends SentinelUser implements AuthenticatableContract, CanResetPass
 		foreach($settings as $setting) {
 			$map[$setting->name] = Cache::remember(
 				$this->cacheKey($setting->name),
-				30,
+				1800,
 				function() use ($setting) {
 					return $this->setting($setting->name);
 				}
@@ -212,7 +212,7 @@ class User extends SentinelUser implements AuthenticatableContract, CanResetPass
 		$userId = Sentinel::getUser()->id;
 		$cachedUser = Cache::get('user.'.$userId);
 
-		return is_null($cachedUser) ? Cache::remember('user.'.$userId, 1, function() use ($query, $userId) {
+		return is_null($cachedUser) ? Cache::remember('user.'.$userId, 5, function() use ($query, $userId) {
 			return $query->where('id', $userId)
 				->first();
 		}) : $cachedUser;

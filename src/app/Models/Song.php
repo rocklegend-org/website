@@ -289,7 +289,7 @@ class Song extends Resource {
 				$scores += $track->scores()->count();
 			}
 
-			Cache::put('song_'.$this->id.'_playcount', $scores, 15);
+			Cache::put('song_'.$this->id.'_playcount', $scores, 900);
 
 			return $scores;
 		}

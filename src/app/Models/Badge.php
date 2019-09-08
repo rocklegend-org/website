@@ -10,7 +10,7 @@ class Badge extends Eloquent {
 	}
 
 	public static function findByInternalName($internalName) {
-		return Cache::remember('badge.'.$internalName, 30, function() use($internalName) {
+		return Cache::remember('badge.'.$internalName, 1800, function() use($internalName) {
 			return Badge::where('internal_name', $internalName)->first();
 		});
 	}
@@ -115,7 +115,7 @@ class BadgeCheck {
 	{
 		$count = Cache::remember(
 			'scoreCount.user.'.$user->id,
-			5,
+			300,
 			function() use ($user) {
 				return Score::where('user_id', $user->id)->count();
 			}
