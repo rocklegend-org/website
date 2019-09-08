@@ -59,7 +59,7 @@ return {
             }
         }
 
-        //this.drawHitArea();
+        this.drawHitArea();
     },
 
     updateNotes: function(notes){
@@ -100,12 +100,14 @@ return {
             }
         }, 50);*/
 
-            RL.config.pxPerSecond = to;
-            HighwayManager.updateNotes(HighwayManager.aNotes);
-            if(RL.editMode){
-                $('#slider-pxPerSecond').slider('value',RL.config.pxPerSecond);
-                $('span#pxPerSecond').html(RL.config.pxPerSecond);
-            }
+        RL.config.pxPerSecond = to;
+
+        HighwayManager.updateNotes(HighwayManager.aNotes);
+
+        if(RL.editMode){
+            $('#slider-pxPerSecond').slider('value',RL.config.pxPerSecond);
+            $('span#pxPerSecond').html(RL.config.pxPerSecond);
+        }
     },
 
     countIn: function(play)

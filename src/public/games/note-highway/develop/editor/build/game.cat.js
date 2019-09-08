@@ -616,7 +616,6 @@ return {
 		var pxPerSecond = RL.config.pxPerSecond;
 		var neededLines = AudioManager.duration/1000 / grid;
 
-
 		var line = new Phaser.Graphics(game, 0, 0);
 
 		// reset beatlines and draw them from scratch
@@ -1406,7 +1405,7 @@ return {
             }
         }
 
-        //this.drawHitArea();
+        this.drawHitArea();
     },
 
     updateNotes: function(notes){
@@ -1447,12 +1446,14 @@ return {
             }
         }, 50);*/
 
-            RL.config.pxPerSecond = to;
-            HighwayManager.updateNotes(HighwayManager.aNotes);
-            if(RL.editMode){
-                $('#slider-pxPerSecond').slider('value',RL.config.pxPerSecond);
-                $('span#pxPerSecond').html(RL.config.pxPerSecond);
-            }
+        RL.config.pxPerSecond = to;
+
+        HighwayManager.updateNotes(HighwayManager.aNotes);
+
+        if(RL.editMode){
+            $('#slider-pxPerSecond').slider('value',RL.config.pxPerSecond);
+            $('span#pxPerSecond').html(RL.config.pxPerSecond);
+        }
     },
 
     countIn: function(play)
@@ -2535,6 +2536,12 @@ RL.Note.prototype.drawRect = function(shorter){
 	}
 	else
 	{
+		if (this.rect.y !== rectangleY) {
+			this.rect.scale.setTo(1, 1);
+			this.rect.y = rectangleY;
+			this.rect.scale.setTo(1, rectangleHeight/30);
+		}
+
 		if(shorter)
 		{
 			this.rect.alpha = 1;
@@ -2614,7 +2621,7 @@ RL.Note.prototype.kill = function(force){
 
 RL.Note.prototype.updateY = function(){
 	this.y = RL.getYForTime(this.time);
-	
+
 	if(typeof this.rect != 'undefined') this.drawRect();
 }
 

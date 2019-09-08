@@ -88,7 +88,6 @@ return {
 		var pxPerSecond = RL.config.pxPerSecond;
 		var neededLines = AudioManager.duration/1000 / grid;
 
-
 		var line = new Phaser.Graphics(game, 0, 0);
 
 		// reset beatlines and draw them from scratch
