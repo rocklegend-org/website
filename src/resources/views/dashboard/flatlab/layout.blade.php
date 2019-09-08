@@ -38,7 +38,7 @@
 
 
 	</head>
-	<body class="{{ $bodyClass or ''}}">
+	<body class="{{ $bodyClass ?? ''}}">
 		@section('responsive.menu')
 		<div class="responsive-menu">
 				<div class="responsive-menu-dropdown blue">

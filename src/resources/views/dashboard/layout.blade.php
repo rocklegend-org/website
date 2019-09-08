@@ -25,7 +25,7 @@
 		{!! HTML::script('assets/js/dashboard/datepicker/js/datepicker.js') !!}
 
 	</head>
-	<body class="{{ $bodyClass or ''}}">
+	<body class="{{ $bodyClass ?? ''}}">
 
 		@section('responsive.menu')
 
