@@ -1,6 +1,4 @@
 <?php
-	$maxResults = 15;
-
 	if(!isset($where))
 	{
 		$where = 'YEARWEEK(created_at, 1) = YEARWEEK(NOW(), 1)';
@@ -13,7 +11,7 @@
 		['trackId' => $track->id]
 	);
 
-	$scores = Score::whereIn('id', array_column($scoreIds, 'id'));
+	$scores = Score::select('user_id', 'id', 'score')->whereIn('id', array_column($scoreIds, 'id'));
 
 	$noCountry = false;
 
@@ -30,22 +28,19 @@
 	}
 
 	$scores = $scores->orderBy('score', 'DESC')
+				->limit(50)
 				->get();
 
 	$user_score = null;
 
 	$userId = User::current()->id;
-	foreach ($scores as $score) {
+	$user_rank = false;
+
+	foreach ($scores as $key => $score) {
 		if ($score->user_id === $userId) {
 			$user_score = $score;
-			exit;
+			$user_rank = $key + 1;
 		}
-	}
-
-	$user_rank = array_search(User::current()->id, array_column((array) $scores, 'user_id'));
-
-	if($user_rank !== false){
-		$user_rank +=1;
 	}
 
 ?>
@@ -75,9 +70,10 @@ Until then, we'll show the global highscore list under this tab too.</p>
 	<div class="clear"></div>
 @endforeach
 
-@if($user_rank && $user_rank > $maxResults)
+<?php /*
+@if($user_rank)
 <?php 
-	$score = $user_score[0];
+	$score = $user_score;
 	$user = User::current();
 ?>
 <div class="highscore-single">
@@ -93,12 +89,18 @@ Until then, we'll show the global highscore list under this tab too.</p>
 		<span class="bg bg-violet username">{{ $user->username }}</span>
 	</a>
 </div>
-@elseif(!$user_rank)
+@elseif(!$user_score)
 	@if(count($scores) > 0)
 	<hr />
 	@endif
-<p>You have no score on this list yet! Play the track now, and set a new highscore!</p>
+	<p>You have no score on this list yet! Play the track now, and set a new highscore!</p>
 @endif
+*/ ?>
+
+@if(count($scores) > 0)
+<hr />
+@endif
+<p>Currently, only the top 50 scores are displayed here!</p>
 
 @if(count($scores) <= 0)
 <p>There are no scores available for this selection :(</p>
