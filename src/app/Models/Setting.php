@@ -19,7 +19,7 @@ class Setting extends Eloquent {
     }
 
     public static function byName(string $name) {
-        return Cache::remember('setting.'.$name, 60, function() use ($name) {
+        return Cache::remember('setting.'.$name, 3600, function() use ($name) {
             return Setting::where('name', $name)
                 ->first();
         });
