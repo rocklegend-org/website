@@ -103,10 +103,9 @@ class ProfileController extends BaseController {
 					}
 				}
 
-				if(!is_null(Input::get('password')) && Input::get('password') != ''){
+				if(Input::get('password') && Input::get('password') != ''){
 					$sentinelUser = Sentinel::getUser();
-					$sentinelUser->password = Input::get('password');
-					$sentinelUser->save();
+					Sentinel::update($sentinelUser, ['password' => Input::get('password')]);
 				}
 
 				for($i = 1; $i <= 5; $i++){
