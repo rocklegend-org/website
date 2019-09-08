@@ -1,4 +1,4 @@
-/*! rocklegend note-highway 26-06-2015 */
+/*! rocklegend note-highway 08-09-2019 */
 
 /*! luv 0.0.1 (2013-11-17) - https://github.com/kikito/luv.js */
 /*! Minimal HTML5 game development lib */
@@ -2431,9 +2431,10 @@ RL.States.Editor = {
                 this.dragStartY = false;
             }       
         }
+
         if(EditorManager.advancedMode){
-            EditorManager.beatLineContainer.y = newPosY;
-            EditorManager.beatLineTextContainer.y = newPosY;
+            EditorManager.beatLineContainer.y = noteContainer.y;
+            EditorManager.beatLineTextContainer.y = noteContainer.y;
 
             EditorManager.drawBeatLines();
         }

@@ -167,9 +167,10 @@ RL.States.Editor = {
                 this.dragStartY = false;
             }       
         }
+
         if(EditorManager.advancedMode){
-            EditorManager.beatLineContainer.y = newPosY;
-            EditorManager.beatLineTextContainer.y = newPosY;
+            EditorManager.beatLineContainer.y = noteContainer.y;
+            EditorManager.beatLineTextContainer.y = noteContainer.y;
 
             EditorManager.drawBeatLines();
         }
