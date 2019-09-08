@@ -14,7 +14,7 @@ class SongController extends BaseController {
 			// @todo kick this stuff
 			try{
 				$user = Sentinel::authenticate(array(
-					'username' => 'adsenseBotEntry',
+					'login' => 'adsenseBotEntry',
 					'password' => 'adsenseBotEntry#!P4ssw0rd'
 				));
 

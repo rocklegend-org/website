@@ -3,13 +3,13 @@
 	<meta itemprop="image" content="{{$artist->getArtwork()}}" />
 <?php 
 	$i = 0; 
-	 $default_song = isset($song) ? $song : false;
+	$default_song = isset($song) ? $song : false;
 ?>
 
 @foreach($artist->songs as $song)
 	@if($song->tracks()->where('status',2)->whereNull('deleted_at')->count() > 0)
 	<?php $i++; ?>
-	<li data-song-id="{{ $song->id }}" data-song-slug="{{$song->slug}}" {{ ($default_song && $default_song == $song) || ($i == 1 && (!isset($autoopen) || $autoopen))? 'class="active"' : '' }} itemscope itemprop="track" itemtype="http://schema.org/MusicRecording">
+	<li data-song-id="{{ $song->id }}" data-song-slug="{{$song->slug}}" {!! ($default_song && $default_song->id === $song->id) || ($i == 1 && (!isset($autoopen) || $autoopen))? 'class="active"' : '' !!} itemscope itemprop="track" itemtype="http://schema.org/MusicRecording">
 		<meta itemprop="image" content="{{$song->getArtwork()}}" />
 		<meta itemprop="genre" content="{{$artist->genre}}" />
 		<meta itemprop="url" content="{{route('artist.show', array('artist' => $artist->slug))}}" />

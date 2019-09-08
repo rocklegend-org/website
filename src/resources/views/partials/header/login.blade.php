@@ -6,7 +6,7 @@
 				<div class="medium-4 medium-offset-2 columns">
 					{!!	Form::labelWithInput(
 							'username', 
-							'strings.profile.username', 
+							'strings.profile.usernameOrEmail', 
 							Input::old('username'), 
 							$errors, 
 							'text', 

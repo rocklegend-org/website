@@ -16,7 +16,7 @@ register | rocklegend
 
 	@if($errors->count() > 0 && Input::old('login') != "")
 		<div class="alert-box error">
-			{{!! $errors->first() !!}}
+			{!! $errors->first() !!}
 		</div>
 	@endif
 

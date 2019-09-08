@@ -15,6 +15,7 @@ return array(
 	"profile.password"	=> "Password",
 	"profile.password_confirm" => "Confirm Password",
 	"profile.username" => "Username",
+	"profile.usernameOrEmail" => "User / E-Mail",
 
 	"profile.settings" => "My Settings",
 	"profile.settings.saved" => "Settings saved successfully.",

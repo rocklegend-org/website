@@ -31,7 +31,7 @@ class User extends SentinelUser implements AuthenticatableContract, CanResetPass
 			'first_name',
 			'permissions',
 	];
-	protected $loginNames = ['username'];
+	protected $loginNames = ['username', 'email'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
