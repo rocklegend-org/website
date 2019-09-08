@@ -4,6 +4,7 @@
 #v0.9.14 | 2019-09-08
 
 __Track Editor Fixes!__
+
 * fix note tails not updating properly when changing note distance
 * fix bug when enabling time lines
 * fix bug when no notes are defined for a lane
