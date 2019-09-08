@@ -168,7 +168,7 @@ class SongController extends BaseController {
 
 		switch(Input::get('timespan')){
 			case 'week':
-				$where .= 'YEARWEEK(created_at) = YEARWEEK(NOW()) ';
+				$where .= 'YEARWEEK(created_at, 1) = YEARWEEK(NOW(), 1) ';
 				break;
 			case 'today':
 				$where .= 'DATE(created_at) = DATE(NOW()) ';

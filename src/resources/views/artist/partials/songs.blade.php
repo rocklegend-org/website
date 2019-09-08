@@ -40,32 +40,36 @@
 		</ul>
 		<ul class="track-list">
 		@foreach($song->getTracks() as $track)
-				<li class="track">
-					<a href="{{ $track->url() }}?ref=discovery" title="Play {{ $song->title }} by {{ $artist->name }} | {{$track->getDifficultyName()}}">
-						<div class="row">
-							<div class="small-6 columns track-name">
-								{{ $track->getDifficultyName() }} <small>by {{ $track->user->username }}</small>
-							</div>
-							<div class="small-3 columns score">
-								@if(!is_null(User::current()))	
-									{{number_format($track->getUserScore(), 0, ',', '.')}} 
-									@if($track->getUserScore() >= $track->getHighscore("today"))
-										<i class="fa fa-trophy t-green"></i>
-									@endif
-								@else
-									-
-								@endif
-							</div>
-							<div class="small-3 columns score">
-								{{number_format($track->getHighscore("today"), 0, ',', '.')}}
-								@if(!is_null(User::current()) && $track->getUserScore() <= $track->getHighscore("today"))
+			@php
+				$userScore = $track->getUserScore();
+				$highScore = $track->getHighscore("today");
+			@endphp
+			<li class="track">
+				<a href="{{ $track->url() }}?ref=discovery" title="Play {{ $song->title }} by {{ $artist->name }} | {{$track->getDifficultyName()}}">
+					<div class="row">
+						<div class="small-6 columns track-name">
+							{{ $track->getDifficultyName() }} <small>by {{ $track->user->username }}</small>
+						</div>
+						<div class="small-3 columns score">
+							@if(!is_null(User::current()))	
+								{{number_format($userScore, 0, ',', '.')}} 
+								@if($userScore > 0 && $userScore >= $highScore)
 									<i class="fa fa-trophy t-green"></i>
 								@endif
-							</div>
-							<div class="clear"></div>
+							@else
+								-
+							@endif
 						</div>
-					</a>
-				</li>
+						<div class="small-3 columns score">
+							{{number_format($highScore, 0, ',', '.')}}
+							@if($highScore > 0 && $userScore <= $highScore)
+								<i class="fa fa-trophy t-green"></i>
+							@endif
+						</div>
+						<div class="clear"></div>
+					</div>
+				</a>
+			</li>
 		@endforeach
 		</ul>
 	</li>

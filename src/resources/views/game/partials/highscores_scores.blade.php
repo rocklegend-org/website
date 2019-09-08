@@ -3,7 +3,7 @@
 
 	if(!isset($where))
 	{
-		$where = 'YEARWEEK(created_at) = YEARWEEK(NOW())';
+		$where = 'YEARWEEK(created_at, 1) = YEARWEEK(NOW(), 1)';
 	}
 	
 	$scoreIds = DB::select(

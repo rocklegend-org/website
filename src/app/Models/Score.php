@@ -33,12 +33,12 @@ class Score extends Eloquent {
 		switch($timespan)
 		{
 			case "today":
-				return $query->where('created_at', '>', DB::raw('DATE_SUB(NOW(), INTERVAL 1 DAY)'));
+				return $query->where(DB::raw('DATE(created_at)'), '>=', DB::raw('DATE(NOW())'));
 			case "week":
-				return $query->where('created_at', '>', DB::raw('DATE_SUB(NOW(), INTERVAL 1 WEEK)'));
+				return $query->where(DB::raw('YEARWEEK(created_at, 1)'), '>', DB::raw('YEARWEEK(NOW(), 1)'));
 			default:
 			case "month":
-				return $query->where('created_at', '>', DB::raw('DATE_SUB(NOW(), INTERVAL 1 MONTH)'));
+				return $query->where(DB::raw('MONTH(created_at)'), '>', DB::raw('MONTH(NOW()'));
 		}
 	}
 

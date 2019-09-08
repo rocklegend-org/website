@@ -60,7 +60,7 @@ class HomeController extends BaseController {
 							$scores = Score::selectRaw('*, COUNT(*) as c')->where(DB::raw('EXTRACT(YEAR_MONTH FROM created_at)'),'=',DB::raw('EXTRACT(YEAR_MONTH FROM NOW())'))->where(DB::raw('MONTH(created_at)'),'=',DB::raw('MONTH(NOW())'))->groupBy('track_id')->orderBy(DB::raw('COUNT(*)'), 'DESC')->get();
 							break;
 						case 'week':
-							$scores = Score::selectRaw('*, COUNT(*) as c')->where(DB::raw('YEARWEEK(created_at)'),'=',DB::raw('YEARWEEK(NOW())'))->groupBy('track_id')->orderBy(DB::raw('COUNT(*)'), 'DESC')->get();
+							$scores = Score::selectRaw('*, COUNT(*) as c')->where(DB::raw('YEARWEEK(created_at, 1)'),'=',DB::raw('YEARWEEK(NOW(), 1)'))->groupBy('track_id')->orderBy(DB::raw('COUNT(*)'), 'DESC')->get();
 							break;
 						default:
 							$scores = Score::selectRaw('*, COUNT(*) as c')->groupBy('track_id')->orderBy(DB::raw('COUNT(*)'), 'DESC')->get();
