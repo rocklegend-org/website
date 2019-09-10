@@ -458,19 +458,19 @@
         },
         {
             "file": "src/states/RL.States.Editor.js",
-            "line": 146,
+            "line": 149,
             "class": "",
             "module": "RL.InteractionManager"
         },
         {
             "file": "src/RL.js",
-            "line": 128,
+            "line": 129,
             "class": "",
             "module": "RL.InteractionManager"
         },
         {
             "file": "src/RL.js",
-            "line": 229,
+            "line": 230,
             "class": "",
             "module": "RL.InteractionManager"
         },
@@ -548,15 +548,15 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/states/RL.States.Editor.js:146"
+            "line": " src/states/RL.States.Editor.js:149"
         },
         {
             "message": "Missing item type",
-            "line": " src/RL.js:128"
+            "line": " src/RL.js:129"
         },
         {
             "message": "Missing item type",
-            "line": " src/RL.js:229"
+            "line": " src/RL.js:230"
         },
         {
             "message": "Missing item type",

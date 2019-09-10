@@ -52,10 +52,10 @@ return {
 	},
 
 	init: function(){
-		this.beatLineContainer = game.add.group(game, game.world, "beatLineContainer", true, false);
+		this.beatLineContainer = game.add.group(game, game.world, "beatLineContainer", false, false);
 		this.beatLineContainer.z = 100;
 
-		this.beatLineTextContainer = game.add.group(game, game.world, "beatLineTextContainer", true, false);
+		this.beatLineTextContainer = game.add.group(game, game.world, "beatLineTextContainer", false, false);
 		this.beatLineTextContainer.z = 50;
 
 		// auto_save

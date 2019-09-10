@@ -100,16 +100,28 @@ var RL = {
                 break;
         }
 
-        game = new Phaser.Game( 
-            this.config.width, 
-            this.config.height, 
-            displayMode, 
-            'main-canvas',
-            null,
-            false, //transparent
-            true, //antialias
-            null
-        );
+        // game = new Phaser.Game( 
+        //     this.config.width, 
+        //     this.config.height, 
+        //     displayMode, 
+        //     'main-canvas',
+        //     null,
+        //     false, //transparent
+        //     true, //antialias
+        //     null
+        // );
+
+        game = new Phaser.Game({
+            width: this.config.width, 
+            height: this.config.height, 
+            renderer: displayMode, 
+            parent: document.getElementById('main-canvas'),
+            transparent: false,
+            physicsConfig: null,
+            antialias: true,
+            state: null,
+            clearBeforeRender: false,
+        });
 
         game.state.add('Boot', this.States.Boot);
         game.state.add('Play', this.States.Play);

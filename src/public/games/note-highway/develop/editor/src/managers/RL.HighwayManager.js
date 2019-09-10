@@ -349,6 +349,28 @@ return {
             }
             ScoreManager.resetSustainedCache(lane);
         }
+    },
+
+    setPhysics: function(enable) {
+        if (enable) {
+            noteContainer.forEach(function(note) {
+                if (!note.body) {
+                    game.physics.enable(note, Phaser.Physics.ARCADE);
+                } else {
+                    note.body.enable = true;
+                }             
+            });
+
+            dragSelectionPhysicsBox.body.enable = true;
+        } else {
+            noteContainer.forEach(function(note) {
+                if(note.body) {
+                    note.body.enable = false;
+                }
+            });
+
+            dragSelectionPhysicsBox.body.enable = false;
+        }
     }
 }
 };

@@ -4,6 +4,7 @@
 */
 RL.States.Boot = {
     musicLoaded: false,
+    loadComplete: false,
 
     preload: function()
     {
@@ -25,6 +26,9 @@ RL.States.Boot = {
         game.load.audio('crowd2', ['/assets/sounds/game/fans/small_crowd_40_2.mp3', '/assets/sounds/game/fans/small_crowd_40_2.ogg']);
         game.load.audio('crowd3', ['/assets/sounds/game/fans/medium_crowd.mp3', '/assets/sounds/game/fans/medium_crowd.ogg']);
 
+
+        game.load.onLoadComplete.add(this.onLoadComplete, this);
+
         RL.music = new Howl({
             src: [ soundFiles[0], soundFiles[1] ],
             preload: true,
@@ -44,9 +48,13 @@ RL.States.Boot = {
         }
     },
 
+    onLoadComplete: function() {
+        this.loadComplete = true;
+    },
+
     update: function()
     {
-        if(this.musicLoaded)
+        if(this.musicLoaded && this.loadComplete)
         {
             $('#main-canvas canvas').css('visibility', 'visible');
             

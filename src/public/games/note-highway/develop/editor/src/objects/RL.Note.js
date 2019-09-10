@@ -313,8 +313,6 @@ RL.Note.prototype.initEditorFunctions = function(){
 
     this.input.pixelPerfectAlpha = 1;
 
-    game.physics.enable(this, Phaser.Physics.ARCADE);
-
     this.events.onInputDown.add( EditorManager.onNoteDown );
     this.events.onInputUp.add( EditorManager.onNoteUp );
 

@@ -1,4 +1,4 @@
-/*! rocklegend note-highway 09-09-2019 */
+/*! rocklegend note-highway 10-09-2019 */
 
 /*! luv 0.0.1 (2013-11-17) - https://github.com/kikito/luv.js */
 /*! Minimal HTML5 game development lib */
@@ -65,16 +65,17 @@
                 break;
         }
 
-         game = new Phaser.Game( 
-            this.config.width, 
-            this.config.height, 
-            displayMode, 
-            'main-canvas',
-            null,
-            false, //transparent
-            true, //antialias
-            null
-        );
+        game = new Phaser.Game({
+            width: this.config.width, 
+            height: this.config.height, 
+            renderer: displayMode, 
+            parent: document.getElementById('main-canvas'),
+            state: null,
+            transparent: false,
+            antialias: true,
+            physicsConfig: null,
+            clearBeforeRender: false
+        });
 
         game.state.add('Boot', RL.States.Boot);
         game.state.add('Play', RL.States.Play);
@@ -580,10 +581,10 @@ return {
 	},
 
 	init: function(){
-		this.beatLineContainer = game.add.group(game, game.world, "beatLineContainer", true, false);
+		this.beatLineContainer = game.add.group(game, game.world, "beatLineContainer", false, false);
 		this.beatLineContainer.z = 100;
 
-		this.beatLineTextContainer = game.add.group(game, game.world, "beatLineTextContainer", true, false);
+		this.beatLineTextContainer = game.add.group(game, game.world, "beatLineTextContainer", false, false);
 		this.beatLineTextContainer.z = 50;
 
 		// auto_save
@@ -1695,6 +1696,28 @@ return {
             }
             ScoreManager.resetSustainedCache(lane);
         }
+    },
+
+    setPhysics: function(enable) {
+        if (enable) {
+            noteContainer.forEach(function(note) {
+                if (!note.body) {
+                    game.physics.enable(note, Phaser.Physics.ARCADE);
+                } else {
+                    note.body.enable = true;
+                }             
+            });
+
+            dragSelectionPhysicsBox.body.enable = true;
+        } else {
+            noteContainer.forEach(function(note) {
+                if(note.body) {
+                    note.body.enable = false;
+                }
+            });
+
+            dragSelectionPhysicsBox.body.enable = false;
+        }
     }
 }
 };;/**
@@ -2341,6 +2364,7 @@ RL.States.Editor = {
 
         game.physics.enable(dragSelectionPhysicsBox, Phaser.Physics.ARCADE);
         dragSelectionPhysicsBox.body.setSize(0,0,0,0);
+        dragSelectionPhysicsBox.body.enable = false;
     },
 
     update: function()
@@ -2359,6 +2383,8 @@ RL.States.Editor = {
         }
 
         if(game.input.activePointer.isDown && !EditorManager.dragging){
+            HighwayManager.setPhysics(true);
+
             if(game.input.activePointer.y <= 25){
                 AudioManager.setPosition(currentPlaybackTime+game.input.activePointer.duration/75);
             }else if(game.input.activePointer.y >= RL.config.height-25){
@@ -2415,13 +2441,16 @@ RL.States.Editor = {
 
                     setTimeout(function(){
                         dragSelectionBox.clear(); // we want the selection to disappear after the notes are selected
+                        
+                        function noteSelectionCallback(note, box){ 
+                            EditorManager.onNoteDown(note, null, true);
+                        }
+
                         noteContainer.forEach(function(note){
-                            game.physics.arcade.overlap(note, dragSelectionPhysicsBox, 
-                                function(note, box){ 
-                                    EditorManager.onNoteDown(note, null, true);
-                                }
-                            );
-                        });                        
+                            game.physics.arcade.overlap(note, dragSelectionPhysicsBox, noteSelectionCallback);
+                        });
+                        
+                        HighwayManager.setPhysics(false);              
                     }, 50);
 
                 }else{
@@ -2758,8 +2787,6 @@ RL.Note.prototype.initEditorFunctions = function(){
     );
 
     this.input.pixelPerfectAlpha = 1;
-
-    game.physics.enable(this, Phaser.Physics.ARCADE);
 
     this.events.onInputDown.add( EditorManager.onNoteDown );
     this.events.onInputUp.add( EditorManager.onNoteUp );

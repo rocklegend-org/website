@@ -76,6 +76,7 @@ RL.States.Editor = {
 
         game.physics.enable(dragSelectionPhysicsBox, Phaser.Physics.ARCADE);
         dragSelectionPhysicsBox.body.setSize(0,0,0,0);
+        dragSelectionPhysicsBox.body.enable = false;
     },
 
     update: function()
@@ -94,6 +95,8 @@ RL.States.Editor = {
         }
 
         if(game.input.activePointer.isDown && !EditorManager.dragging){
+            HighwayManager.setPhysics(true);
+
             if(game.input.activePointer.y <= 25){
                 AudioManager.setPosition(currentPlaybackTime+game.input.activePointer.duration/75);
             }else if(game.input.activePointer.y >= RL.config.height-25){
@@ -150,13 +153,16 @@ RL.States.Editor = {
 
                     setTimeout(function(){
                         dragSelectionBox.clear(); // we want the selection to disappear after the notes are selected
+                        
+                        function noteSelectionCallback(note, box){ 
+                            EditorManager.onNoteDown(note, null, true);
+                        }
+
                         noteContainer.forEach(function(note){
-                            game.physics.arcade.overlap(note, dragSelectionPhysicsBox, 
-                                function(note, box){ 
-                                    EditorManager.onNoteDown(note, null, true);
-                                }
-                            );
-                        });                        
+                            game.physics.arcade.overlap(note, dragSelectionPhysicsBox, noteSelectionCallback);
+                        });
+                        
+                        HighwayManager.setPhysics(false);              
                     }, 50);
 
                 }else{

@@ -158,16 +158,17 @@ var RL = {
                 break;
         }
 
-         game = new Phaser.Game( 
-            this.config.width, 
-            this.config.height, 
-            displayMode, 
-            &#x27;main-canvas&#x27;,
-            null,
-            false, //transparent
-            true, //antialias
-            null
-        );
+        game = new Phaser.Game({
+            width: this.config.width, 
+            height: this.config.height, 
+            renderer: displayMode, 
+            parent: document.getElementById(&#x27;main-canvas&#x27;),
+            state: null,
+            transparent: false,
+            antialias: true,
+            physicsConfig: null,
+            clearBeforeRender: false
+        });
 
         game.state.add(&#x27;Boot&#x27;, RL.States.Boot);
         game.state.add(&#x27;Play&#x27;, RL.States.Play);

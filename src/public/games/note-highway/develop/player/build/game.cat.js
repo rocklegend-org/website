@@ -1,4 +1,4 @@
-/*! rocklegend note-highway 06-02-2016 */
+/*! rocklegend note-highway 11-09-2019 */
 
 var RL = {
 	States: {}, // holds the games states
@@ -102,16 +102,28 @@ var RL = {
                 break;
         }
 
-        game = new Phaser.Game( 
-            this.config.width, 
-            this.config.height, 
-            displayMode, 
-            'main-canvas',
-            null,
-            false, //transparent
-            true, //antialias
-            null
-        );
+        // game = new Phaser.Game( 
+        //     this.config.width, 
+        //     this.config.height, 
+        //     displayMode, 
+        //     'main-canvas',
+        //     null,
+        //     false, //transparent
+        //     true, //antialias
+        //     null
+        // );
+
+        game = new Phaser.Game({
+            width: this.config.width, 
+            height: this.config.height, 
+            renderer: displayMode, 
+            parent: document.getElementById('main-canvas'),
+            transparent: false,
+            physicsConfig: null,
+            antialias: true,
+            state: null,
+            clearBeforeRender: false,
+        });
 
         game.state.add('Boot', this.States.Boot);
         game.state.add('Play', this.States.Play);
@@ -1391,6 +1403,7 @@ function numberWithDots(x) {
 */
 RL.States.Boot = {
     musicLoaded: false,
+    loadComplete: false,
 
     preload: function()
     {
@@ -1412,6 +1425,9 @@ RL.States.Boot = {
         game.load.audio('crowd2', ['/assets/sounds/game/fans/small_crowd_40_2.mp3', '/assets/sounds/game/fans/small_crowd_40_2.ogg']);
         game.load.audio('crowd3', ['/assets/sounds/game/fans/medium_crowd.mp3', '/assets/sounds/game/fans/medium_crowd.ogg']);
 
+
+        game.load.onLoadComplete.add(this.onLoadComplete, this);
+
         RL.music = new Howl({
             src: [ soundFiles[0], soundFiles[1] ],
             preload: true,
@@ -1431,9 +1447,13 @@ RL.States.Boot = {
         }
     },
 
+    onLoadComplete: function() {
+        this.loadComplete = true;
+    },
+
     update: function()
     {
-        if(this.musicLoaded)
+        if(this.musicLoaded && this.loadComplete)
         {
             $('#main-canvas canvas').css('visibility', 'visible');
             
