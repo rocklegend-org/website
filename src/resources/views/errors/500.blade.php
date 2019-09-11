@@ -61,7 +61,7 @@
 		<p><strong>500</strong><br />
 			An error occured :O We already got an email about this - we'll look into it as soon as possible!
 		</p>
-		<p class="thin"><a href="javascript:history.back();">go back</a> or <a href="{{url()}}">go to rocklegend.org</a></p>
+		<p class="thin"><a href="javascript:history.back();">go back</a> or <a href="{{url('')}}">go to rocklegend.org</a></p>
 	</div>
 </body>
 </html>
