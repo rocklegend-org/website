@@ -59,7 +59,7 @@
 					$isThrottled = false;
 
 					try {
-						$app['sentinel.checkpoint.throttle']->check($sentinelUser);
+						$app['sentinel.checkpoint.throttle']->login($sentinelUser);
 					} catch (Exception $e) {
 						$isThrottled = true;
 					}
@@ -70,14 +70,6 @@
 						{!! Form::checkbox('suspended', 1, $isThrottled, array('class' => 'form-control') ) !!}<br />
 					</div>
 				</div>
-
-				<div class="form-group">
-					{!! Form::label('banned', 'Banned', array('class' => 'col-md-3 control-label')) !!}
-					<div class="col-md-9">
-						{!! Form::checkbox('banned', 1, 0, array('class' => 'form-control') ) !!}<br />
-					</div>
-				</div>
-
 			</div>
 
 			<div class="panel-footer">

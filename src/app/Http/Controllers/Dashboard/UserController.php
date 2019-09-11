@@ -79,16 +79,8 @@ class UserController extends BaseController {
 				Badge::withdraw('donator', $user);
 			}
 
-			if(Input::get('suspended')){
-				$user->throttleInfo->suspended = 1;
-			}else{
-				$user->throttleInfo->suspended = 0;
-			}
-
-			if(Input::get('banned')){
-				$user->throttleInfo->banned = 1;
-			}else{
-				$user->throttleInfo->banned = 0;
+			if(!Input::get('suspended')){
+				$user->throttle()->delete();
 			}
 
 			$user->email = Input::get('email');
