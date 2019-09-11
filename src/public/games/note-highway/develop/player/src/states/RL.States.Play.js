@@ -89,7 +89,7 @@ RL.States.Play = {
             currentPlaybackTime = game.time.now - AudioManager.startTime; //AudioManager.getPosition();
             noteContainer.y = RL.config.buttonY + (currentPlaybackTime * RL.config.pxPerMs);
         
-            if(game.time.now % 2 == 0)
+            if(game.time.now % 4 == 0)
             {
                 ScoreManager.renderScore();         
                 HighwayManager.drawProgressbar((RL.playerHeightOnePercent * currentPlaybackTime)/AudioManager.onePercent);
