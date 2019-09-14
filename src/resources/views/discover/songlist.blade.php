@@ -37,6 +37,6 @@
 
 	<div class="small-12 columns">
 		<hr />
-		<p>Feel like something's missing?<br />Post your suggestions in our <a href="//forum.rocklegend.org">Forum</a> and check if others also want to see your favorite artist here!</p>
+		<p>Feel like something's missing?<br />Post your suggestions in our <a href="https://www.reddit.com/r/rocklegendorg/" target="_blank">reddit page</a> and check if others also want to see your favorite artist here!</p>
 	</div>
 @stop
