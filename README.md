@@ -1,8 +1,8 @@
-[![GitHub issues](https://img.shields.io/github/issues/rocklegend-org/website.svg)](https://github.com/rocklegend-org/website/issues)
-# rocklegend
-A free and now also open source (GPLv3) online music game.
+**This repository is deprecated.**
 
-__This README is a work in progress.__
+[![GitHub issues](https://img.shields.io/github/issues/rocklegend-org/website.svg)](https://github.com/rocklegend-org/website/issues)
+# rocklegend - OLD
+A free and now also open source (GPLv3) online music game.
 
 __Important:__ The code in this repository is not representative for any best practices of development. It's a side project that grew from a small idea to a project where I could try out new things and at the same time create something entertaining for me and hundreds (now thousands) of other people around the world.
 
