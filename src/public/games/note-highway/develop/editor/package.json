@@ -3,7 +3,7 @@
   "version": "0.5.1",
   "description": "the official rocklegend track player.",
   "dependencies": {
-    "grunt": "~0.4.4",
+    "grunt": "~1.5.3",
     "grunt-contrib-yuidoc": "^0.5.2",
     "load-grunt-config": "^0.12.0"
   },
